@@ -1,0 +1,135 @@
+
+.navbar{
+    background-color: #525252;
+}
+.nav-link{
+    color: #FFFFFF;
+    margin-left: 10px;
+}
+.navbar-dark .navbar-nav .nav-link {
+  color: #ffffff;
+ 
+  }
+.nav-link:focus, .nav-link:hover {
+    color: #FFFFFF;
+}
+
+#notify{
+    border-left: 1px solid #E1E1E1;
+    border-right: 1px solid #E1E1E1;
+}
+.container-welcom{
+margin: 30px 0px 30px 0px;
+    text-align: center;
+    color: #4F4F4F;
+}
+
+.sidebar {
+  margin: auto;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.left-sidebar {
+  width: 20vw;
+  background-color: #146371;
+  margin: 0px;
+  padding: 0%;
+
+}
+.list-group-item{
+    background-color: #1D7A8C;
+    padding: 20px;
+    color: #fff;
+    cursor: default;
+    font-size: 14px;
+}
+.list-group-item:hover{
+    background-color: #146371;
+    color: #fff;
+}
+.list-group-item.active{
+    background-color: #146371;
+    box-shadow: none;
+    border-color: #146371;
+}
+
+  .upcoming-ser{
+      margin-left: 20px;
+     
+  }
+ .cancle-btn{
+     box-shadow: none;
+     border: none;
+  background-color: #FF6B6B;
+  border-radius: 17px;
+  color: #FFFFFF;
+ }
+ th{
+     color: #646464;
+  
+     
+ }
+tr{
+    color: #646464;
+    font-size: 13px;
+    
+}
+
+@media (max-width: 650px){
+  .left-sidebar{
+    width: fit-content;
+  }
+
+}
+
+
+.site-footer .container {
+    max-width: 1420px;
+  }
+  .site-footer .footer-top {
+    background: #111111;
+    padding: 27px 0;
+  }
+  .site-footer a {
+    display: inline-block;
+  }
+  .site-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .site-footer ul.footer-navigation li a:hover,
+  .site-footer ul.social-media-list a:hover {
+    opacity: 0.8;
+  }
+  .site-footer ul.footer-navigation {
+    flex-wrap: wrap;
+  }
+  .site-footer ul.footer-navigation li + li {
+    margin-left: 30px;
+  }
+  .site-footer ul.footer-navigation li a {
+    color: #f1f1f1;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 14px;
+    line-height: 2.14;
+    transition: opacity 0.3s;
+  }
+  .site-footer ul.social-media-list li {
+    text-align: center;
+  }
+  .site-footer ul.social-media-list a {
+    width: 20px;
+    height: 20px;
+    transition: opacity 0.3s;
+  }
+  .site-footer ul.social-media-list li:last-child {
+    margin-left: 20px;
+  }
+  .site-footer .footer-bottom {
+    background: #292929;
+    padding: 19px 0;
+    position: relative;
+  }

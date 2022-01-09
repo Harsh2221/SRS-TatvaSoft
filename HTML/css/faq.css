@@ -1,0 +1,168 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body { 
+  overflow-x: hidden;
+}
+.navbar {
+  background-color: #525252;
+}
+.nav-link{
+  color: #FFFFFF;
+  font-size: 14px;
+  margin-left: 20px;
+}
+.navbar-dark .navbar-nav .nav-link {
+  color: #ffffff;
+ 
+  }
+.nav-link:hover{
+  color:#fff;
+}
+.navbar-toggler-icon {
+  color: #fff;
+}
+.border-btn{
+  border: 1px solid #FFFFFF80;
+  border-radius: 50px;
+  width: fit-content;
+  background: #29626D;
+  padding: 5px 20px 5px 20px !important;
+  margin-bottom: 5px;
+}
+
+.hero img {
+  width: 100vw;
+}
+.content {
+  margin-top: 50px;
+}
+.separator-section {
+  margin-top: 20px;
+  position: relative;
+}
+.separator {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+.tag-line {
+  margin-top: 30px;
+  text-align: center;
+}
+.tabs {
+  width: 60vw;
+  padding: 0 20px;
+  margin: 50px auto;
+  cursor: pointer;
+}
+@media (max-width: 950px) {
+  .tabs {
+    width: 90vw;
+  }
+}
+.tab-1,
+.tab-2 {
+  border-bottom: 4px solid #1d7abc;
+  background-color: #f6f6f6;
+  color: #000;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+.tab-1.active,
+.tab-2.active {
+  background-color: #1d7abc;
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+  transition: background-color 300ms ease-out;
+}
+
+.tab-1-content,
+.tab-2-content {
+  display: none;
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+.tab-1-content.active,
+.tab-2-content.active {
+  display: block;
+  margin-top: 20px;
+  font-size: 13px;
+}
+.accordion-item{
+  border: none;
+}
+.accordionbutton{
+  font: bold;
+  border: none;
+  box-shadow: none !important;
+  background-color: white;
+  text-align: left;
+}
+
+.accordionbutton img{
+  margin-right: 5px;
+}
+.accordion-button:not(.collapsed) {
+color: #646464;
+}
+.email-box {
+  width: 233px;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+.submitbtn {
+  background: #ff7b6d;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 20px;
+}
+.email-div {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 50px;
+} 
+
+
+.page-footer {
+  /* width: 1560px; */
+  background-color: black;
+  padding: 20px;
+}
+.footer-img{
+  margin-left: 50px;
+}
+.footer-links {
+  margin-top: 20px;
+  /* margin-left: 20px; */
+  font-size: 14px;
+}
+.f-links {
+  text-decoration: none;
+  padding: 0px 20px;
+
+  color: #f1f1f1;
+}
+.footer-social {
+  margin-top: 20px;
+  margin-left: 10px;
+}
+.f-social {
+  padding: 0px 10px;
+  /* margin-left: 30px; */
+}
+
+.copyright{
+  /* width: 1560px; */
+  background: #292929;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

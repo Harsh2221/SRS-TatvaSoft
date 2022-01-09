@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin|User management</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/admin_user.css" />
+    <link href="css/jquery.dataTables.min.css" rel="stylesheet" />
+</head>
+<body> 
+   <section class="navbar-area">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"
+            ><h2>helperland</h2></a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span
+              class="navbar-toggler-icon"
+              
+            ></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+             
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="#"
+                 
+                >
+                  <span><img src="assets/user.png" alt="" /></span>
+                  James Smith
+                </a>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><img src="assets/logout.png" alt="#"></a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+   </section>
+
+<section class="main-content">
+  <div class="wrapper">
+	
+    <nav id="sidebar">
+      
+       
+       <ul class="list-unstyled components">
+   
+        <li>
+          <a href="#">Service Management</a>
+        </li>
+        <li>
+          <a href="#">Role Management</a>
+        </li>
+         <li>
+           <a href="#Coupon" data-toggle="collapse" aria-expanded="false" class="dropdown">Coupon Code Management <img src="assets/admin-small-arrow - Copy.png" style="margin-left: 50px;" alt=""></a>
+           <ul class="collapse list-unstyled" id="Coupon">
+             <li>
+               <a href="#">Coupon Codes</a>
+             </li>
+             <li>
+               <a href="#">Usage History</a>
+             </li>
+   
+           </ul>
+         </li>
+         <li>
+           <a href="#">Escalation Management</a>
+         </li>
+         <li>
+          <a href="#">Service Requests</a>
+        </li>
+        <li>
+          <a href="#">Service Providers</a>
+        </li>
+        <li>
+          <a class="link-active" href="#content">User Management</a>
+        </li>
+         <li>
+           <a href="#finance" data-toggle="collapse" aria-expanded="false" class="dropdown"> Finance Module <img src="assets/admin-small-arrow - Copy.png" style="margin-left: 110px;" alt=""></a>
+           <ul class="collapse list-unstyled" id="finance">
+             <li>
+               <a href="#">All Transactions</a>
+             </li>
+             <li>
+               <a href="#">Generate Payment</a>
+             </li>
+             <li>
+              <a href="#">Customer Invoices</a>
+            </li>
+             
+   
+           </ul>
+         </li>
+   
+               <li>
+               <a href="#">Zip Code Management</a>
+             </li>
+   
+            <li>
+               <a href="#">Rating Management</a>
+             </li>
+             <li>
+              <a href="#">Inquiry Management</a>
+            </li>
+  
+           <li>
+              <a href="#">Newsletter Management </a>
+            </li>
+            <li>
+              <a href="#contentmanagement" data-toggle="collapse" aria-expanded="false" class="dropdown">Content Management<img src="assets/admin-small-arrow - Copy.png" style="margin-left: 80px;" alt=""></a>
+              <ul class="collapse list-unstyled" id="contentmanagement">
+                <li>
+                  <a href="#">Blog</a>
+                </li>
+                <li>
+                  <a href="#">FAQs</a>
+                </li>
+               
+                
+      
+              </ul>
+   
+       </ul>
+    </nav>
+   
+   
+   <div id="content">
+     
+     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+       <div class="container-fluid upper-btn">
+         <a id="sidebarCollapse" class="btn">
+           
+           <span> <img src="assets/vector-smart-object-copy.png" alt=""></span>
+           
+         </a>
+         <h6>User Management</h6>
+       </div>
+       <div class="add-user">
+         <button id="adduser-btn"><img src="assets/add.png" alt="#">  Add New User</button>
+
+       </div>
+         </nav>
+      
+  <div class="user-form">
+    <form class="row gx-3 gy-2 align-items-center">
+      <div class="col-sm-2">
+        <select class="form-select" aria-label="Default select example">
+          <option selected>Username</option>
+          <option value="1">Lyum Watson</option>
+          <option value="2">John Smith</option>
+          
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <select class="form-select" aria-label="Default select example">
+          <option selected>User role</option>
+          <option value="1">Customer</option>
+          <option value="2">Service provider</option>
+          <option value="2">Call center</option>
+        </select>
+      </div>
+
+      <div class="col-sm-3">
+        <label class="visually-hidden" >Phone number</label>
+        <div class="input-group">
+          <div class="input-group-text">+49</div>
+          <input type="text" class="form-control"  placeholder="Phone Number">
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="form-control"  placeholder="Zipcode">
+      </div>
+
+      <div class="col-sm-2 s-btn">
+        <button class="btn">Search</button>
+      </div>
+
+      <div class="col-sm-1 c-btn">
+        <button class="btn">Clear</button>
+      </div>
+      
+     
+      
+      
+    </form>
+
+  </div>
+   
+  <div class="user-table">
+    <table class="table" id="myTable">
+      <thead>
+        <tr>
+          <th scope="col">
+            User Name
+            <span><img src="assets/sort.png" alt="#" /></span>
+          </th>
+          <th scope="col">
+            User Type
+            
+          </th>
+          <th scope="col">
+            Role 
+          </th>
+          <th scope="col">
+            Postal Code <span><img src="assets/sort.png" alt="#" /></span>
+          </th>
+          <th scope="col">City</th>
+          <th scope="col">
+            Radius <span><img src="assets/sort.png" alt="#" /></span>
+          </th>
+          <th scope="col">
+            User Status <span><img src="assets/sort.png" alt="#" /></span>
+          </th>
+          <th scope="col">
+            Action 
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td scope="row">
+           Lyum Watson
+          </td>
+          <td>
+            Call Center
+          </td>
+          <td>Inquiry Manager</td>
+          <td>123456</td>
+          <td>Berlin</td>
+          <td></td>
+          <td><span id="active-status">Active</span></td>
+          <td>
+            <a
+            class="nav-link dropdown"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span><img src="assets/group-38.png" alt="" /></span>
+           
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Edit</a></li>
+            <li><a class="dropdown-item" href="#">Deactivate</a></li>
+            
+          </ul>
+          </td>
+        </tr>
+
+        <tr>
+          <td scope="row">
+           John Smith
+          </td>
+          <td>
+            Service Provider
+          </td>
+          <td></td>
+          <td>123456</td>
+          <td>Berlin</td>
+          <td>10km</td>
+          <td><span id="active-status">Active</span></td>
+          <td>
+            <a
+            class="nav-link dropdown"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span><img src="assets/group-38.png" alt="" /></span>
+           
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Edit</a></li>
+            <li><a class="dropdown-item" href="#">Deactivate</a></li>
+            <li><a class="dropdown-item" href="#">Service History</a></li>
+          </ul>
+          </td>
+        </tr>
+
+        <tr>
+          <td scope="row">
+            John Smith
+          </td>
+          <td>
+            Call Center
+          </td>
+          <td>Inquiry Manager</td>
+          <td>123456</td>
+          <td>Berlin</td>
+          <td></td>
+          <td><span id="active-status">Active</span></td>
+          <td>
+            <a
+            class="nav-link dropdown"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span><img src="assets/group-38.png" alt="" /></span>
+           
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Edit</a></li>
+            <li><a class="dropdown-item" href="#">Deactivate</a></li>
+            <li><a class="dropdown-item" href="#">Service History</a></li>
+          </ul>
+          </td>
+        </tr>
+        <tr>
+          <td scope="row">
+           John Smith
+          </td>
+          <td>
+            Customer
+          </td>
+          <td></td>
+          <td>123456</td>
+          <td>Berlin</td>
+          <td></td>
+          <td><span id="active-status">Active</span></td>
+          <td>
+            <a
+            class="nav-link dropdown"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span><img src="assets/group-38.png" alt="" /></span>
+           
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Edit</a></li>
+            <li><a class="dropdown-item" href="#">Deactivate</a></li>
+            <li><a class="dropdown-item" href="#">Service History</a></li>
+          </ul>
+          </td>
+        </tr>
+        <tr>
+          <td scope="row">
+           John Smith
+          </td>
+          <td>
+            Call Center
+          </td>
+          <td>Content Manager</td>
+          <td>123456</td>
+          <td>Berlin</td>
+          <td></td>
+          <td><span id="active-status">Active</span></td>
+          <td>
+            <a
+            class="nav-link dropdown"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span><img src="assets/group-38.png" alt="" /></span>
+           
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Edit</a></li>
+            <li><a class="dropdown-item" href="#">Deactivate</a></li>
+            <li><a class="dropdown-item" href="#">Service History</a></li>
+          </ul>
+          </td>
+        </tr>
+
+        <tr>
+          <td scope="row">
+           John Smith
+          </td>
+          <td>
+            Customer
+          </td>
+          <td></td>
+          <td>123456</td>
+          <td>Berlin</td>
+          <td></td>
+          <td><span id="inactive-status">Inactive</span></td>
+          <td>
+            <a
+            class="nav-link dropdown"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span><img src="assets/group-38.png" alt="" /></span>
+           
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Edit</a></li>
+            <li><a class="dropdown-item" href="#">Deactivate</a></li>
+            <li><a class="dropdown-item" href="#">Service History</a></li>
+          </ul>
+          </td>
+        </tr>
+
+        <tr>
+          <td scope="row">
+           John Smith
+          </td>
+          <td>
+            Service Provider
+          </td>
+          <td></td>
+          <td>123456</td>
+          <td>Berlin</td>
+          <td>20km</td>
+          <td><span id="active-status">Active</span></td>
+          <td>
+            <a
+            class="nav-link dropdown"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span><img src="assets/group-38.png" alt="" /></span>
+           
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Edit</a></li>
+            <li><a class="dropdown-item" href="#">Deactivate</a></li>
+            <li><a class="dropdown-item" href="#">Service History</a></li>
+          </ul>
+          </td>
+        </tr>
+
+        <tr>
+          <td scope="row">
+           John Smith
+          </td>
+          <td>
+            Call Center
+          </td>
+          <td>Finance Manager</td>
+          <td>123456</td>
+          <td>Berlin</td>
+          <td></td>
+          <td><span id="active-status">Active</span></td>
+          <td>
+            <a
+            class="nav-link dropdown"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span><img src="assets/group-38.png" alt="" /></span>
+           
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Edit</a></li>
+            <li><a class="dropdown-item" href="#">Deactivate</a></li>
+            <li><a class="dropdown-item" href="#">Service History</a></li>
+          </ul>
+          </td>
+        </tr>
+
+        <tr>
+          <td scope="row">
+           John Smith
+          </td>
+          <td>
+            Customer
+          </td>
+          <td></td>
+          <td>123456</td>
+          <td>Berlin</td>
+          <td></td>
+          <td><span id="active-status">Active</span></td>
+          <td>
+            <a
+            class="nav-link dropdown"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span><img src="assets/group-38.png" alt="" /></span>
+           
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Edit</a></li>
+            <li><a class="dropdown-item" href="#">Deactivate</a></li>
+            <li><a class="dropdown-item" href="#">Service History</a></li>
+          </ul>
+          </td>
+        </tr>
+
+        <tr>
+          <td scope="row">
+           John Smith
+          </td>
+          <td>
+            Customer
+          </td>
+          <td></td>
+          <td>123456</td>
+          <td>Berlin</td>
+          <td></td>
+          <td><span id="active-status">Active</span></td>
+          <td>
+            <a
+            class="nav-link dropdown"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span><img src="assets/group-38.png" alt="" /></span>
+           
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Edit</a></li>
+            <li><a class="dropdown-item" href="#">Deactivate</a></li>
+            <li><a class="dropdown-item" href="#">Service History</a></li>
+          </ul>
+          </td>
+        </tr>
+       
+      </tbody>
+    </table>
+
+  </div>
+   
+   </div>
+
+</section>
+
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="js/admin_user.js"></script>
+    
+<script src="js/jquery.js"></script>
+<script src="js/jquery.dataTables.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $("#myTable").dataTable({
+        "bFilter": false,
+        "bInfo" : false,
+        "dom": '<"top"i>rt<"bottom"flp><"clear">'
+    });
+    
+    $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+
+    
+  });
+
+</script>
+
+</body>
+</html>
