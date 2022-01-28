@@ -15,33 +15,29 @@ class main_controller
         
     }
 
-    public function contactus(){
-        if(isset($_POST)){
-
-        
-        $base_url="https://localhost/php-mvc/helperland_MVC/contact";
-        $name=$_POST['f_name'] . " " . $_POST['l_name'];
-        
-        $email=$_POST['email'];
-        $subject=$_POST['subject'];
-        $mobile=$_POST['number'];
-        $message=$_POST['message'];
-
-        $array=[
-            'name'=>$name,
+    public function ContactUs()
+    {
+        if (isset($_POST)) {
+            $base_url = "http://localhost/tatvasoft/Helperland_MVC/Contact";
+            $mobile =  $_POST['number'];
+            $email = $_POST['email'];
+            $subject = $_POST['subject'];
+            $message = $_POST['message'];
+            $name = $_POST['f_name'] . " " . $_POST['l_name'];
+            $array = [
+                'name' => $name,
+                'email' => $email,
+                'subject' => $subject,
+                'mobile' => $_POST['number'],
+                'message' => $message,
+                'creationdt' => date('Y-m-d H:i:s'),
+                
+            ];
+            $result = $this->model->Contactus($array);
             
-            'email'=>$email,
-            'subject'=>$subject,
-            'mobile'=>$mobile,
-            'message'=>$message,
-            'createdon'=>date('Y-m-d'),
-        ];
-        $result=$this->model->contact_us($array);
-        $_SESSION['status_msg']=$result;
-        
-        header('Location:' .$base_url);
-    }
-
+            
+            header('Location:' . $base_url);
+        }
     }
 
      

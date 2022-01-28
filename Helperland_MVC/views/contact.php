@@ -1,5 +1,5 @@
 <?php 
-$base_url="https://localhost/php-mvc/Helperland_MVC/";
+$base_url="https://localhost/tatvasoft/Helperland_MVC/";
 
 ?>
 <!DOCTYPE html>
@@ -64,7 +64,8 @@ $base_url="https://localhost/php-mvc/Helperland_MVC/";
       <h2 class="text-center" style="color: #4f4f4f">Get in touch with us</h2>
 
       <div class="form-div">
-        <form method="POST" class="form" action=<?= $base_url."./?controller=main_&function=contactus"?>>
+        <form method="POST" class="form" action=<?= $base_url."./?controller=main_&function=ContactUs"?>>
+        
           <input type="text" name="f_name" id="f_name" placeholder="First name" />
           <input type="text" name="l_name" id="l_name" placeholder="Last name" />
           <br />
