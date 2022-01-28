@@ -48,6 +48,57 @@ nav .navbar-nav li a {
   border: 1px solid #ffffff80;
   border-radius: 20px;
 }
+.modal-dialog{
+  width: 350px;
+}
+.modal-body .col input{
+  margin-bottom: 10px;
+}
+.modal-body .form-check input{
+ 
+}
+.login{
+  text-align: center;
+} 
+#login{
+  padding: 5px 50px;
+  margin: 10px;
+  margin-bottom: 15px;
+  border: none;
+  background-color: #006072;
+  color: #ffffff;
+  border-radius: 27px;
+}
+.model-footer{
+  text-align: center;
+}
+.model-footer a{
+  text-decoration: none;
+  
+  color: #006072;
+}
+#send{
+  padding: 5px 50px;
+  margin: 10px;
+  margin-bottom: 15px;
+  border: none;
+  background-color: #006072;
+  color: #ffffff;
+  border-radius: 27px;
+}
+.send{
+  text-align: center;
+}
+.F-login{
+  text-align: center;
+}
+.F-login a{
+  text-decoration: none;
+  font-weight: bold;
+  color: #006072;
+}
+
+
 
 .hero {
   color: #ffffff;
@@ -278,7 +329,7 @@ nav .navbar-nav li a {
   margin-top: 20px;
   /* margin-left: 20px; */
   font-size: 14px;
-  text-align: right;
+  text-align: center;
 }
 .f-links {
   text-decoration: none;
@@ -289,7 +340,7 @@ nav .navbar-nav li a {
 .footer-social {
   margin-top: 20px;
   margin-left: 10px;
-  text-align: right;
+  text-align: center;
 }
 .f-social {
   padding: 0px 10px;
@@ -318,5 +369,11 @@ nav .navbar-nav li a {
   .image-wrapper img{
     
     width: 350px;
+  }
+  .footer-links {
+   
+    text-align: left;
+  }
   
+
   }

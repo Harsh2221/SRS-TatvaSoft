@@ -50,7 +50,7 @@
                   <a class="nav-link" href="#">Contact us</a>
                 </li>
                 <li class="nav-item l-2">
-                  <a class="nav-link" href="#">Login</a>
+                  <a class="nav-link" href="#" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Login</a>
                 </li>
                 <li class="nav-item l-3">
                   <a class="nav-link" href="#">Become a Helper</a>
@@ -80,6 +80,75 @@
             </div>
           </div>
         </nav>
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Login to your account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form action="">
+                  <div class="col">
+                    <input type="email" class="form-control" placeholder="Email" aria-label="email">
+                  </div>
+                  <div class="col">
+                    <input type="password" class="form-control" placeholder="password" aria-label="password">
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                      Remember Me
+                    </label>
+                  </div>
+                  <div class="login">
+                    <button type="submit" id="login">
+                      Login
+                    </button>
+                  </div>
+                  <div class="model-footer">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#Backdrop">Forgot Password ?</a>
+                    <p>Don't have an account? <span><a href="#">Create an account</a></span></p>
+
+                  </div>
+
+                </form>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="Backdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Forgot password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form action="">
+                  <div class="col">
+                    <input type="email" class="form-control" placeholder="Email" aria-label="email">
+                  </div>
+                  <div class="send">
+                    <button type="submit" id="send">
+                      Send
+                    </button>
+                  </div>
+                  <div class="F-login">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Login now</a>
+                  </div>
+                </form>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+
+
         <div class="hero">
           <h2>Lorem ipsum text</h2>
           <p>
@@ -416,7 +485,7 @@
         <div class="col-lg-2 footer-img">
           <img src="assets/footer-logo.png" alt="" />
         </div>
-        <div class="col-lg-7 col-md-3 footer-links">
+        <div class="col-lg-8 col-md-3 footer-links">
           <a href="" class="f-links"><span>HOME</span></a>
           <a href="" class="f-links"><span>ABOUT</span></a>
           <a href="" class="f-links"><span>TESTIMONIALS</span></a>
