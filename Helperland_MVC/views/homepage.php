@@ -1,3 +1,6 @@
+<?php 
+$base_url="https://localhost/tatvasoft/Helperland_MVC/";
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -50,10 +53,10 @@
                   <a class="nav-link" href="contact.php">Contact us</a>
                 </li>
                 <li class="nav-item l-2">
-                  <a class="nav-link" href="#" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Login</a>
+                  <a class="nav-link" href="#" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#login_modal">Login</a>
                 </li>
                 <li class="nav-item l-3">
-                  <a class="nav-link" href="#">Become a Helper</a>
+                  <a class="nav-link" href="service_provider_become_pro.php">Become a Helper</a>
                 </li>
                 <li class="nav-item dropdown">
                   <a
@@ -81,7 +84,7 @@
           </div>
         </nav>
 
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" id="login_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="login-modal" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
@@ -89,15 +92,20 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form action="">
+                <form method="POST" class="form" action=<?= $base_url."./?controller=main_&function=login"?>>
                   <div class="col">
-                    <input type="email" class="form-control" placeholder="Email" aria-label="email">
+                    <input type="email" class="form-control" placeholder="Email" aria-label="email"
+                    name="user_email">
+                    
                   </div>
                   <div class="col">
-                    <input type="password" class="form-control" placeholder="password" aria-label="password">
+                    <input type="password" class="form-control" placeholder="password" aria-label="password"
+                    name="pass">
                   </div>
+                  
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                    <input class="form-check-input" type="checkbox" id="gridCheck"
+                    name="remember">
                     <label class="form-check-label" for="gridCheck">
                       Remember Me
                     </label>
@@ -108,8 +116,8 @@
                     </button>
                   </div>
                   <div class="model-footer">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#Backdrop">Forgot Password ?</a>
-                    <p>Don't have an account? <span><a href="#">Create an account</a></span></p>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#forgot">Forgot Password ?</a>
+                    <p>Don't have an account? <span><a href="registration_page.php">Create an account</a></span></p>
 
                   </div>
 
@@ -120,7 +128,7 @@
           </div>
         </div>
 
-        <div class="modal fade" id="Backdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" id="forgot" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
@@ -128,9 +136,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form action="">
+                <form method="POST" class="form" action=<?= $base_url."./?controller=main_&function=forgotPassword"?>>
                   <div class="col">
-                    <input type="email" class="form-control" placeholder="Email" aria-label="email">
+                    <input type="email" class="form-control" placeholder="Email" aria-label="email"
+                    name="email">
                   </div>
                   <div class="send">
                     <button type="submit" id="send">
@@ -138,7 +147,7 @@
                     </button>
                   </div>
                   <div class="F-login">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Login now</a>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#login_modal">Login now</a>
                   </div>
                 </form>
               </div>
@@ -526,5 +535,24 @@
     <!-- //copyright section  -->
 
     <script src="./assets/js/bootstrap.min.js"></script>
+    <script src="./assets/js/jquery.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+    <?php
+    if(isset($_SESSION['msg'])){
+
+    ?>
+    <script>
+    swal({
+      title: "<?php echo $_SESSION['msg'] ?>",
+      icon: "<?php echo $_SESSION['icon'] ?>",
+      button: "OK",
+    });
+
+    </script>
+    <?php
+    unset($_SESSION['msg']);
+    }
+    ?>
   </body>
 </html>

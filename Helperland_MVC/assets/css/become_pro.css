@@ -65,12 +65,12 @@ body {
 }
 input {
   margin: 5px;
-  padding: 3px 5px 3px 5px;
+  padding: 5px 7px;
   border: 1px solid #00000026;
-  color: #a0a0a0;
+  /* color: #a0a0a0; */
 }
 ::placeholder {
-  font-size: 12px;
+  font-size: 15px;
 }
 
 label {

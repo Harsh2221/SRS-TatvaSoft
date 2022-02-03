@@ -1,6 +1,6 @@
 <?php 
 $base_url="https://localhost/tatvasoft/Helperland_MVC/";
-
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,13 +64,22 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC/";
       <h2 class="text-center" style="color: #4f4f4f">Get in touch with us</h2>
 
       <div class="form-div">
-        <form method="POST" class="form" action=<?= $base_url."./?controller=main_&function=ContactUs"?>>
+      
+          
+        <form method="POST" class="form" action=<?= $base_url."./?controller=main_&function=ContactUs"?> name="form" onsubmit="return validate()">
+       
         
           <input type="text" name="f_name" id="f_name" placeholder="First name" />
+          
+
           <input type="text" name="l_name" id="l_name" placeholder="Last name" />
+          
           <br />
           <input type="tel" name="number" id="number" placeholder="Mobile number" />
+          
+
           <input type="email" name="email" id="email" placeholder="Email address" />
+         
           <br />
           <select name="subject" id="sub">
             <option value="subject">Subject</option>
@@ -78,6 +87,7 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC/";
             <option value="subscription">subscription</option>
             
           </select>
+          
           <br />
           <textarea
             name="message"
@@ -86,8 +96,17 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC/";
             rows="5"
             placeholder="Message"
           ></textarea>
+          
           <br />
           <button class="submit-btn">Submit</button>
+<br>
+          <span id="msg1" style="visibility: hidden; color: red;">please enter Firstname !</span>
+          <span id="msg2" style="visibility: hidden; color: red;">please enter Lastname !</span> <br>
+          <span id="msg3" style="visibility: hidden; color: red;">please enter phone number !</span>
+          <span id="msg4" style="visibility: hidden; color: red;">please enter Email !</span> <br>
+          <span id="msg5" style="visibility: hidden; color: red;">please enter Message !</span>
+
+          
         </form>
       </div>
     </section>
@@ -145,10 +164,33 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC/";
       </div> 
     </footer>
 
+   
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
+    <script src="./assets/js/contact.js"></script>
+    <script src="./assets/js/jquery.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+    <?php
+    if(isset($_SESSION['msg'])){
+
+    ?>
+    <script>
+    swal({
+      title: "<?php echo $_SESSION['msg'] ?>",
+      icon: "<?php echo $_SESSION['icon'] ?>",
+      button: "OK",
+    });
+
+    </script>
+    <?php
+    unset($_SESSION['msg']);
+    }
+    ?>
+    
   </body>
 </html> 

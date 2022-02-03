@@ -38,10 +38,10 @@
                 <a class="nav-link" href="contact.php">Contact</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link border-btn" href="#">Login</a>
+                <a class="nav-link border-btn" href="homepage.php/#login_modal">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link border-btn" href="#">Become a Helper</a>
+                <a class="nav-link border-btn" href="service_provider_become_pro.php">Become a Helper</a>
               </li>
             </ul>
           </div>
