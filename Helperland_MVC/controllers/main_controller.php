@@ -211,5 +211,198 @@ class main_controller
             }
         }
     }
-          
+
+    public function postalCheck(){
+        $base_url="http://localhost/tatvasoft/Helperland_MVC/book_services";
+       $next_url="http://localhost/tatvasoft/Helperland_MVC";
+        if(isset($_POST['postalcode'])){
+            $postalcode = $_POST['postalcode'];
+
+            // echo $postalcode;
+            $result = $this->model->postalcodeCheck($postalcode);
+            
+            if($result > 0){
+                echo 1;
+            }else{
+                echo 0;
+            }
+        }
+
+    }
+
+    public function cityCheck(){
+        if(isset($_POST)){
+            $postalcode=$_POST['postalcode'];
+            $result=$this->model->getCity($postalcode);
+
+            $city = $result[0];
+            $state = $result[1];
+            $return = [$city, $state];
+            echo json_encode($return);
+
+        }
+
+    }
+
+    public function add_Address(){
+        if(isset($_POST))
+        {
+            $streetname = $_POST['streetname'];
+            $housenumber = $_POST['housenumber'];
+            $postalcode = $_POST['postalcode'];
+            $city = $_POST['city'];
+            $phonenumber = $_POST['phonenumber'];
+            $email = $_POST['username'];
+            
+            
+            $result = $this->model->forgotPassword($email);
+            // echo $result;
+            $userid=$result[3];
+            $type = 0;
+            $get_state = $this->model->getCity($postalcode);
+            $state = $get_state[1];
+
+            $data = [
+                'userid' => $userid,
+                'streetname' => $streetname,
+                'housenumber' => $housenumber,
+                'city' => $city,
+                'state' => $state,
+                'postalcode' => $postalcode,
+                'phonenumber' => $phonenumber,
+                'email' => $email,
+                'type' => $type,
+
+            ];
+            $result = $this->model->add_address($data);
+        }
+
+    }
+
+    public function get_Address(){
+        if(isset($_POST))
+        {
+            $email=$_POST['username'];
+            $result=$this->model->get_address($email);
+            if(count($result))
+            {
+                foreach($result as $row)
+                {
+                    $streetname=$row['AddressLine1'];
+                    $housenumber=$row['AddressLine2'];
+                    $city=$row['City'];
+                    $postalcode=$row['PostalCode'];
+                    $phonenumber=$row['Mobile'];
+                    $default=$row['IsDefault'];
+                    $deleted=$row['IsDeleted'];
+                    $address_id=$row['AddressId'];
+
+                    if($default==0)
+                    {
+                        $default='';
+                        
+                    }else{
+                        $default='checked';
+                    }
+                    if($deleted==0)
+                    {
+                        $address_tab='<div class="address">
+                        
+                        <input type="radio" id="address' . $address_id . '" name="addressRadio" value="' . $address_id . '" class="address-radio" ' . $default . '>
+                        <label>
+                        <p class="address_detail"> Address : <span>' . $streetname . '  ' . $housenumber . ' , ' . $city . ' ' . $postalcode . ' <br> Phone Number: <span> ' . $phonenumber . '</span></p>
+                        </label>
+                        </div>';
+
+                        echo $address_tab;
+                    }
+                }
+            }
+        }
+
+    }
+
+public function service_request(){
+    if(isset($_POST))
+    {
+        $email = $_POST['username'];
+        
+        $s_date = $_POST['date'];
+        
+        $time=$_POST['time'];
+        
+        $postalcode=$_POST['postalcode'];
+        $serviceRate=$_POST['hourlyrate'];
+        
+        $servicehours=$_POST['servicehours'];
+        $totalhours=$_POST['totalhours'];
+        $extrahour=$_POST['extrahour'];
+        $total_payment=$_POST['total_payment'];
+        $extra_service=$_POST['extraService'];
+        $comment=$_POST['comments'];
+        $address_id=$_POST['address_id'];
+        $payment_due=$_POST['payment_due'];
+        $pets=$_POST['pet'];
+        $status='panding';
+        $current_date=date('Y-m-d H:i:s');
+        $payment_done=1;
+        $recordversion=1;
+        // echo ($date);
+       
+
+        $result = $this->model->forgotPassword($email);
+        $customer_mail=$email;
+        $customerName=$result[0];
+        $userId=$result[3];
+
+        
+        $data = [
+            'userId'=>$userId,
+            'servicedate'=>$s_date,
+            'servicetime'=>$time,
+            'postalcode'=>$postalcode,
+            'serviceRate'=>$serviceRate,
+            'servicehours'=>$servicehours,
+            'extrahour'=>$extrahour,
+            'totalhours'=>$totalhours,
+            'total_payment'=>$total_payment,
+            'extra_service'=>$extra_service,
+            'comments'=>$comment,
+            'address_id'=>$address_id,
+            'payment_due'=>$payment_due,
+            'pets'=>$pets,
+            'status'=>$status,
+            'current_date'=>$current_date,
+            'payment_done'=>$payment_done,
+            'recordvirson'=>$recordversion,
+        ];
+
+        $result=$this->model->add_service($data);
+        $service_provider=$this->model->get_SP();
+        if($result){
+            $service_id=$result;
+            //sending confirmation mail to customer---------------------------->
+            include('booking_confirm_mail.php');
+            
+            
+            if(count($service_provider)){
+                foreach($service_provider as $row){
+                    $service_id=$result;
+                    $SP_email=$row['Email'];
+                    // echo $service_id;
+                    include('bookingmail_to_SP.php');
+                          
+                }
+            }
+
+            echo $service_id;
+            
+        }else{
+            echo 0;
+        }
+
+    }
+
+}
+            
 }

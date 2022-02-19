@@ -21,7 +21,7 @@
                 <a
                   class="nav-link border-btn"
                   aria-current="page"
-                  href="#"
+                  href="book_services.php"
                   >Book Now</a
                 >
               </li>

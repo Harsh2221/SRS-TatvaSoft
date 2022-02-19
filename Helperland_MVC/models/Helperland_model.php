@@ -61,7 +61,7 @@ class Helperland_model{
         // echo $usertypeid;
         // echo $row['Password'];
         // echo $pass;
-        $customer = "http://localhost/tatvasoft/Helperland_MVC/service_history";
+        $customer = "http://localhost/tatvasoft/Helperland_MVC/book_services";
         $service_provider = "http://localhost/tatvasoft/Helperland_MVC/upcoming_service";
         $base_url = "http://localhost/tatvasoft/Helperland_MVC";
 
@@ -95,9 +95,11 @@ class Helperland_model{
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $username=$row['FirstName'];
         $resetkey=$row['ResetKey'];
+        $userType=$row['UserTypeId'];
+        $userid=$row['UserId'];
         $count=$stmt->rowCount();
 
-        return array($username, $resetkey, $count);
+        return array($username, $resetkey, $count, $userid,$userType);
         
     }
 
@@ -114,6 +116,75 @@ class Helperland_model{
             $_SESSION['msg']="Password Not set !";
             $_SESSION['icon']="error";
         }
+    }
+
+    public function postalcodeCheck($postalcode){
+        $sql = "SELECT * FROM zipcode WHERE ZipcodeValue = '$postalcode'";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $count=$stmt->rowCount();
+
+        return $count;
+        
+    }
+
+    public function getCity($postalcode){
+        $sql = "SELECT zipcode.ZipcodeValue, city.CityName, state.StateName FROM zipcode JOIN city ON zipcode.CityId = city.Id AND ZipcodeValue = $postalcode JOIN state ON state.Id = city.StateId";
+        $stmt=$this->conn->prepare($sql);
+        $stmt->execute();
+
+        $row=$stmt->fetch(PDO::FETCH_ASSOC);
+
+        $zipcode = $row['ZipcodeValue'];
+        $city = $row['CityName'];
+        $state = $row['StateName'];
+
+        return array($city, $state);
+
+    }
+
+    
+    public function add_address($data){
+
+        $sql = "INSERT INTO useraddress (UserId , AddressLine1 , AddressLine2 , City , State , PostalCode , Mobile , Email , Type)
+        VALUES (:userid , :streetname ,  :housenumber  , :city , :state , :postalcode , :phonenumber , :email , :type)";
+        $stmt =  $this->conn->prepare($sql);
+        $result = $stmt->execute($data);
+        if ($result) {
+            echo 1;
+        } else {
+            echo 0;
+        }
+
+    }
+
+    public function get_address($email){
+        $sql =  "SELECT * FROM useraddress WHERE Email = '$email'  ORDER BY AddressId ASC";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
+   
+    public function add_service($data){
+        $sql = "INSERT INTO servicerequest ( `UserId`, `ServiceStartDate`, `ServiceTime`, `ZipCode`,  `ServiceHourlyRate`, `ServiceHours`, `ExtraHours`, `TotalHours`, `TotalCost`, `ExtraServices`, `Comments`, `AddressId`, `PaymentDue`, `HasPets`, `Status`, `CreatedDate`,  `PaymentDone`, `RecordVersion`)
+     VALUES (:userId ,:servicedate ,:servicetime, :postalcode,:serviceRate ,:servicehours, :extrahour , :totalhours, :total_payment , :extra_service, :comments, :address_id, :payment_due , :pets, :status, :current_date, :payment_done, :recordvirson)
+     ";
+           $stmt = $this->conn->prepare($sql);
+           $stmt->execute($data);
+           $service_id = $this->conn->lastInsertId();
+   
+           return $service_id;
+    }
+
+    public function get_SP(){
+        $sql='SELECT * FROM user WHERE UserTypeId = 1';
+        $stmt=$this->conn->prepare($sql);
+        $stmt->execute();
+        $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
     
 }

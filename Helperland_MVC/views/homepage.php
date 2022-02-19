@@ -36,7 +36,7 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC/";
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item l-1">
-                  <a class="nav-link active" aria-current="page" href="#"
+                  <a class="nav-link active" aria-current="page" href="book_services.php"
                     >Book a Cleaner</a
                   >
                 </li>
@@ -95,17 +95,23 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC/";
                 <form method="POST" class="form" action=<?= $base_url."./?controller=main_&function=login"?>>
                   <div class="col">
                     <input type="email" class="form-control" placeholder="Email" aria-label="email"
-                    name="user_email">
+                    name="user_email" value="<?php if (isset($_COOKIE['email_cookie'])) {  echo $_COOKIE['email_cookie']; } ?>">
                     
                   </div>
                   <div class="col">
                     <input type="password" class="form-control" placeholder="password" aria-label="password"
-                    name="pass">
+                    name="pass" value="<?php if (isset($_COOKIE['password_cookie'])) {  echo $_COOKIE['password_cookie']; } ?>">
                   </div>
                   
                   <div class="form-check">
+                  <?php if (isset($_COOKIE)) { ?>
+                    <input class="form-check-input" type="checkbox" checked id="gridCheck"
+                    name="remember">
+                  <?php }
+                    if (!isset($_COOKIE['emailcookie'])) { ?>
                     <input class="form-check-input" type="checkbox" id="gridCheck"
                     name="remember">
+                    <?php } ?>
                     <label class="form-check-label" for="gridCheck">
                       Remember Me
                     </label>
@@ -536,6 +542,7 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC/";
 
     <script src="./assets/js/bootstrap.min.js"></script>
     <script src="./assets/js/jquery.js"></script>
+   
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     
     <?php
@@ -554,5 +561,6 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC/";
     unset($_SESSION['msg']);
     }
     ?>
+    
   </body>
 </html>
