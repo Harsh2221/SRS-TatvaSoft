@@ -3,7 +3,7 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC/";
 session_start();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 
 <head>
   <meta charset="UTF-8" />

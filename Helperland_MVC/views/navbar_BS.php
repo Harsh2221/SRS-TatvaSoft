@@ -58,7 +58,7 @@ if (!isset($_SESSION['username'])) { ?>
 <?php } ?>
 
 <?php if (isset($_SESSION['username'])) { ?>
-
+  <?php if(isset($_SESSION['usertypeCustomer'])){ ?>
     <section class="navbar-area">
       <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
@@ -107,7 +107,7 @@ if (!isset($_SESSION['username'])) { ?>
                   ><span><img src="./assets/assets/icon-notification.png" alt="" /></span
                 ></a>
               </li>
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown dropstart">
                 <a
                   class="nav-link dropdown"
                   href="#"
@@ -121,8 +121,20 @@ if (!isset($_SESSION['username'])) { ?>
                 </a>
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="#">Settings</a></li>
-                  <li><a class="dropdown-item" href="#">Logout</a></li>
+                  <li><a class="dropdown-item disabled" >Welcome, 
+                 
+                  <?php echo $_SESSION["firstname"]; ?>
+                  
+                  </a></li>
+                  <li><a class="dropdown-item" href="customerActivity.php">Dashboard</a></li>
+                  <li><a class="dropdown-item" href="customerSetting.php">Settings</a></li>
+                  
+                  <li>
+                  <form method="POST" action=<?= $base_url . "./?controller=main_&function=Logout" ?>>
+                  <button  type="submit" class="dropdown-item" name="logout">Logout</a>
+                  </form>
+                  </li>
+                  
                 </ul>
               </li>
             </ul>
@@ -130,5 +142,5 @@ if (!isset($_SESSION['username'])) { ?>
         </div>
       </nav>
     </section>
-
+  <?php } ?>
 <?php } ?>

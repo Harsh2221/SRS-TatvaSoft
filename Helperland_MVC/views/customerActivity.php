@@ -1,3 +1,12 @@
+<?php
+session_start();
+$email = $_SESSION['username'];
+$base = "https://localhost/tatvasoft/Helperland_MVC/";
+if(!isset($_SESSION['username'])){
+  header('Location:' . $base);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,67 +14,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Customer | Service history</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/service_history.css" />
-  <link href="css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./assets/css/service_history.css" />
+ 
+  <link href="./assets/css/jquery.dataTables.min.css" rel="stylesheet" />
   
   
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
   <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  
 </head>
 
 <body>
-  <section class="navbar-area">
-    <nav class="navbar navbar-expand-lg navbar-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="assets/logo-small.png" alt="" /></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active border-btn" aria-current="page" href="#" id="book-btn">Book Now</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link border-btn" href="#">Prices& services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Warranty</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Blog</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link border-btn" href="#" id="notify"><span><img src="assets/icon-notification.png"
-                    alt="" /></span></a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <span><img src="assets/user.png" alt="" /></span>
-                <span><img src="assets/sp-arrow-down.png" alt="" /></span>
-              </a>
-
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-               <li> <a class="dropdown-item">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Logout</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </section>
+  <?php
+  include('navbar_BS.php');
+  ?>
 
   <section class="welcom-section">
     <div class="container-welcom">
-      <h3>Welcome,HARSH!</h3>
+      <h3>Welcome, <?php echo $_SESSION['firstname']; ?></h3>
     </div>
     <hr />
   </section>
@@ -73,6 +41,7 @@
   <section class="history-section">
     <div class="container-main">
       <div class="row sidebar">
+
         <div class="col-lg-6 col-md-3 col-sm-6 left-sidebar">
           <div class="list-group list-group-flush">
 
@@ -96,9 +65,9 @@
 
             <div class="d-flex">
               <h6>Current Service Requests</h6>
-              <button id="export-btn">Add New Service Request</button>
+              <a id="export-btn" href="book_services.php" style="text-decoration: none;">Add New Service Request</a>
             </div>
-            <table class="table" id="myTable1">
+            <table class="table dashboardTable" id="myTable1">
               <thead>
                 <tr>
                   <th scope="col">
@@ -121,34 +90,34 @@
               <tbody>
 
                 <tr>
-                  <td>
+                  <td class="serviceid">
                     1234
                   </td>
                   <td>
-                    <span><img src="assets/calendar2.png" alt="#" /> 31/03/2018</span>
+                    <span><img src="./assets/assets/calendar2.png" alt="#" /> 31/03/2018</span>
                     <br />
-                    <span><img src="assets/layer-14.png" alt="#" /> 12:00 - 18:00 </span>
+                    <span><img src="./assets/assets/layer-14.png" alt="#" /> 12:00 - 18:00 </span>
                   </td>
                   <td>
-                    <img src="assets/cap.png" alt="" id="cap" />
+                    <img src="./assets/assets/cap.png" alt="" id="cap" />
 
                     Lyum Watson <br />
                     <span id="star">
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star2.png" alt="" />
+                      <img src="./assets/assets/star1.png" alt="" />
+                      <img src="./assets/assets/star1.png" alt="" />
+                      <img src="./assets/assets/star1.png" alt="" />
+                      <img src="./assets/assets/star1.png" alt="" />
+                      <img src="./assets/assets/star2.png" alt="" />
                       <span>4</span>
                     </span>
                   </td>
-                  <td>
-                    <h5>€63</h5>
+                  <td class="payment">
+                    <h5><span>€</span>63</h5>
                   </td>
 
                   <td>
-                    <button id="reschedule-btn">Reschedule</button>
-                    <button id="cancel-btn">Cancel</button>
+                  <span><button id="reschedule-btn">Reschedule</button></span>  
+                  <span><button id="cancel-btn">Cancel</button></span>  
                   </td>
                 </tr>
 
@@ -157,9 +126,9 @@
                     1234
                   </td>
                   <td>
-                    <span><img src="assets/calendar2.png" alt="#" /> 31/03/2018</span>
+                    <span><img src="./assets/assets/calendar2.png" alt="#" /> 31/03/2018</span>
                     <br />
-                    <span><img src="assets/layer-14.png" alt="#" /> 12:00 - 18:00 </span>
+                    <span><img src="./assets/assets/layer-14.png" alt="#" /> 12:00 - 18:00 </span>
                   </td>
                   <td>
 
@@ -169,9 +138,9 @@
                   </td>
 
                   <td>
-                    <button type="button" id="reschedule-btn" data-bs-toggle="modal"
+                    <button type="button" class="reschedule-btn" data-bs-toggle="modal"
                       data-bs-target="#reschedule_modal">Reschedule</button>
-                    <button id="cancel-btn" type="button" data-bs-toggle="modal"
+                    <button class="cancel-btn" type="button" data-bs-toggle="modal"
                       data-bs-target="#cancel_modal">Cancel</button>
                   </td>
                 </tr>
@@ -188,10 +157,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <h6>Select New Date & Time</h6>
+                  <span class="newDateTime">
+                  <h6>Select New Date & Time</h6>
+                  </span>
+                    
                     <div class="row">
                       <div class="re_date d-picker">
-                        <img src="assets/calendar-book-service.png" alt=""> <input type="text" id="datepicker"
+                        <img src="./assets/assets/calendar-book-service.png" alt=""> <input type="text" id="datepicker"
                           placeholder="Date" name="select_date" data-date-format='yyyy-mm-dd'>
                       </div>
                       <div class="re_time">
@@ -219,12 +191,16 @@
                           <option value='18'>18:00</option>
                         </select>
                       </div>
+                      
                     </div>
+                    <span class="timeError" style="font-size: 12px"></span>
 
                   </div>
                   <div class="footer-modal">
-
-                    <button type="button" class="update">Update</button>
+                    <div class="updateButton">
+                    <button type="button" class="update" >Update</button>
+                    </div>
+                    
                   </div>
                 </div>
               </div>
@@ -248,248 +224,176 @@
 
                   </div>
                   <div class="footer-modal">
-
-                    <button type="button" class="cancel">Cancel Now</button>
+                    <div class="cancelButton"><button type="button" class="cancel">Cancel Now</button></div>
+                    
                   </div>
                 </div>
               </div>
             </div>
+
+            <div class="modal fade" id="ServiceData_modal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="header_modal">Cancel Service Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <h6>Why you want to cancel service request?</h6>
+                    <div class="row">
+                      <div class="cancel_reason">
+                        <textarea name="cancel_reason" id="" cols="37" rows="3"></textarea>
+                      </div>
+
+                    </div>
+
+                  </div>
+                  <div class="footer-modal">
+                    <div class="cancelButton"><button type="button" class="cancel">Cancel Now</button></div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
+          
+
+          
           <div id="history" class="tab-pane fade history_tab">
             <div class="d-flex">
               <h6>Service history</h6>
               <button id="export-btn">Export</button>
             </div>
 
-            <table class="table" id="myTable2">
+            <table class="table historyTable" id="myTable2">
               <thead>
                 <tr>
                   <th scope="col">
-                    Service Details
-                    <span><img src="assets/sort.png" alt="#" /></span>
+                    Service Id
+                   
                   </th>
                   <th scope="col">
-                    Service Provider
-                    <span><img src="assets/sort.png" alt="#" /></span>
+                    Service Date
+                    
                   </th>
                   <th scope="col">
-                    Payment <span><img src="assets/sort.png" alt="#" /></span>
+                    Service Provider 
                   </th>
                   <th scope="col">
-                    Status <span><img src="assets/sort.png" alt="#" /></span>
+                    Payment 
+                  </th>
+                  <th scope="col">
+                    Status 
                   </th>
                   <th scope="col">Rate SP</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td scope="row">
-                    <span><img src="assets/calendar.png" alt="#" /></span>
-                    31/03/2018 <br />
-                    12:00 - 18:00
+                
+                  <td class="serviceid">
+                    1234
                   </td>
                   <td>
-                    <img src="assets/cap.png" alt="" id="cap" />
+                    <span><img src="./assets/assets/calendar2.png" alt="#" /> 31/03/2018</span>
+                    <br />
+                    <span><img src="./assets/assets/layer-14.png" alt="#" /> 12:00 - 18:00 </span>
+                  </td>
+                  <td>
+                    <img src="./assets/assets/cap.png" alt="" id="cap" />
 
                     Lyum Watson <br />
                     <span id="star">
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star2.png" alt="" />
+                      <img src="./assets/assets/star1.png" alt="" />
+                      <img src="./assets/assets/star1.png" alt="" />
+                      <img src="./assets/assets/star1.png" alt="" />
+                      <img src="./assets/assets/star1.png" alt="" />
+                      <img src="./assets/assets/star2.png" alt="" />
                       <span>4</span>
                     </span>
                   </td>
-                  <td>
-                    <h5>€63</h5>
+                  <td class="payment">
+                    <h5><span>€</span>63</h5>
                   </td>
                   <td><span id="pay-status">Completed</span></td>
                   <td><button class="rate-btn" id="rate-btn" type="button" data-bs-toggle="modal"
                       data-bs-target="#rate_sp">Rate SP</button></td>
                 </tr>
 
+                
                 <tr>
-                  <td scope="row">
-                    <span><img src="assets/calendar.png" alt="#" /></span>
-                    31/03/2018 <br />
-                    12:00 - 18:00
+                  <td class="serviceid">
+                    1234
                   </td>
                   <td>
-                    <img src="assets/cap.png" alt="" id="cap" />
+                    <span><img src="./assets/assets/calendar2.png" alt="#" /> 31/03/2018</span>
+                    <br />
+                    <span><img src="./assets/assets/layer-14.png" alt="#" /> 12:00 - 18:00 </span>
+                  </td>
+                  <td>
+                    <img src="./assets/assets/cap.png" alt="" id="cap" />
 
                     Lyum Watson <br />
                     <span id="star">
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star2.png" alt="" />
+                      <img src="./assets/assets/star1.png" alt="" />
+                      <img src="./assets/assets/star1.png" alt="" />
+                      <img src="./assets/assets/star1.png" alt="" />
+                      <img src="./assets/assets/star1.png" alt="" />
+                      <img src="./assets/assets/star2.png" alt="" />
                       <span>4</span>
                     </span>
                   </td>
-                  <td>
-                    <h5>€63</h5>
-                  </td>
-                  <td><span id="pay-status">Completed</span></td>
-                  <td><button class="rate-btn">Rate SP</button></td>
-                </tr>
-                <tr>
-                  <td scope="row">
-                    <span><img src="assets/calendar.png" alt="#" /></span>
-                    31/03/2018 <br />
-                    12:00 - 18:00
-                  </td>
-                  <td>
-                    <img src="assets/cap.png" alt="" id="cap" />
-
-                    Lyum Watson <br />
-                    <span id="star">
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star2.png" alt="" />
-                      <span>4</span>
-                    </span>
-                  </td>
-                  <td>
-                    <h5>€63</h5>
-                  </td>
-                  <td><span id="pay-status">Completed</span></td>
-                  <td><button class="rate-btn">Rate SP</button></td>
-                </tr>
-                <tr>
-                  <td scope="row">
-                    <span><img src="assets/calendar.png" alt="#" /></span>
-                    31/03/2018 <br />
-                    12:00 - 18:00
-                  </td>
-                  <td>
-                    <img src="assets/cap.png" alt="" id="cap" />
-
-                    Lyum Watson <br />
-                    <span id="star">
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star2.png" alt="" />
-                      <span>4</span>
-                    </span>
-                  </td>
-                  <td>
-                    <h5>€63</h5>
-                  </td>
-                  <td><span id="pay-status">Completed</span></td>
-                  <td><button class="rate-btn">Rate SP</button></td>
-                </tr>
-                <tr>
-                  <td scope="row">
-                    <span><img src="assets/calendar.png" alt="#" /></span>
-                    31/03/2018 <br />
-                    12:00 - 18:00
-                  </td>
-                  <td>
-                    <img src="assets/cap.png" alt="" id="cap" />
-
-                    Lyum Watson <br />
-                    <span id="star">
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star2.png" alt="" />
-                      <span>4</span>
-                    </span>
-                  </td>
-                  <td>
-                    <h5>€63</h5>
+                  <td class="payment">
+                    <h5><span>€</span>63</h5>
                   </td>
                   <td><span id="cancle-status">Cancelled</span></td>
                   <td><button class="rate-btn">Rate SP</button></td>
                 </tr>
-                <tr>
-                  <td scope="row">
-                    <span><img src="assets/calendar.png" alt="#" /></span>
-                    31/03/2018 <br />
-                    12:00 - 18:00
-                  </td>
-                  <td>
-                    <img src="assets/cap.png" alt="" id="cap" />
-
-                    Lyum Watson <br />
-                    <span id="star">
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star2.png" alt="" />
-                      <span>4</span>
-                    </span>
-                  </td>
-                  <td>
-                    <h5>€63</h5>
-                  </td>
-                  <td><span id="pay-status">Completed</span></td>
-                  <td><button class="rate-btn">Rate SP</button></td>
-                </tr>
-                <tr>
-                  <td scope="row">
-                    <span><img src="assets/calendar.png" alt="#" /></span>
-                    31/03/2018 <br />
-                    12:00 - 18:00
-                  </td>
-                  <td>
-                    <img src="assets/cap.png" alt="" id="cap" />
-
-                    Lyum Watson <br />
-                    <span id="star">
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star1.png" alt="" />
-                      <img src="assets/star2.png" alt="" />
-                      <span>4</span>
-                    </span>
-                  </td>
-                  <td>
-                    <h5>€63</h5>
-                  </td>
-                  <td><span id="cancle-status">Cancelled</span></td>
-                  <td><button class="rate-btn">Rate SP</button></td>
-                </tr>
+                
               </tbody>
             </table>
             <div class="modal fade" id="rate_sp" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered rating_modal">
                 <div class="modal-content p-3">
                   <div class="modal-header">
-                    <h6 class="modal-title" id="header_modal"><img src="assets/cap.png" alt="" id="cap" />
-
-                      Lyum Watson <br />
+                    <div class="serviceProviderData">
+                    <h6 class="modal-title" id="header_modal"><img src="./assets/assets/cap.png" alt="" id="cap" />
+                    <div class="spData">harsh</div>
+                    
+                      
                       <span id="star" style="margin-bottom: 20px;">
-                        <img src="assets/star1.png" alt="" />
-                        <img src="assets/star1.png" alt="" />
-                        <img src="assets/star1.png" alt="" />
-                        <img src="assets/star1.png" alt="" />
-                        <img src="assets/star2.png" alt="" />
+                        <img src="./assets/assets/star1.png" alt="" />
+                        <img src="./assets/assets/star1.png" alt="" />
+                        <img src="./assets/assets/star1.png" alt="" />
+                        <img src="./assets/assets/star1.png" alt="" />
+                        <img src="./assets/assets/star2.png" alt="" />
                         <span> 4 </span>
                       </span>
 
                     </h6>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <h5 id="header_modal" style="margin-bottom: 30px;">Rate your service provider</h5>
+                    <h5 class="rateSPy" style="margin-bottom: 30px;">Rate your service provider</h5>
 
                     <div class="row on_time">
                       <div class="col-sm-6">
                         <h6 style="font-size: 14px;">On time arrival</h6>
                       </div>
                       <div class="col-sm-6">
-                      <div class="rating"></div>
+                        <span class="timeRate">
+                        <i class = "fa fa-star" aria-hidden = "true" id = "tst1"></i> 
+                        <i class = "fa fa-star" aria-hidden = "true" id = "tst2"></i> 
+                        <i class = "fa fa-star" aria-hidden = "true" id = "tst3"></i> 
+                        <i class = "fa fa-star" aria-hidden = "true" id = "tst4"></i> 
+                        <i class = "fa fa-star" aria-hidden = "true" id = "tst5"></i> 
+                        <span class="rateTime"></span>
+                        </span>
+                        
+                       
                       </div>
                     </div>
 
@@ -498,7 +402,15 @@
                         <h6 style="font-size: 14px;">Friendly</h6>
                       </div>
                       <div class="col-sm-6">
-                      <div class="rating"></div>
+                      <span class="FriendlyRate">
+                        <i class = "fa fa-star" aria-hidden = "true" id = "fst1"></i> 
+                        <i class = "fa fa-star" aria-hidden = "true" id = "fst2"></i> 
+                        <i class = "fa fa-star" aria-hidden = "true" id = "fst3"></i> 
+                        <i class = "fa fa-star" aria-hidden = "true" id = "fst4"></i> 
+                        <i class = "fa fa-star" aria-hidden = "true" id = "fst5"></i> 
+                        <span class="rateFrnd"></span>
+                        </span>
+                        
                       </div>
                     </div>
 
@@ -508,7 +420,15 @@
                         <h6 style="font-size: 14px;">Quality of service</h6>
                       </div>
                       <div class="col-sm-6">
-                      <div class="rating"></div>
+                      <span class="qualityRate">
+                        <i class = "fa fa-star" aria-hidden = "true" id = "qst1"></i> 
+                        <i class = "fa fa-star" aria-hidden = "true" id = "qst2"></i> 
+                        <i class = "fa fa-star" aria-hidden = "true" id = "qst3"></i> 
+                        <i class = "fa fa-star" aria-hidden = "true" id = "qst4"></i> 
+                        <i class = "fa fa-star" aria-hidden = "true" id = "qst5"></i> 
+                        <span class="rateqlt"></span>
+                        </span>
+                      
                       </div>
                     </div>
                     <div class="row feedback">
@@ -525,7 +445,7 @@
 
                   <div class="footer-modal" style="text-align: left;">
 
-                    <button type="button" class="rate_submit">Submit</button>
+                    <button type="submit" class="rate_submit">Submit</button>
                   </div>
 
 
@@ -606,8 +526,8 @@
                         
                         <td>demo address</td>
                         <td>
-                          <button style="margin-right: 10px; border: none" data-bs-toggle="modal" data-bs-target="#edit_address"><img src="assets/edit.png" alt="" style="height: 20px; width: 20px;"></button>
-                          <button style="border: none"><img src="assets/delete.png" alt="" style="height: 22px; width: 25px;"></button>
+                          <button style="margin-right: 10px; border: none" data-bs-toggle="modal" data-bs-target="#edit_address"><img src="./assets/assets/edit.png" alt="" style="height: 20px; width: 20px;"></button>
+                          <button style="border: none"><img src="./assets/assets/delete.png" alt="" style="height: 22px; width: 25px;"></button>
                         </td>
                       </tr>
                      
@@ -681,14 +601,7 @@
 
         </div>
         
-        
-
       </div>
-
-
-
-
-
 
     </div>
     </div>
@@ -700,22 +613,22 @@
         <div class="row align-items-center">
           <div class="col-lg-2 footer-widget">
             <a href="#" title="Helper Hand">
-              <img src="assets/logo-small.png" alt="Helper Hand" />
+              <img src="./assets/assets/logo-small.png" alt="Helper Hand" />
             </a>
           </div>
           <div class="col-lg-8 footer-widget">
             <ul class="footer-navigation d-flex justify-content-center">
               <li>
-                <a href="#" title="Home">Home</a>
+                <a href="homepage.php" title="Home">Home</a>
               </li>
               <li>
-                <a href="#" title="About">About</a>
+                <a href="about.php" title="About">About</a>
               </li>
               <li>
                 <a href="#" title="Testimonials">Testimonials</a>
               </li>
               <li>
-                <a href="#" title="FAQs">FAQs</a>
+                <a href="faqs.php" title="FAQs">FAQs</a>
               </li>
               <li>
                 <a href="#" title="Insurance Policy">Insurance Policy</a>
@@ -729,12 +642,12 @@
             <ul class="social-media-list d-flex justify-content-end">
               <li>
                 <a href="#" target="_blank" title="Facebook">
-                  <img src="assets/ic-facebook.png" alt="Facebook" />
+                  <img src="./assets/assets/ic-facebook.png" alt="Facebook" />
                 </a>
               </li>
               <li>
                 <a href="#" target="_blank" title="Instagram">
-                  <img src="assets/ic-instagram.png" alt="Instagram" />
+                  <img src="./assets/assets/ic-instagram.png" alt="Instagram" />
                 </a>
               </li>
             </ul>
@@ -744,49 +657,20 @@
     </div>
   </footer>
 
-  <script src="js/jquery.js"></script>
-  <script src="js/jquery.dataTables.min.js"></script>
+  <script src="./assets/js/jquery.js"></script>
+  <script src="./assets/js/jquery.dataTables.min.js"></script>
+  <script src="./assets/js/service_history.js"></script>
   <!-- <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script> -->
-  <script src="js/service_history.js"></script>
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-  
-  <script>
-    $(document).ready(function () {
-      $("#datepicker").datepicker();
-
-      $("#myTable1").dataTable({
-        "bFilter": false,
-        "bInfo": false,
-        "dom": '<"top"i>rt<"bottom"flp><"clear">'
-      });
-      $("#myTable2").dataTable({
-        "bFilter": false,
-        "bInfo": false,
-        "dom": '<"top"i>rt<"bottom"flp><"clear">'
-      });
-     
-
-    });
-    $('.rating').starRating(
-            {
-                // starSize: 1.5,
-                // showInfo: true
-            });
-
-        $(document).on('change', '.rating',
-            function (e, stars, index) {
-                
-                // alert(`Thx for ${stars} stars!`);
-                var rating = stars;
-                alert(rating);
-            });
-    
-  </script>
+  <?php include('customer_ajax.php'); ?>
+<script>
 
 
+</script>
 
 </body>
 

@@ -61,7 +61,7 @@ class Helperland_model{
         // echo $usertypeid;
         // echo $row['Password'];
         // echo $pass;
-        $customer = "http://localhost/tatvasoft/Helperland_MVC/book_services";
+        $customer = "http://localhost/tatvasoft/Helperland_MVC/customerActivity";
         $service_provider = "http://localhost/tatvasoft/Helperland_MVC/upcoming_service";
         $base_url = "http://localhost/tatvasoft/Helperland_MVC";
 
@@ -69,11 +69,12 @@ class Helperland_model{
             if ($pass == $row['Password']){
                 if ($usertypeid == 0) {
                     $_SESSION['username'] = $email;
+                    $_SESSION['usertypeCustomer'] = $usertypeid;
 
                     header('Location:' . $customer);
                 } else if ($usertypeid == 1) {
                     $_SESSION['username'] = $email;
-                    
+                    $_SESSION['usertypeSp'] = $usertypeid;
                     header('Location:' . $service_provider);
                 }
             }else{
@@ -94,6 +95,7 @@ class Helperland_model{
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $username=$row['FirstName'];
+        $firstName=$row['FirstName'];
         $resetkey=$row['ResetKey'];
         $userType=$row['UserTypeId'];
         $userid=$row['UserId'];
@@ -107,7 +109,8 @@ class Helperland_model{
         $sql = "UPDATE user SET Password = :password , ModifiedDate = :updatedate , ModifiedBy = :modifiedby WHERE ResetKey = :resetkey";
         $stmt =  $this->conn->prepare($sql);
         $result = $stmt->execute($data);
-        
+        $count=$stmt->rowCount();
+
         if($result){
             $_SESSION['msg']="New Password set !";
             $_SESSION['icon']="success";
@@ -116,6 +119,7 @@ class Helperland_model{
             $_SESSION['msg']="Password Not set !";
             $_SESSION['icon']="error";
         }
+        return array($count);
     }
 
     public function postalcodeCheck($postalcode){
@@ -187,5 +191,144 @@ class Helperland_model{
         return $result;
     }
     
+    public function getCustomerDetail($userId){
+        $sql = "SELECT * FROM `servicerequest` WHERE `UserId` = $userId ORDER BY `ServiceRequestId` DESC";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getServicedata($serviceId){
+          $sql="SELECT * FROM `servicerequest` WHERE `ServiceRequestId` = $serviceId";
+          $stmt = $this->conn->prepare($sql);
+          $stmt->execute();
+          $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+          return $result;
+    }
+    public function getUserId($Id){
+        $sql = "SELECT * FROM `user` WHERE UserId = $Id";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    
+
+    public function getspId($serviceproviderid){
+        $sql = "SELECT * FROM user WHERE UserId = $serviceproviderid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    
+    public function rescheduleService($data){
+        $sql = "UPDATE `servicerequest` SET `ServiceStartDate`= :newDate,`ServiceTime`= :newTime ,`ModifiedBy`= :modifiedBy , `ModifiedDate`= :modifiedDate , `RecordVersion`= :recordversion,`Status`= :status WHERE `ServiceRequestId` = :serviceId";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($data);
+        $count = $stmt->rowCount();
+        return array($count);
+    }
+    public function cancelServiceRequest($data){
+        $sql = "UPDATE `servicerequest` SET `HasIssue` = :cancelReason ,`ModifiedDate`= :modifiedDate ,`ModifiedBy`= :modifiedBy , `RecordVersion`= :recordversion , `Status` = :status WHERE `ServiceRequestId` = :serviceId";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($data);
+        $count = $stmt->rowCount();
+        return array($count);
+    }
+    public function getspData($serviceproviderid)
+    {
+        $sql = "SELECT * FROM `user` WHERE UserId = $serviceproviderid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getUserDetails($email){
+        $sql="SELECT * FROM user WHERE Email = '$email'";
+        $stmt=$this->conn->prepare($sql);
+        $stmt->execute();
+        $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+
+    }
+    public function saveCustDetails($data){
+        $sql="UPDATE user SET FirstName=:firstName, LastName=:lastName, Mobile=:phone, DateOfBirth=:dateOfBirth, LanguageId=:language, ModifiedDate=:modifiedDate, ModifiedBy=:modifiedBy WHERE Email=:email";
+        $stmt=$this->conn->prepare($sql);
+        $stmt->execute($data);
+        $count=$stmt->rowCount();
+        return array($count);
+
+    }
+    public function getAddress($email){
+        $sql="SELECT * FROM useraddress WHERE Email='$email'";
+        $stmt=$this->conn->prepare($sql);
+        $stmt->execute();
+        $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+
+    }
+    public function getAddresstab($addressId){
+        $sql="SELECT * FROM useraddress WHERE AddressId = '$addressId'";
+        $stmt=$this->conn->prepare($sql);
+        $stmt->execute();
+        $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+
+    }
+    public function editaddress($data){
+        $sql = "UPDATE `useraddress` SET `AddressLine1`= :streetname ,`AddressLine2`= :housenumber, `PostalCode`= :postalcode , `City`=:city,`State`= :state ,`Mobile`=:phonenumber WHERE `AddressId` = :addressId ";
+        $stmt =  $this->conn->prepare($sql);
+       $stmt->execute($data);
+       $count = $stmt->rowCount();
+       return array($count);
+    }
+    public function deleteAdd($addressId){
+        $sql = "UPDATE `useraddress` SET `IsDeleted`= 1 WHERE `AddressId` = $addressId ";
+        $stmt =  $this->conn->prepare($sql);
+       $stmt->execute();
+       $count = $stmt->rowCount();
+       return array($count);
+    }
+
+    public function checkDefAdd($checkDef){
+        
+        $sql="UPDATE useraddress SET IsDefault = 1 WHERE AddressId = $checkDef";
+        $stmt=$this->conn->prepare($sql);
+        $stmt->execute();
+        $sql="UPDATE useraddress SET IsDefault = 0 WHERE AddressId != $checkDef";
+        $stmt=$this->conn->prepare($sql);
+        $stmt->execute();
+        $count=$stmt->rowCount();
+        return array($count);
+
+    }
+    public function getRating($serviceProviderId){
+        $sql = "SELECT * FROM `rating` WHERE `RatingTo` = $serviceProviderId";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array($result, $count);
+
+    }
+    public function countRate($Id){
+        $sql = "SELECT * FROM `rating` WHERE `ServiceRequestId` = $Id";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array($result, $count);
+    }
+    public function addrating($data){
+        $sql = "INSERT INTO `rating`( `ServiceRequestId`, `RatingFrom`, `RatingTo`, `Ratings`, `Comments`, `RatingDate`, `IsApproved`, `OnTimeArrival`, `Friendly`, `QualityOfService`) 
+        VALUES (:serviceId,:ratefrom,:rateto,:avgrating,:feedback,:ratedate,:isapproved,:onTimeRate,:friedlyRate,:qualityRate)";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($data);
+        $count = $stmt->rowCount();
+        return $count;
+    }
 }
 ?>

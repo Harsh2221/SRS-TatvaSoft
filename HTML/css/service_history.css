@@ -2,7 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
+} 
 
 .navbar {
   background-color: #525252;
@@ -129,6 +129,169 @@ tr {
 table {
   border: 1px solid #646464;
 }
+
+#reschedule-btn{
+  background-color: #146371;
+  border: none;
+  border-radius: 17px;
+  color: #ffffff;
+  padding: 5px 10px;
+}
+#cancel-btn{
+  background-color: #ff6b6b;
+  border: none;
+  border-radius: 17px;
+  color: #ffffff;
+  padding: 5px 10px;
+}
+
+.modal-dialog{
+  width: fit-content;
+}
+
+#reschedule_modal{
+  
+}
+.re_date{
+  width: fit-content;
+}
+.re_time{
+  width: fit-content;
+}
+.footer-modal{
+  text-align: center;
+}
+.update{
+  background-color: #146371;
+  border: none;
+  border-radius: 17px;
+  color: #ffffff;
+  padding: 7px 10px;
+  margin-bottom: 20px;
+  width: 280px;
+}
+#datepicker{
+  width: 150px;
+  padding: 5px 5px;
+  border: 1px solid #ced4da;
+  border-radius: 3px;
+}
+#header_modal{
+  color: #646464;
+}
+.cancel{
+  background-color: #146371;
+  border: none;
+  border-radius: 17px;
+  color: #ffffff;
+  padding: 7px 10px;
+  margin-bottom: 20px;
+  width: 280px;
+}
+.tab-content{
+  margin-bottom: 20px;
+}
+
+
+.dropdown-menu{
+  min-width: fit-content;
+}
+
+#add_address{
+  border: none;
+  border-radius: 27px;
+  background-color: #1d7a8c;
+  color: #ffffff;
+  width: fit-content;
+  padding: 5px 15px;
+  margin-top: 15px;
+}
+.my_settings li button{
+  color: #565656;
+  font-weight: 550;
+  cursor: pointer;
+}
+.nav-tabs .nav-link.active{
+  color: #1d7a8c;
+  border-bottom: 3px solid #1d7a8c;
+}
+.nav-tabs .nav-link{
+  margin: auto;
+  padding: 10px 70px;
+}
+.nav-tabs .nav-link:hover{
+  color: #1d7a8c;
+}
+.form-control{
+  margin: 7px 0px;
+  font-size: 13px;
+  font-weight: 550;
+}
+.my_details .form-select{
+  margin: 7px 0px;
+  font-size: 13px;
+  font-weight: 550;
+}
+#myTabContent{
+  padding: 7px;
+}
+.save-btn{
+  border: none;
+  border-radius: 27px;
+  background-color: #1d7a8c;
+  color: #ffffff;
+  width: fit-content;
+  padding: 5px 15px;
+  margin-top: 15px;
+}
+#address_form{
+  color: #646464;
+  font-weight: 600;
+}
+.edit-btn{
+  text-align: center;
+}
+.btn_edit{
+  border: none;
+  border-radius: 27px;
+  background-color: #1d7a8c;
+  color: #ffffff;
+  width: 250px;
+  padding: 7px;
+  margin: 10px;
+}
+.change_password label{
+  font-size: 13px;
+  font-weight: 630;
+  color: #565656;
+}
+.my_details label{
+  font-size: 13px;
+  font-weight: 630;
+  color: #565656;
+}
+#feedback_sp{
+  border: 1px solid #c5c5c5;
+  border-radius: 5px;
+  /* margin-left: 5px; */
+  
+}
+.rate_submit{
+  border: none;
+  border-radius: 27px;
+  background-color: #1d7a8c;
+  color: #ffffff;
+  
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  
+}
+
+.my_settings{
+  margin-bottom: 150px;
+}
+
 .site-footer .container {
   max-width: 1420px;
 }

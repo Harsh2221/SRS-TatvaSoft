@@ -94,12 +94,12 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC/";
               <div class="modal-body">
                 <form method="POST" class="form" action=<?= $base_url."./?controller=main_&function=login"?>>
                   <div class="col">
-                    <input type="email" class="form-control" placeholder="Email" aria-label="email"
+                    <input type="email" class="form-control" id="useridEmail" placeholder="Email" aria-label="email"
                     name="user_email" value="<?php if (isset($_COOKIE['email_cookie'])) {  echo $_COOKIE['email_cookie']; } ?>">
                     
                   </div>
                   <div class="col">
-                    <input type="password" class="form-control" placeholder="password" aria-label="password"
+                    <input type="password" class="form-control" id="userPassword" placeholder="password" aria-label="password"
                     name="pass" value="<?php if (isset($_COOKIE['password_cookie'])) {  echo $_COOKIE['password_cookie']; } ?>">
                   </div>
                   
@@ -561,6 +561,22 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC/";
     unset($_SESSION['msg']);
     }
     ?>
+    <script>
+    $('#login').on('click', function(){
+      var username=$('#useridEmail').val();
+      var password=$('#userPassword').val();
+      // var conf_pass=$('#confirm_pass').val();
+      if(username.length==0){
+        alert("Please enter username")
+        return false;
+       }
+       if(password.length==0){
+        alert("Please enter password")
+        return false;
+       }
+    });
+
+    </script>
     
   </body>
 </html>

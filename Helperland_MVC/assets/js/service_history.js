@@ -1,5 +1,5 @@
 const listItems = document.querySelectorAll('.list-group-item');
-        const unClickAll = function() {
+const unClickAll = function() {
             listItems.forEach((item)=> item.classList.remove('active'));
         }
         const activateClicked = (e) =>{
@@ -8,6 +8,6 @@ const listItems = document.querySelectorAll('.list-group-item');
         }
         listItems.forEach(item =>{
             item.addEventListener('click', activateClicked);
-        })
+})
 
-       
+

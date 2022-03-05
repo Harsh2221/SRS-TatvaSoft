@@ -32,40 +32,40 @@ session_start();
                 <form method="POST" class="form" action=<?= $base_url."./?controller=main_&function=register_user"?> name="regi_form" onsubmit="return validate()">
                     <div class="row register">
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <input type="text" class="form-control" placeholder="First name" aria-label="First name" name="firstName">
-                           <span id="msg1" style="visibility: hidden; color: red;">please enter first name !</span>
+                            <input type="text" class="form-control" placeholder="First name" aria-label="First name" name="firstName" id="firstName">
+                           <span id="msg1" style="color: red;"></span>
                             
                             
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <input type="text" class="form-control" placeholder="Last name" aria-label="Last name" name="lastName">
-                            <span id="msg2" style="visibility: hidden; color: red;">please enter last name !</span>
+                            <input type="text" class="form-control" placeholder="Last name" aria-label="Last name" name="lastName" id="lastName">
+                            <span id="msg2" style="color: red;"></span>
                            
                         </div>
                     </div>
 
                     <div class="row register">
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <input type="email" class="form-control" placeholder="E-mail" aria-label="email" name="email">
-                            <span id="msg3" style="visibility: hidden; color: red;">please enter Email !</span>
+                            <input type="email" class="form-control" placeholder="E-mail" aria-label="email" name="email" id="email">
+                            <span id="msg3" style="color: red;"></span>
                            
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <input type="text" class="form-control" placeholder="Mobile number" aria-label="mobile number" name="number" pattern="[0-9]{10}" title="Phone number must contains 10 digits">
-                            <span id="msg4" style="visibility: hidden; color: red;">please enter number !</span>
+                            <input type="text" class="form-control" placeholder="Mobile number" aria-label="mobile number" name="number" pattern="[0-9]{10}" title="Phone number must contains 10 digits" id="number">
+                            <span id="msg4" style="color: red;"></span>
                             
                         </div>
                     </div>
 
                     <div class="row register">
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <input type="password" class="form-control" placeholder="Password " aria-label="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters">
-                            <span id="msg5" style="visibility: hidden; color: red;">please enter password !</span>
+                            <input type="password" class="form-control" placeholder="Password " aria-label="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" id="password">
+                            <span id="msg5" style="color: red;"></span>
                            
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <input type="password" class="form-control" placeholder="Confirm Password" aria-label="confirm password" name="confirmPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters">
-                            <span id="msg6" style="visibility: hidden; color: red;">please conform password !</span>
+                            <input type="password" class="form-control" placeholder="Confirm Password" aria-label="confirm password" name="confirmPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" id="c_password">
+                            <span id="msg6" style="color: red;"></span>
                         </div>
                     </div>
                     <div class="form-check">
@@ -75,10 +75,12 @@ session_start();
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck" name="check2">
-                        <label class="form-check-label" for="gridCheck">
+                        <input class="form-check-input" type="checkbox" id="agreecheck" name="check2">
+                        <label class="form-check-label" for="gridCheck" >
                             I agree to the terms and conditions of Helperland GmbH.
                         </label>
+                        <br>
+                        <span id="msg7" style="color: red;"></span>
                       </div>
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="gridCheck" name="check3">

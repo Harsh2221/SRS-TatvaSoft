@@ -21,7 +21,11 @@ function check(){
   $.ajax({
     url: 'http://localhost/tatvasoft/Helperland_MVC/?controller=main_&function=postalCheck',
     type: 'POST',
-    data: {"postalcode" : postalcode, "postalCheck" : 1},
+    data: {
+      "postalCheck" : 1,
+      "postalcode" : postalcode,
+      
+      },
     success:function(data){
 
         if(data==1){
@@ -37,7 +41,10 @@ function check(){
 
                 type: 'POST',
                 url: "http://localhost/tatvasoft/Helperland_MVC/?controller=main_&function=cityCheck",
-                data: {"getPostalcode": 1, "postalcode": postalcode},
+                data: {
+                  "getPostalcode": 1,
+                  "postalcode": postalcode,
+                  },
                 dataType: 'json',
                 success: function(data){
                     optionText=data[0];
@@ -337,7 +344,7 @@ function serviceRequest(){
              text: "Your service request Id - " + data,
              icon: "success",
             }).then(function(){
-          location.href="customer_history.php";
+          location.href="customerActivity.php";
         })
       }
     }
