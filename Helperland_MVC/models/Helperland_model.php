@@ -62,7 +62,7 @@ class Helperland_model{
         // echo $row['Password'];
         // echo $pass;
         $customer = "http://localhost/tatvasoft/Helperland_MVC/customerActivity";
-        $service_provider = "http://localhost/tatvasoft/Helperland_MVC/upcoming_service";
+        $service_provider = "http://localhost/tatvasoft/Helperland_MVC/serviceProviderScreens";
         $base_url = "http://localhost/tatvasoft/Helperland_MVC";
 
         if($count==1){
@@ -72,7 +72,8 @@ class Helperland_model{
                     $_SESSION['usertypeCustomer'] = $usertypeid;
 
                     header('Location:' . $customer);
-                } else if ($usertypeid == 1) {
+                } 
+                if ($usertypeid == 1) {
                     $_SESSION['username'] = $email;
                     $_SESSION['usertypeSp'] = $usertypeid;
                     header('Location:' . $service_provider);
@@ -329,6 +330,165 @@ class Helperland_model{
         $stmt->execute($data);
         $count = $stmt->rowCount();
         return $count;
+    }
+    public function getSAddress($addressid){
+        $sql =   "SELECT * FROM `useraddress` WHERE `AddressId` = $addressid";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    public function getNewServices(){
+        $sql = "SELECT * FROM `servicerequest`  JOIN user ON servicerequest.`UserId`= user.UserId JOIN useraddress ON useraddress.AddressId = servicerequest.`AddressId`  WHERE `servicerequest`.`Status` = 'Panding' ORDER BY `servicerequest`.`ServiceRequestId` DESC";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+
+    }
+    public function isConflict($serviceproviderid, $servicestartdate, $totaltime){
+        $sql = "SELECT *,COUNT(*) FROM `servicerequest` WHERE `ServiceProviderId` = $serviceproviderid AND `ServiceStartDate` = '$servicestartdate' AND `ServiceTime` <=  '$totaltime'";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // $count = $stmt->rowCount();
+        if (count($result)) {
+            foreach ($result as $row) {
+                $serviceid = $row['ServiceRequestId'];
+                $count = $row['COUNT(*)'];
+                // $serviceid = $result['ServiceRequestId'];   
+            }
+        }
+        return array($count, $serviceid);
+
+    }
+
+    public function aproveSReq($data){
+        $sql = "UPDATE `servicerequest` SET `ModifiedDate`= :modifiedDate,`modifiedBy`= :modifiedBy,`RecordVersion`=:recordversion,`Status`=:status, `ServiceProviderId`=:serviceProviderId WHERE `ServiceRequestId`=:serviceId";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($data);
+        $count = $stmt->rowCount();
+        return array($count);
+
+    }
+    public function getallSp($usertypeId, $spId){
+        $sql = "SELECT * FROM `user` WHERE `UserTypeId` = $usertypeId && `UserId` != $spId";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+
+    }
+    public function getupcomeservice($userId){
+        $sql = "SELECT * FROM `servicerequest`  JOIN user ON servicerequest.`UserId`= user.UserId JOIN useraddress ON useraddress.AddressId = servicerequest.`AddressId`  WHERE `servicerequest`.`ServiceProviderId` = $userId && `servicerequest`.`Status`='Approoved'";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+
+    }
+    public function completeServiceRequest($data){
+        $sql = "UPDATE `servicerequest` SET `ModifiedDate`= :modifiedDate ,`ModifiedBy`= :modifiedBy , `RecordVersion`= :recordversion , `Status` = :status WHERE `ServiceRequestId` = :serviceId";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($data);
+        $count = $stmt->rowCount();
+        return array($count);
+
+    }
+
+    public function getSpServiceHistory($userId){
+        $sql = "SELECT * FROM `servicerequest` WHERE `ServiceProviderId` = $userId ORDER BY `ServiceRequestId` DESC";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+        
+    }
+    public function custDataHistory($serviceId){
+        $sql = "SELECT * FROM `servicerequest` JOIN user ON user.UserId = servicerequest.UserId JOIN useraddress ON useraddress.AddressId = servicerequest.AddressId WHERE `ServiceRequestId` = $serviceId";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    public function getRatingsp($Id){
+        $sql = "SELECT * FROM `rating` WHERE `RatingTo` = $Id";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result1  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result2  = $stmt->rowCount();
+
+        return array($result1,$result2);
+
+    }
+    public function customerData($userId){
+        $sql = 'SELECT DISTINCT  servicerequest.`UserId`,user.FirstName,user.LastName FROM `servicerequest` JOIN user ON user.UserId = servicerequest.UserId WHERE servicerequest.`ServiceProviderId` = '.$userId.' && servicerequest.`Status` = "Completed"';
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+
+    }
+    public function checkBlocked($userId, $custId){
+        $sql = "SELECT * FROM `favoriteandblocked` WHERE `UserId` = $userId AND `TargetUserId`=$custId;
+        ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        $block = "";
+    
+        if ($count == 1) {
+        $result  = $stmt->fetch(PDO::FETCH_ASSOC);
+        $block = $result['IsBlocked'];
+        
+        }
+
+        return array($count, $block);
+    }
+
+    public function addBlock($data){
+        $sql = "INSERT INTO `favoriteandblocked`( `UserId`, `TargetUserId`, `IsBlocked`) 
+            VALUES (:userId,:target,:blocked)";
+
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($data);
+        $count = $stmt->rowCount();
+        return array($count);
+
+    }
+    public function updateBlockdb($data){
+        $sql = "
+         UPDATE `favoriteandblocked` SET `IsBlocked`=:blocked  WHERE `UserId` = :userId AND `TargetUserId`=:target";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($data);
+        $count = $stmt->rowCount();
+        return array($count);
+
+    }
+    public function addSPadress($addAddress){
+        $sql = "INSERT INTO useraddress (UserId , AddressLine1	 , AddressLine2 , City ,State,  PostalCode , Mobile , Email ,Type)
+        VALUES (:userId , :street ,  :houseno  , :city ,:state , :postalcode , :phone , :email , :userType)";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($addAddress);
+        $count = $stmt->rowCount();
+        return array($count);
+
+    }
+    public function updateSPadress($updateAddress){
+        $sql = "UPDATE `useraddress` SET `AddressLine1`= :street ,`AddressLine2`= :houseno,`City`=:city,`State`= :state ,`PostalCode`= :postalcode ,`Mobile`=:phone WHERE `Email` = :email ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($updateAddress);
+        $count = $stmt->rowCount();
+        return array($count);
+    }
+    public function updateSPdata($data){
+        $sql = "UPDATE `user` SET `FirstName`= :fistName,`LastName`=:lastName,`Mobile`=:phone,`UserProfilePicture`= :avatarimg,`Gender`= :gender,`ZipCode`= :postalcode,`NationalityId` = :nationality,`DateOfBirth`= :birthdate,`ModifiedDate`=:modifiedDate,`ModifiedBy`=:modifiedBy WHERE `Email`=:email";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($data);
+        $count = $stmt->rowCount();
+        return array($count);
+
     }
 }
 ?>

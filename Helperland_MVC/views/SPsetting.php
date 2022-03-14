@@ -13,11 +13,11 @@ if(!isset($_SESSION['username'])){
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Customer | Settings </title>
+  <title>Service provider | Settings</title>
   <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="./assets/css/service_history.css" />
-  <link href="./assets/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/css/SPsetting.css" />
   
+   
   
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
   <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
@@ -25,7 +25,6 @@ if(!isset($_SESSION['username'])){
 </head>
 
 <body>
-
 <?php
   include('navbar_BS.php');
   ?>
@@ -58,16 +57,14 @@ if(!isset($_SESSION['username'])){
           </div>
         </div>
 
-        <div class="col-lg-8 col-md-6 col-sm-6 tab-content">
+        <div class="col-lg-8 col-md-3 col-sm-6 tab-content">
           
           <div id="settings" class="my_settings">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="home" aria-selected="true">My Details</button>
               </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#address" type="button" role="tab" aria-controls="profile" aria-selected="false">My Addresses</button>
-              </li>
+              
               <li class="nav-item" role="presentation">
                 <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#change_pass" type="button" role="tab" aria-controls="contact" aria-selected="false">Change Password</button>
               </li>
@@ -76,32 +73,41 @@ if(!isset($_SESSION['username'])){
 
               <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="home-tab">
               <div class="my_details">
-              
+                  <div class="accStatus"><b>Account Status: </b> <span>Active</span> </div>
                 <div class="row">
-                
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="row">
+                    <div class="col-11">
+                    <h6>Basic details</h6>
+                    <hr>
+                    </div>
+                    <div class="col-1">
+                    <div class="avtarimage_dp">
+                        <img src="./assets/assets/cap.png" class="avatarimgdp">
+                     </div>
+                    </div>
+                  </div>
                     
+                    
+                   
+                  <div class="col-4">
                     <label for="first_name">First name</label>
-                    <input type="text" id="first_name" class="form-control" pattern="[A-Za-z]{0-25}" title="First name" placeholder="First name" >
-                  
-                  
-                  
+                    <input type="text" id="first_name" class="form-control" placeholder="First name" >
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-4">
                     <label for="last_name">Last name</label>
-                    <input type="text" id="last_name" class="form-control" pattern="[A-Za-z]{0-25}" title="Last name" placeholder="Last name" >
+                    <input type="text" id="last_name" class="form-control" placeholder="Last name" >
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-4">
                     <label for="email_detail">Email address</label>
                     <input type="email" id="email_detail" class="form-control" placeholder="Email Address">
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-4">
                     <label for="phone_detail">Phone number</label>
-                    <input type="tel" id="phone_detail" class="form-control" pattern="[0-9]{10}" title="Phone number must contains 10 digits" placeholder="Phone number">
+                    <input type="tel" id="phone_detail" class="form-control" placeholder="Phone number">
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-4" id="dob">
-                  <label for="birthdate">Date of Birth</label>
-                  <div class="row">
+                  <div class="col-4">
+                    <label for="birthdate">Date of Birth</label>
+                    <div class="row">
                             <div class="col-md-3" id="dobDate">
                             <select class="form-control" id="birthdate">
                                 <option value="00">Day</option>
@@ -192,183 +198,153 @@ if(!isset($_SESSION['username'])){
                             <span class="dob_err"></span>
                             </div>
                   </div>
-                  <hr style="margin-top: 20px;">
-                  <div class="col-lg-4 col-md-4 col-sm-4">
-                    <label for="lang_detail">My Preferred Language</label>
-                    <select id="lang_detail" class="form-select">
-                      <option value='1' selected>English</option>
-                      <option value='2'>Hindi</option>
-                      
-                    </select>
+                  <div class="col-4">
+                  <label for="nationality">Nationality</label>
+                    
+                      <div id="dobDate">
+                          <select class="form-control" id="nationality">
+                          <option value="">Nationality</option>
+                            
+                            <option value="176685">Indian</option>
+                            <option value="176625">German</option>
+                            <option value="176626">Afghan</option>
+                            <option value="176650">Brazilian</option>
+                            <option value="176651">British</option>
+                            <option value="176639">Australian</option>
+                            <option value="176630">American</option>
+                          </select>
+                          <span style="color: red; font-size: 13px;" class="errmsg1"></span>
+                      </div>
                   </div>
- 
-                  <div><button type="submit" class="save-btn" id="save" onclick="saveDetails()">Save</button></div>
+                  </div>
+                  <hr style="margin-top: 20px;">
+                  <div class="col-4">
+                    <div class="row">
+                        <label>Gender</label>
+                        <div class="col radiovalues">
+                            <label>
+                                <input name="gender" type="radio" value="1">
+                                Male
+                            </label>
+                        </div>
+    
+                        <div class="col radiovalues">
+    
+                            <label>
+                                <input name="gender" type="radio" value="2">
+                                Female
+                            </label>
+                        </div>
+                        <div class="col radiovalues">
+    
+                            <label>
+                                <input name="gender" type="radio" value="0">
+    
+                                Other
+                            </label>
+                        </div>
+                        <span style="color: red; font-size: 13px;" class="errmsg2"></span>
+                    </div>
+                    
+                  </div> 
+                  
+                  <div class="row">
+                  <label style="margin-top: 15px;">Select Avatar</label>
+                  <div class="col-2">
+                  <div class="avtarimages">
+                        <img src="./assets/assets/avatar-hat.png" class="avatarimg active">
+                  </div>
+                  
+                  </div>
+                  <div class="col-2">
+                  <div class="avtarimages">
+                        <img src="./assets/assets/avatar-car.png" class="avatarimg capImg">
+                  </div>
+                  </div>
+                  <div class="col-2">
+                  <div class="avtarimages">
+                        <img src="./assets/assets/avatar-ship.png" class="avatarimg">
+                  </div>
+                  </div>
+                  <div class="col-2">
+                  <div class="avtarimages">
+                        <img src="./assets/assets/avatar-iron.png" class="avatarimg">
+                  </div>
+                  </div>
+                  <div class="col-2">
+                  <div class="avtarimages">
+                        <img src="./assets/assets/avatar-female.png" class="avatarimg">
+                  </div>
+                  </div>
+                  <div class="col-2">
+                  <div class="avtarimages">
+                        <img src="./assets/assets/avatar-male.png" class="avatarimg">
+                  </div>
+                  </div>
+                  <span style="color: red; font-size: 13px;" class="errmsg3"></span>
+                  </div>
+                  
+                  <div class="row">
+                      <h6 style="margin-top: 15px;">My address</h6>
+                      <hr>
+                      
+                    <div class="col-4">
+                        <label for="street_detail">Street Name</label>
+                        <input type="text" id="street_detail" class="form-control" placeholder="Street Name">
+                        <span style="color: red; font-size: 13px;" class="errmsg4"></span>
+                      </div>
+                      
+                      
+                      <div class="col-4">
+                        <label for="house">House number</label>
+                        <input type="number" id="house" class="form-control" placeholder="House number">
+                        <span style="color: red; font-size: 13px;" class="errmsg5"></span>
+                      </div>
+                      
+                      <div class="col-4">
+                        <label for="postal">Postal code</label>
+                        <input type="number" id="postal" class="form-control" placeholder="Postal code">
+                        <span style="color: red; font-size: 13px;" class="errmsg6"></span>
+                      </div>
+                      
+                      <div class="col-4">
+                        <label for="city">City</label>
+                        <input type="text" id="city" class="form-control" placeholder="City">
+                        <span style="color: red; font-size: 13px;" class="errmsg7"></span>
+                      </div>
+                      
+                  </div>
+                 
 
+                  <div><button class="save-btn" id="save">Save</button></div>
+                  
                 </div>
 
               </div>
-              </div>
-
-              <div class="tab-pane fade" id="address" role="address" aria-labelledby="profile-tab">
-                <div class="address_table">
-                  <table class="table" id="addressTable">
-                    <thead>
-                      <tr>
-                      <th scope="col">Default</th>
-                        <th scope="col">Addresses</th>
-                        <th scope="col">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                      <td scope="row" class="defaultAddress">
-                        <input type="radio" id="" value="" name="addressDef" class="radioAdd">
-                      </td>
-                        <td>
-                        <div class="address">
-                        <b>Address:</b> xyz 123, 53225 idar <br>
-                        <b>Phone number:</b> 9978070395
-                        </div>
-                        </td>
-                        <td>
-                          <button style="margin-right: 10px; border: none" data-bs-toggle="modal" data-bs-target="#edit_address"><img src="./assets/assets/edit.png" alt="" style="height: 20px; width: 20px;"></button>
-                          <button style="border: none" data-bs-toggle="modal" data-bs-target="#deleteModal"><img src="./assets/assets/delete.png" alt="" style="height: 22px; width: 25px;"></button>
-                        </td>
-                      </tr>
-                     
-                    </tbody>
-                  </table>
-                  <div><button class="add_address-btn" data-bs-toggle="modal" data-bs-target="#addNew_address" id="add_address">Add New Address</button></div>
-
-                  <div class="modal fade" id="edit_address" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h4 class="modal-title" id="edit_title" style="color: #646464;">Edit Address</h4>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="card card-body" id="address_form">
-
-                            <div class="row">
-                              <div class="col-md-6">
-                                <label for="inputstreet" class="form-label">Street name</label>
-                                <input type="text" class="form-control" id="inputstreet">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputhouse" class="form-label">House number</label>
-                                <input type="text" class="form-control" id="inputhouse">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputpostal" class="form-label">Postal code</label>
-                                <input type="text" class="form-control" id="inputpostal">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputcity" class="form-label">City</label>
-                                <select id="city" class="form-control">
-                            </select>
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputphone" id="inputphone" class="form-label">Phone number</label>
-                                <input type="tel" class="form-control" id="inputphone1">
-                              </div>
-                              
-                            </div>
               
-                          </div>
-                        </div>
-                        <div class="edit-btn">
-                          <button class="btn_edit">Edit</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div class="modal fade" id="addNew_address" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h4 class="modal-title" id="edit_title" style="color: #646464;">Edit Address</h4>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="card card-body" id="address_form">
-
-                            <div class="row">
-                              <div class="col-md-6">
-                                <label for="inputstreet" class="form-label">Street name</label>
-                                <input type="text" class="form-control" id="inputstreet2">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputhouse" class="form-label">House number</label>
-                                <input type="text" class="form-control" id="inputhouse2">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputpostal" class="form-label">Postal code</label>
-                                <input type="text" class="form-control" id="inputpostal2">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputcity" class="form-label">City</label>
-                                <input id="city2" class="form-control">
-                            </select>
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputphone" id="inputphone" class="form-label">Phone number</label>
-                                <input type="tel" class="form-control" id="inputphone2">
-                              </div>
-                              
-                            </div>
               
-                          </div>
-                        </div>
-                        <div class="edit-btn">
-                          <button class="btn_edit" id="addnewAddress">Save</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="modal fade" id="deleteModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h4 class="modal-title" id="edit_title" style="color: #646464;">Delete Address</h4>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <h6>Are you sure, you want to delete?</h6>
-                        </div>
-                        <div class="edit-btn">
-                          <button class="btn_delete">Delete</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                 </div>
-
-              </div>
-
               <div class="tab-pane fade" id="change_pass" role="change_pass" aria-labelledby="contact-tab">
-                
                 <div class="change_password">
-                  <label for="old_pass">Old Password</label>
-                  <input type="text" id="old_pass" class="form-control w-25" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" placeholder="Current Password" >
+                <label for="old_pass">Old Password</label>
+                  <input type="password" id="old_pass" class="form-control w-25" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" placeholder="Current Password" >
                   <div class="errMsg1" style="color: red"></div>
                   <label for="new_pass">New Password</label>
-                  <input type="text" id="new_pass" class="form-control w-25" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" placeholder="Password" >
+                  <input type="password" id="new_pass" class="form-control w-25" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" placeholder="Password" >
                   <div class="errMsg2" style="color: red"></div>
                   <label for="confirm_pass">Confirm Password</label>
-                  <input type="text" id="confirm_pass" class="form-control w-25" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" placeholder="Confirm Password" >
+                  <input type="password" id="confirm_pass" class="form-control w-25" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" placeholder="Confirm Password" >
                   <div class="errMsg3" style="color: red"></div>
+                
+                  <!-- <button type="submit" class="savePass">Save</button> -->
                 </div>
                 <div class="save-pass">
-                <button type="submit" class="change_pass">Save</button>
+                <button type="submit" class="savePass">Save</button>
                 </div>
-                
+
               </div>
             </div>
- 
+
           </div>
          
         </div>
@@ -439,15 +415,23 @@ if(!isset($_SESSION['username'])){
   <script src="./assets/js/jquery.js"></script>
   
   
-  <script src="./assets/js/customerSetting.js"></script>
-  <script src="./assets/js/jquery.dataTables.min.js"></script>
+  <script src="./assets/js/SPsetting.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   
-  <?php
-    include('customerSetting_ajax.php');
+  <script>
+    $(document).ready(function () {
+      $("#datepicker").datepicker();
+         
+
+    });
+    
+    
+  </script>
+  <?php 
+    include('SPsettingAJAX.php');
   ?>
 
 

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer | Service history</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/SPsetting.css" />
+  
+  
+  
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+  
+</head>
+
+<body>
+  <section class="navbar-area">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"><img src="assets/logo-small.png" alt="" /></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active border-btn" aria-current="page" href="#" id="book-btn">Book Now</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link border-btn" href="#">Prices& services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Warranty</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link border-btn" href="#" id="notify"><span><img src="assets/icon-notification.png"
+                    alt="" /></span></a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <span><img src="assets/user.png" alt="" /></span>
+                <span><img src="assets/sp-arrow-down.png" alt="" /></span>
+              </a>
+
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+               <li> <a class="dropdown-item">Settings</a></li>
+                <li><a class="dropdown-item" href="#">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </section>
+
+  <section class="welcom-section">
+    <div class="container-welcom">
+      <h3>Welcome,HARSH!</h3>
+    </div>
+    <hr />
+  </section>
+
+  <section class="history-section">
+    <div class="container-main">
+      <div class="row sidebar">
+        <div class="col-lg-6 col-md-3 col-sm-6 left-sidebar">
+          <div class="list-group list-group-flush">
+
+            <a class="list-group-item p-2" id="dash_link">Dashboard</a>
+            <a class="list-group-item p-2" id="history_link">Service History</a>
+            <a class="list-group-item p-2 " href="#!">Service Schedule</a>
+            <a class="list-group-item p-2" id="fav_link">
+              Favourite Pros
+            </a>
+            <a class="list-group-item p-2" href="#!">
+              Invoices
+            </a>
+           
+            <a class="list-group-item p-2" href="#!">Notifications</a>
+            
+          </div>
+        </div>
+
+        <div class="col-lg-8 col-md-3 col-sm-6 tab-content">
+          
+          <div id="settings" class="my_settings">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="home" aria-selected="true">My Details</button>
+              </li>
+              
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#change_pass" type="button" role="tab" aria-controls="contact" aria-selected="false">Change Password</button>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+
+              <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="home-tab">
+              <div class="my_details">
+                  <div class="accStatus"><b>Account Status: </b> <span>Active</span> </div>
+                <div class="row">
+                    <h6>Basic details</h6>
+                    <hr>
+                  <div class="col-4">
+                    <label for="first_name">First name</label>
+                    <input type="text" id="first_name" class="form-control" placeholder="First name" >
+                  </div>
+                  <div class="col-4">
+                    <label for="last_name">Last name</label>
+                    <input type="text" id="last_name" class="form-control" placeholder="Last name" >
+                  </div>
+                  <div class="col-4">
+                    <label for="email_detail">Email address</label>
+                    <input type="email" id="email_detail" class="form-control" placeholder="Email Address">
+                  </div>
+                  <div class="col-4">
+                    <label for="phone_detail">Email address</label>
+                    <input type="tel" id="phone_detail" class="form-control" placeholder="Phone number">
+                  </div>
+                  <div class="col-4">
+                    <label for="dob_detail">Date of Birth</label>
+                    <input type="number" id="dob_detail" class="form-control" placeholder="DOB">
+                  </div>
+                  <hr style="margin-top: 20px;">
+                  <div class="col-4">
+                    <div class="row">
+                        <label>Gender</label>
+                        <div class="col radiovalues">
+                            <label>
+                                <input name="Gender" type="radio" value="1">
+                                Male
+                            </label>
+                        </div>
+    
+                        <div class="col radiovalues">
+    
+                            <label>
+                                <input name="Gender" type="radio" value="2">
+                                Female
+                            </label>
+                        </div>
+                        <div class="col radiovalues">
+    
+                            <label>
+                                <input name="Gender" type="radio" value="0">
+    
+                                Other
+                            </label>
+                        </div>
+                    </div>
+                    
+                  </div> 
+                  
+                  <div class="row">
+                      <h6 style="margin-top: 15px;">My address</h6>
+                      <hr>
+                      
+                    <div class="col-4">
+                        <label for="street_detail">Street Name</label>
+                        <input type="text" id="street_detail" class="form-control" placeholder="Street Name">
+                      </div>
+                      
+                      <div class="col-4">
+                        <label for="house">House number</label>
+                        <input type="number" id="house" class="form-control" placeholder="House number">
+                      </div>
+                      <div class="col-4">
+                        <label for="postal">Postal code</label>
+                        <input type="number" id="postal" class="form-control" placeholder="Postal code">
+                      </div>
+                      <div class="col-4">
+                        <label for="city">City</label>
+                        <input type="text" id="city" class="form-control" placeholder="City">
+                      </div>
+                  </div>
+                 
+
+                  <div><button class="save-btn" id="save">Save</button></div>
+                  
+                </div>
+
+              </div>
+              </div>
+
+              
+              <div class="tab-pane fade" id="change_pass" role="change_pass" aria-labelledby="contact-tab">
+                <div class="change_password">
+                  <label for="old_pass">Old Password</label>
+                  <input type="text" id="old_pass" class="form-control w-25" placeholder="Current Password" >
+                  <label for="new_pass">New Password</label>
+                  <input type="text" id="new_pass" class="form-control w-25" placeholder="Password" >
+                  <label for="confirm_pass">Confirm Password</label>
+                  <input type="text" id="confirm_pass" class="form-control w-25" placeholder="Confirm Password" >
+                  <button type="submit" class="savePass">Save</button>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+         
+        </div>
+        
+        
+
+      </div>
+
+
+
+
+
+
+    </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-2 footer-widget">
+            <a href="#" title="Helper Hand">
+              <img src="assets/logo-small.png" alt="Helper Hand" />
+            </a>
+          </div>
+          <div class="col-lg-8 footer-widget">
+            <ul class="footer-navigation d-flex justify-content-center">
+              <li>
+                <a href="#" title="Home">Home</a>
+              </li>
+              <li>
+                <a href="#" title="About">About</a>
+              </li>
+              <li>
+                <a href="#" title="Testimonials">Testimonials</a>
+              </li>
+              <li>
+                <a href="#" title="FAQs">FAQs</a>
+              </li>
+              <li>
+                <a href="#" title="Insurance Policy">Insurance Policy</a>
+              </li>
+              <li>
+                <a href="#" title="Impressum">Impressum</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-2 footer-widget">
+            <ul class="social-media-list d-flex justify-content-end">
+              <li>
+                <a href="#" target="_blank" title="Facebook">
+                  <img src="assets/ic-facebook.png" alt="Facebook" />
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank" title="Instagram">
+                  <img src="assets/ic-instagram.png" alt="Instagram" />
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/jquery.js"></script>
+  
+  
+  <script src="js/SPsetting.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  
+  <script>
+    $(document).ready(function () {
+      $("#datepicker").datepicker();
+         
+
+    });
+    
+    
+  </script>
+
+
+
+</body>
+
+</html>

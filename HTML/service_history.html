@@ -77,17 +77,20 @@
           <div class="list-group list-group-flush">
 
             <a data-bs-toggle="tab" data-bs-target="#dashboard" class="list-group-item p-2 active" id="dash_link">Dashboard</a>
+
             <a data-bs-toggle="tab" data-bs-target="#history" class="list-group-item p-2" id="history_link">Service History</a>
+
             <a class="list-group-item p-2 " href="#!">Service Schedule</a>
+
             <a data-bs-toggle="tab" data-bs-target="#favorite" class="list-group-item p-2" id="fav_link">
               Favourite Pros
             </a>
+
             <a class="list-group-item p-2" href="#!">
               Invoices
             </a>
-            <a class="list-group-item p-2" data-bs-toggle="tab" data-bs-target="#settings">Settings</a>
-            <a class="list-group-item p-2" href="#!">Notifications</a>
-            
+
+                      
           </div>
         </div>
 
@@ -530,7 +533,7 @@
 
 
                 </div>
-
+ 
               </div>
             </div>
           </div>
@@ -538,147 +541,7 @@
           <div id="favorite" class="tab-pane fade favorite_pros">
           favorite
           </div>
-          <div id="settings" class="tab-pane fade my_settings">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="home" aria-selected="true">My Details</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#address" type="button" role="tab" aria-controls="profile" aria-selected="false">My Addresses</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#change_pass" type="button" role="tab" aria-controls="contact" aria-selected="false">Change Password</button>
-              </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-
-              <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="home-tab">
-              <div class="my_details">
-                <div class="row">
-                  <div class="col-4">
-                    <label for="first_name">First name</label>
-                    <input type="text" id="first_name" class="form-control" placeholder="First name" >
-                  </div>
-                  <div class="col-4">
-                    <label for="last_name">Last name</label>
-                    <input type="text" id="last_name" class="form-control" placeholder="Last name" >
-                  </div>
-                  <div class="col-4">
-                    <label for="email_detail">Email address</label>
-                    <input type="email" id="email_detail" class="form-control" placeholder="Email Address">
-                  </div>
-                  <div class="col-4">
-                    <label for="phone_detail">Email address</label>
-                    <input type="tel" id="phone_detail" class="form-control" placeholder="Phone number">
-                  </div>
-                  <div class="col-4">
-                    <label for="dob_detail">Date of Birth</label>
-                    <input type="number" id="dob_detail" class="form-control" placeholder="DOB">
-                  </div>
-                  <hr style="margin-top: 20px;">
-                  <div class="col-3">
-                    <label for="lang_detail">My Preferred Language</label>
-                    <select id="lang_detail" class="form-select">
-                      <option selected>English</option>
-                      <option>Hindi</option>
-                      <option>Gujarati</option>
-                    </select>
-                  </div> 
-                  <div><button class="save-btn" id="save">Save</button></div>
-                  
-                </div>
-
-              </div>
-              </div>
-
-              <div class="tab-pane fade" id="address" role="address" aria-labelledby="profile-tab">
-                <div class="address_table">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        
-                        <th scope="col">Addresses</th>
-                        <th scope="col">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        
-                        <td>demo address</td>
-                        <td>
-                          <button style="margin-right: 10px; border: none" data-bs-toggle="modal" data-bs-target="#edit_address"><img src="assets/edit.png" alt="" style="height: 20px; width: 20px;"></button>
-                          <button style="border: none"><img src="assets/delete.png" alt="" style="height: 22px; width: 25px;"></button>
-                        </td>
-                      </tr>
-                     
-                    </tbody>
-                  </table>
-                  <div><button class="add_address-btn" id="add_address">Add New Address</button></div>
-
-                  <div class="modal fade" id="edit_address" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h4 class="modal-title" id="edit_title" style="color: #646464;">Edit Address</h4>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="card card-body" id="address_form">
-
-                            <div class="row">
-                              <div class="col-md-6">
-                                <label for="inputstreet" class="form-label">Street name</label>
-                                <input type="text" class="form-control" id="inputstreet">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputhouse" class="form-label">House number</label>
-                                <input type="text" class="form-control" id="inputhouse">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputpostal" class="form-label">Postal code</label>
-                                <input type="text" class="form-control" id="inputpostal">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputcity" class="form-label">City</label>
-                                <input type="text" class="form-control" id="inputcity">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputphone" class="form-label">Phone number</label>
-                                <input type="text" class="form-control" id="inputphone">
-                              </div>
-                              
-                            </div>
-              
-                          </div>
-                        </div>
-                        <div class="edit-btn">
-                          <button class="btn_edit">Edit</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                 </div>
-
-              </div>
-
-              <div class="tab-pane fade" id="change_pass" role="change_pass" aria-labelledby="contact-tab">
-                <div class="change_password">
-                  <label for="old_pass">Old Password</label>
-                  <input type="text" id="old_pass" class="form-control w-25" placeholder="Current Password" >
-                  <label for="new_pass">New Password</label>
-                  <input type="text" id="new_pass" class="form-control w-25" placeholder="Password" >
-                  <label for="confirm_pass">Confirm Password</label>
-                  <input type="text" id="confirm_pass" class="form-control w-25" placeholder="Confirm Password" >
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-         
           
-
         </div>
         
         

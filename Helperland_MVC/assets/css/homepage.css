@@ -103,6 +103,10 @@ nav .navbar-nav li a {
   background-color: #006072;
   color: #ffffff;
 }
+.book-button:hover
+{
+  color: #ffffff;
+}
 .site .step-wrapper .step {
   margin-top: 50px;
   margin-bottom: 50px;

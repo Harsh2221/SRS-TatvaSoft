@@ -65,6 +65,30 @@ margin: 30px 0px 30px 0px;
   border-radius: 17px;
   color: #FFFFFF;
  }
+ .cancelBtnModal{
+  box-shadow: none;
+  border: none;
+background-color: #FF6B6B;
+border-radius: 17px;
+color: #FFFFFF;
+padding: 5px 10px;
+ }
+ .completeBtnModal{
+  box-shadow: none;
+  border: none;
+background-color: #146371;
+border-radius: 17px;
+color: #FFFFFF;
+padding: 5px 10px;
+ }
+ .acceptBtn{
+  box-shadow: none;
+  border: none;
+background-color: #146371;
+border-radius: 17px;
+color: #FFFFFF;
+padding: 3px 8px;
+ }
  th{
      color: #646464;
   
@@ -75,7 +99,29 @@ tr{
     font-size: 13px;
     
 }
-
+.table{
+  border: 1px solid #cecccc;
+}
+.acceptmodal .acceptBtn{
+  text-align: left;
+}
+.modal-dialog{
+  width: fit-content;
+  
+}
+.modal-content{
+  padding: 5px;
+  color: #646464;
+  font-size: 14px;
+}
+.acceptBtnModal{
+  box-shadow: none;
+  border: none;
+background-color: rgb(40, 180, 40);
+border-radius: 17px;
+color: #FFFFFF;
+padding: 5px 10px;
+}
 @media (max-width: 650px){
   .left-sidebar{
     width: fit-content;

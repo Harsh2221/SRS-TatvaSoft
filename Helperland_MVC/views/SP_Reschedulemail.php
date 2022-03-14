@@ -4,7 +4,7 @@ $to = $serviceproEmail;
 $subject = "Reschedule Service | Helperland";
 $body = "
     <h5>Service ID : $serviceId | Rescheduled at </h5>
-    <h5>New Date and Time : </h5>
+    <h5>New Date and Time : $newDate | $newTime</h5>
     <h5>For Accept the Request visit your service provider Dashboard</h5>
     Thank you 😊 
     ";

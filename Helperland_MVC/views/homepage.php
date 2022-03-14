@@ -182,7 +182,7 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC/";
 
         <div class="row">
           <div class="col-lg-12 col-md-6 col-sm-6 text-center boo-btn">
-            <button class="book-button">Let's Book a Cleaner</button>
+            <a class="book-button" style="text-decoration: none" href="book_services.php">Let's Book a Cleaner</a>
           </div>
         </div>
 

@@ -70,7 +70,7 @@ if(!isset($_SESSION['username'])){
             <table class="table dashboardTable" id="myTable1">
               <thead>
                 <tr>
-                  <th scope="col">
+                  <th scope="col"> 
                     Service ID
 
                   </th>
@@ -665,12 +665,10 @@ if(!isset($_SESSION['username'])){
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js">
+  </script>
   <?php include('customer_ajax.php'); ?>
-<script>
 
-
-</script>
 
 </body>
 
