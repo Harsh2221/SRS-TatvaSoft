@@ -1,3 +1,12 @@
+<?php
+session_start();
+$email = $_SESSION['username'];
+$base = "https://localhost/tatvasoft/Helperland_MVC/";
+if(!isset($_SESSION['username'])){
+  header('Location:' . $base);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,42 +14,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin|User management</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/admin_user.css" />
-  <link href="css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./assets/css/admin_user.css" />
+  <link href="./assets/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 
 <body>
-  <section class="navbar-area">
-    <nav class="navbar navbar-expand-lg navbar-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-          <h2>helperland</h2>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span><img src="assets/user.png" alt="" /></span>
-                James Smith
-              </a>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#"><img src="assets/logout.png" alt="#"></a>
-            </li>
-          </ul>
-          </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-  </section>
+<?php
+  include('adminNavbar.php');  
+  ?>
 
   <section class="main-content">
     <div class="wrapper">
@@ -52,11 +34,11 @@
 
 
           <li>
-            <a href="admin_service_request.html">Service Requests</a>
+            <a href="adminServiceRequest.php">Service Requests</a>
           </li>
 
           <li>
-            <a class="link-active" href="admin_user.html">User Management</a>
+            <a class="link-active" href="adminUser.php">User Management</a>
           </li>
 
 
@@ -72,13 +54,13 @@
           <div class="container-fluid upper-btn">
             <a id="sidebarCollapse" class="btn">
 
-              <span> <img src="assets/vector-smart-object-copy.png" alt=""></span>
+              <span> <img src="./assets/assets/vector-smart-object-copy.png" alt=""></span>
 
             </a>
             <h6>User Management</h6>
           </div>
           <div class="add-user">
-            <button id="adduser-btn"><img src="assets/add.png" alt="#"> Add New User</button>
+            <button id="adduser-btn"><img src="./assets/assets/add.png" alt="#"> Add New User</button>
 
           </div>
         </nav>
@@ -86,39 +68,36 @@
         <div class="user-form">
           <div class="row gx-3 gy-2 align-items-center">
             <div class="col-sm-2">
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Username</option>
-                <option value="1">Lyum Watson</option>
-                <option value="2">John Smith</option>
-
+              <select class="form-select" id="selUser">
+                <option selected disabled="disabled">Username</option>
               </select>
             </div>
             <div class="col-sm-2">
-              <select class="form-select" aria-label="Default select example">
-                <option selected>User role</option>
-                <option value="1">Customer</option>
-                <option value="2">Service provider</option>
-                <option value="2">Call center</option>
+              <select class="form-select" id="userRole">
+                <option selected disabled="disabled">User role</option>
+                <option value="0">Customer</option>
+                <option value="1">Service provider</option>
+                <option value="2">Admin</option>
               </select>
-            </div>
-
+            </div> 
+ 
             <div class="col-sm-3">
               <label class="visually-hidden">Phone number</label>
               <div class="input-group">
                 <div class="input-group-text">+49</div>
-                <input type="text" class="form-control" placeholder="Phone Number">
+                <input type="number" class="form-control" id="phonenum" placeholder="Phone Number">
               </div>
             </div>
             <div class="col-sm-2">
-              <input type="text" class="form-control" placeholder="Zipcode">
+              <input type="number" class="form-control" id="postal" placeholder="Zipcode">
             </div>
 
             <div class="col-sm-2 s-btn">
-              <button class="btn">Search</button>
+              <button type="submit" class="btn" id="searchbtn">Search</button>
             </div>
 
             <div class="col-sm-1 c-btn">
-              <button class="btn">Clear</button>
+              <button type="reset" class="btn" id="resetbtn">Clear</button>
             </div>
 
 
@@ -134,25 +113,27 @@
               <tr>
                 <th scope="col">
                   User Name
-                  <span><img src="assets/sort.png" alt="#" /></span>
+                  <span><img src="./assets/assets/sort.png" alt="#" /></span>
                 </th>
-                <th scope="col">
-                  User Type
-
-                </th>
+                
                 <th scope="col">
                   Role
                 </th>
                 <th scope="col">
-                  Postal Code <span><img src="assets/sort.png" alt="#" /></span>
-                </th>
-                <th scope="col">City</th>
-                <th scope="col">
-                  Radius <span><img src="assets/sort.png" alt="#" /></span>
+                  Registration Date
                 </th>
                 <th scope="col">
-                  User Status <span><img src="assets/sort.png" alt="#" /></span>
+                  User Type
                 </th>
+                <th scope="col">
+                  Phone
+                  </th>
+                 
+                <th scope="col">
+                  Postal Code
+                </th>
+                <th scope="col">Status</th>
+                
                 <th scope="col">
                   Action
                 </th>
@@ -166,15 +147,16 @@
                 <td>
                   Call Center
                 </td>
+                <td>1/2/2022</td>
                 <td>Inquiry Manager</td>
+                
+                <td>1234567890</td>
                 <td>123456</td>
-                <td>Berlin</td>
-                <td></td>
                 <td><span id="active-status">Active</span></td>
                 <td>
                   <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    <span><img src="assets/group-38.png" alt="" /></span>
+                    <span><img src="./assets/assets/group-38.png" alt="" /></span>
 
                   </a>
 
@@ -189,21 +171,22 @@
 
 
               <tr>
-                <td scope="row">
-                  John Smith
+              <td scope="row">
+                  Lyum Watson
                 </td>
                 <td>
-                  Customer
+                  Call Center
                 </td>
-                <td></td>
+                <td>1/2/2022</td>
+                <td>Inquiry Manager</td>
+                
+                <td>1234567890</td>
                 <td>123456</td>
-                <td>Berlin</td>
-                <td></td>
                 <td><span id="inactive-status">Inactive</span></td>
                 <td>
                   <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    <span><img src="assets/group-38.png" alt="" /></span>
+                    <span><img src="./assets/assets/group-38.png" alt="" /></span>
 
                   </a>
 
@@ -244,27 +227,14 @@
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
 
-  <script src="js/admin.js"></script>
+  <script src="./assets/js/admin.js"></script>
 
-  <script src="js/jquery.js"></script>
-  <script src="js/jquery.dataTables.min.js"></script>
+  <script src="./assets/js/jquery.js"></script>
+  <script src="./assets/js/jquery.dataTables.min.js"></script>
+  <?php
+  include('adminUserAJAX.php');
+  ?>
 
-  <script>
-    $(document).ready(function () {
-      $("#myTable").dataTable({
-        "bFilter": false,
-        "bInfo": false,
-        "dom": '<"top"i>rt<"bottom"flp><"clear">'
-      });
-
-      $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-      });
-
-
-    });
-
-  </script>
 
 </body>
 

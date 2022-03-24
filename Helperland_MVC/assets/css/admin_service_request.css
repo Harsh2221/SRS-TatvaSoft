@@ -2,7 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-  }
+  } 
   
   .navbar-brand {
     color: #ffffff;
@@ -162,6 +162,9 @@
   .navbar .navbar-light .bg-light {
     width: fit-content;
   }
+  label{
+    color: #646464;
+  }
   #cap {
     margin-right: 3px;
     border: 1px solid #646464;
@@ -191,6 +194,14 @@
     padding: 4px 8px;
     color: #ffffff;
     background-color: #FF6B6B;
+  }
+  .btnReschedule{
+    margin-top: 10px;
+    background-color: #1FB6FF;
+    border: none;
+    color: #ffffff;
+    padding: 8px;
+    border-radius: 5px;
   }
 
   @media (max-width: 1025px) {
@@ -230,3 +241,20 @@
   }
   
   }
+  .logout-btn{
+    border: none;
+    background: transparent;
+    
+  }
+  .SPimg{
+    height: 40px;
+    width: 40px;
+  }
+#st{
+  color: yellow;
+}
+#Reschedule-status{
+  padding: 4px 8px;
+  color: #ffffff;
+  background-color: silver;
+}

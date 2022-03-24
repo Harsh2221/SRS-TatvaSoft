@@ -31,7 +31,7 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC";
                 <input
                   type="text"
                   placeholder="First name"
-                  
+                  required
                   id="f_name"
                   style="width: 90%"
                   name="firstName"
@@ -40,7 +40,7 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC";
                 <br />
                 <input
                   type="text"
-                  
+                  required
                   id="l_name"
                   style="width: 90%"
                   placeholder="Last name"
@@ -51,7 +51,7 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC";
                 
                 <input
                   type="email"
-                  
+                  required
                   id="email"
                   style="width: 90%"
                   placeholder="Email address"
@@ -61,7 +61,7 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC";
                 <br />
                 <input
                   type="tel"
-                  
+                  required
                   id="number"
                   style="width: 90%"
                   placeholder="Mobile number"
@@ -75,15 +75,17 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC";
                   style="width: 90%"
                   placeholder="Password"
                   name="password"
+                  required
                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters"
                 />
                 <span id="msg5" style="visibility: hidden; color: red;">please enter password !</span>
-                <br />
+                <br /> 
                 <input
                   type="password"
                   style="width: 90%"
                   placeholder="Confirm Password"
                   name="confirmPassword"
+                  required
                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters"
                 />
                 <span id="msg6" style="visibility: hidden; color: red;">please conform password !</span>
@@ -91,7 +93,7 @@ $base_url="https://localhost/tatvasoft/Helperland_MVC";
                 <input type="checkbox" id="check1" name="check1" />
                 <label for="check1">Send me newsletters from Helperland</label
                 ><br />
-                <input type="checkbox" id="check2" name="check2" />
+                <input type="checkbox" id="check2" name="check2" required/>
                 <label for="check2"
                   >I accept
                   <span style="color: #1fb6ff"> terms and conditions</span> &

@@ -62,7 +62,7 @@ class main_controller
                     'creationdt'=>date('Y-m-d'),
                     'status'=>'New',
                     'isregistered'=>'yes',
-                    'isactive'=>'No',
+                    'isactive'=>'Yes',
                     
                     ];
   
@@ -107,9 +107,9 @@ class main_controller
                     'roleid'=>'Customer',
                     'resetkey'=>$resetkey,
                     'creationdt'=>date('Y-m-d'),
-                    'status'=>'panding',
+                    'status'=>'New',
                     'isregistered'=>'yes',
-                    'isactive'=>'No',
+                    'isactive'=>'Yes',
                                         
                 ];
   
@@ -254,7 +254,11 @@ class main_controller
             $city = $result[0];
             $state = $result[1];
             $return = [$city, $state];
-            echo json_encode($return);
+            $output='<option value="' . $city . '" selected>
+            ' . $city . '
+        </option>';
+            // echo json_encode($return);
+            echo $output;
 
         }
 
@@ -398,7 +402,7 @@ public function service_request(){
         if($result){
             $service_id=$result;
             //sending confirmation mail to customer---------------------------->
-            include('booking_confirm_mail.php');
+            // include('booking_confirm_mail.php');
             
             
             if(count($service_provider)){
@@ -406,7 +410,7 @@ public function service_request(){
                     $service_id=$result;
                     $SP_email=$row['Email'];
                     // echo $service_id;
-                    include('bookingmail_to_SP.php');
+                    // include('bookingmail_to_SP.php');
                           
                 }
             }
@@ -446,16 +450,30 @@ public function customerDetails(){
             if ($status != "Cancelled" && $status != "Completed") {
 
                     $stratTime = $serviceTime;
-                   
-                    $endTime = floatval($serviceTime + $totalHour);
+                    $endTime = $serviceTime + $totalHour;
+                    $sTime='';
+                    $eTime='';
+                    if(strpos($stratTime, ".5")){
+                        $sTime=str_replace(".5",":30",$stratTime);
+                    }else{
+                        $sTime=$stratTime.':00';
+                    }
 
-                $serviceidcol='<td class="serviceid">' . $serviceId . '</td>';
+                    if(strpos($endTime, ".5")){
+                        $eTime=str_replace(".5",":30",$endTime);
+                    }else{
+                        $eTime=$endTime.':00';
+                    }
+
+
+                $serviceidcol='<td class="serviceid"> <div class="serviceDetailModel" data-bs-toggle="modal"
+                data-bs-target="#ServiceData_modal" name="' . $serviceId . '">' . $serviceId . '</div></td>';
                 $servicedatecol=' <td>
                 <div class="serviceDetailModel" data-bs-toggle="modal"
-                data-bs-target="#ServiceData_modal">
+                data-bs-target="#ServiceData_modal" name="' . $serviceId . '">
                 <span><img src="./assets/assets/calendar2.png" alt="#" />' . $serviceDate . '</span>
                 <br />
-                <span><img src="./assets/assets/layer-14.png" alt="#" />' . $stratTime . ':00 - ' . $endTime . '</span>
+                <span><img src="./assets/assets/layer-14.png" alt="#" /> ' . $sTime . ' - ' . $eTime . '</span>
                 </div>
 
               </td>';
@@ -477,8 +495,9 @@ public function customerDetails(){
                             foreach ($spDetails as $sp) {
                                 $spfirstname = $sp['FirstName'];
                                 $splastname = $sp['LastName'];
-                                
-                                
+                                $imgdp = $sp['UserProfilePicture'];
+                                $star='';
+                                $spRating="";
                                 $spRate=$this->model->getRating($serviceproviderid);
                                 if(count($spRate[0]))
                                 {
@@ -522,14 +541,25 @@ public function customerDetails(){
                                         <i class = "fa fa-star" aria-hidden = "true" id = "st"></i>';
                                     }
                                 }
+                                if (strlen($imgdp) != 0) {
+                                    
+                                    $image = str_replace("http://localhost/Tatvasoft/Helperland_MVC/", "./", $imgdp);
+                                    $img = '<img  src="' . $image . '" class="SPimg">';
+                                } else {
+                                    
+                                    $img = '<img src="./assets/assets/cap.png" alt="" id="cap" />';
+                                }
                             $serviceProvidercol = ' <td>
-                            <img src="./assets/assets/cap.png" alt="" id="cap" />
-                            ' . $spfirstname . '' . $splastname . '
+                            <div class="serviceDetailModel" data-bs-toggle="modal"
+                            data-bs-target="#ServiceData_modal" name="' . $serviceId . '">
+                            ' . $img . '
+                             ' . $spfirstname . '' . $splastname . '
                             <br />
                             <span id="star">
                             ' . $star . '
                               <span>' . $spRating . '</span>
                             </span>
+                            </div>
                           </td>';
                             }
                         }
@@ -545,7 +575,10 @@ public function customerDetails(){
 
             
             $paymentcol='<td class="payment">
+            <div class="serviceDetailModel" data-bs-toggle="modal"
+            data-bs-target="#ServiceData_modal" name="' . $serviceId . '">
                 <h5><span>€</span>' . $payment . '</h5>
+                </div>
                 </td>';
 
             if($status != 'Reschedule') {
@@ -648,9 +681,10 @@ public function getServiceData(){
                         {
                             foreach($SPDetails as $SP)
                             {
-                                $spfirstname = $sp['FirstName'];
-                                $splastname = $sp['LastName'];
-                                $spRate=$this->model->getRating($serviceproviderid);
+                                $spfirstname = $SP['FirstName'];
+                                $splastname = $SP['LastName'];
+                                $imgdp = $SP['UserProfilePicture'];
+                                $spRate=$this->model->getRating($serviceproviderId);
                                 if(count($spRate[0]))
                                 {
                                     $spRating=0;
@@ -693,9 +727,17 @@ public function getServiceData(){
                                         <i class = "fa fa-star" aria-hidden = "true" id = "st"></i>';
                                     }
                                 }
+                                if (strlen($imgdp) != 0) {
+                                    
+                                    $image = str_replace("http://localhost/Tatvasoft/Helperland_MVC/", "./", $imgdp);
+                                    $img = '<img  src="' . $image . '" class="SPimg">';
+                                } else {
+                                    
+                                    $img = '<img src="./assets/assets/cap.png" alt="" id="cap" />';
+                                }
                             $serviceProvider = ' <td>
-                            <img src="./assets/assets/cap.png" alt="" id="cap" />
-                            ' . $spfirstname . '' . $splastname . '
+                            ' . $img . '
+                             ' . $spfirstname . '' . $splastname . '
                             <br />
                             <span id="star">
                             ' . $star . '
@@ -717,8 +759,8 @@ public function getServiceData(){
                 data-bs-target="#reschedule_modal">Reschedule</button>';
                 $cancel='<button class="cancelCon_btn" id="' . $serviceId . '" type="button" data-bs-toggle="modal"
                 data-bs-target="#cancel_modal">Cancel</button>';
-                $update_btn='<button type="submit" class="update" id=' . $serviceId . '>Update</button>';
-                $cancel_btn=' <button type="submit" class="cancel" id=' . $serviceId . '>Cancel Now</button>';
+                $update_btn='<button type="submit" class="update" id=' . $serviceId . ' data-bs-dismiss="modal">Update</button>';
+                $cancel_btn=' <button type="submit" class="cancel" id=' . $serviceId . ' data-bs-dismiss="modal">Cancel Now</button>';
                 $selectNewtime='<select id="select_time" class="form-select select_time">
                 <option value="8">8:00 </option>
                 <option value="8.5">8:30 </option>
@@ -756,6 +798,24 @@ public function getServiceData(){
             $customerName=$custfname . '  ' . $custlname;
             $startTime=$date;
             $endTime=floatval($stratTime+$totalTime);
+            $endTime=$endTime+1;
+
+                    $stratTime = $stratTime;
+                    $entime = $stratTime + $totalTime;
+                    $sTime='';
+                    $eTime='';
+                    if(strpos($stratTime, ".5")){
+                        $sTime=str_replace(".5",":30",$stratTime);
+                    }else{
+                        $sTime=$stratTime.':00';
+                    }
+
+                    if(strpos($entime, ".5")){
+                        $eTime=str_replace(".5",":30",$entime);
+                    }else{
+                        $eTime=$entime.':00';
+                    }
+
             if(isset($spId)){
 
                 
@@ -764,9 +824,18 @@ public function getServiceData(){
                 $count=$isconflict[0];
 
                 if ($count >= 1) {
-                    $acceptbtn = '
+                    $servicerequestid = $isconflict[1];
+                    if($serviceId != $servicerequestid)
+                    {
+                        $acceptbtn = '
                             <button type="submit" class="acceptBtnModal" id=' . $serviceId . ' data-bs-dismiss="modal" disabled="disabled" style="cursor:not-allowed;">✔ Accept</button>
                             ';
+                    }else{
+                        $acceptbtn = '
+                        <button type="submit" class="acceptBtnModal" id=' . $serviceId . ' data-bs-dismiss="modal">✔ Accept</button>
+                        ';
+                    }
+                   
                 } else {
                     $acceptbtn = '
                     <button type="submit" class="acceptBtnModal" id=' . $serviceId . ' data-bs-dismiss="modal">✔ Accept</button>
@@ -789,8 +858,8 @@ public function getServiceData(){
                     $strDate = strtotime($date);
 
                     $currenttime = date("H:i");
-                    $currenttime = strtotime($currenttime);
-                    $time = strtotime($totalTime);
+                    // $currenttime = strtotime($currenttime);
+                    $time = $endTime;
 
                     if($todaydate>=$strDate)
                     {
@@ -812,7 +881,7 @@ public function getServiceData(){
 
 
 
-              $output = [$serviceId, $totalTime, $payment, $status, $userId, $serviceProvider, $reschedule, $cancel, $update_btn, $cancel_btn, $selectNewtime, $cancelReason, $updateTime, $date, $stratTime, $endTime, $extraservices, $customerName, $serviceAddress, $phone, $pets, $acceptbtn, $upcomingbtns, $mapcol];
+              $output = [$serviceId, $totalTime, $payment, $status, $userId, $serviceProvider, $reschedule, $cancel, $update_btn, $cancel_btn, $selectNewtime, $cancelReason, $updateTime, $date, $sTime, $eTime, $extraservices, $customerName, $serviceAddress, $phone, $pets, $acceptbtn, $upcomingbtns, $mapcol];
 
             }
         }
@@ -859,6 +928,7 @@ public function rescheduleService(){
             'modifiedDate'=>$modifiedDate,
             'recordversion'=>$recordversion,
             'status'=>$status,
+            
             'serviceId'=>$serviceId,
 
         ];
@@ -889,10 +959,16 @@ public function rescheduleService(){
             }
             //sending email to all the service providers for rescheduling of the service
             
-            // if(empty($serviceProviderId))
-            // {
-
-            // }
+            if(empty($serviceProviderId))
+            {
+                $serviceproviders = $this->model->GetAllServiceProvider();
+                if (count($serviceproviders)) {
+                    foreach ($serviceproviders as $row) {
+                        $spemail = $row['Email'];
+                        include("views/SPallRescheduleMail.php");
+                    }
+                }
+            }
 
             echo 1;
         }else{
@@ -955,15 +1031,25 @@ public function cancelService(){
         $count=$cancelService[0];
         if($count==1)
         {
+            //email sending to customer for cancellation of service request
+            $custmail=$modifiedBy;
+            $serviceId=$serviceId;
+            include("views/cust_cancelEmail.php");
             //email sending to service providers for cancelation of the service request
-            // if(!empty($serviceProviderId)){
-            //    $spemail=$email;
-            // //    email script
+            if(!empty($serviceProviderId)){
+               $spemail=$email;
+               include("views/Sp_cancelEmail.php");
+            }
+            if(empty($serviceProviderId)){
+                $serviceproviders = $this->model->GetAllServiceProvider();
+                if (count($serviceproviders)) {
+                    foreach ($serviceproviders as $row) {
+                        $spemail = $row['Email'];
+                        include("views/Sp_cancelEmail.php");
+                    }
+                }
 
-            // }
-            // if(empty($serviceProviderId)){
-
-            // }
+            }
             echo 1;
         }else{
             echo 0;
@@ -996,14 +1082,30 @@ public function customerServiceHistory(){
 
                 if ($status != "Panding" && $status != "Approoved" && $status != "Reschedule"){
                     $stratTime = $serviceTime;
-                   
-                    $endTime = floatval($serviceTime + $totalHour);
+                    $endTime = $serviceTime + $totalHour;
+                    $sTime='';
+                    $eTime='';
+                    if(strpos($stratTime, ".5")){
+                        $sTime=str_replace(".5",":30",$stratTime);
+                    }else{
+                        $sTime=$stratTime.':00';
+                    }
 
-                $serviceidcol='<td class="serviceid">' . $serviceId . '</td>';
+                    if(strpos($endTime, ".5")){
+                        $eTime=str_replace(".5",":30",$endTime);
+                    }else{
+                        $eTime=$endTime.':00';
+                    }
+
+                $serviceidcol='<td class="serviceid"> <div class="serviceDetailModel" data-bs-toggle="modal"
+                data-bs-target="#ServiceHistory_modal" name="' . $serviceId . '">' . $serviceId . '</div></td>';
                 $servicedatecol=' <td>
+                <div class="serviceDetailModel" data-bs-toggle="modal"
+                data-bs-target="#ServiceHistory_modal" name="' . $serviceId . '">
                 <span><img src="./assets/assets/calendar2.png" alt="#" />' . $serviceDate . '</span>
                 <br />
-                <span><img src="./assets/assets/layer-14.png" alt="#" />' . $stratTime . ':00 - ' . $endTime . '</span>
+                <span><img src="./assets/assets/layer-14.png" alt="#" /> ' . $sTime . ' - ' . $eTime . '</span>
+                </div>
               </td>';
 
               $serviceProvidercol = '';
@@ -1017,6 +1119,9 @@ public function customerServiceHistory(){
                     foreach ($spDetails as $sp) {
                         $spfirstname = $sp['FirstName'];
                         $splastname = $sp['LastName'];
+                        $imgdp = $sp['UserProfilePicture'];
+                        $star='';
+                        $spRating='';
 
                         $spRate=$this->model->getRating($serviceProviderId);
                             if(count($spRate[0]))
@@ -1061,21 +1166,36 @@ public function customerServiceHistory(){
                                     <i class = "fa fa-star" aria-hidden = "true" id = "st"></i>';
                                 }
                             }
+                            if (strlen($imgdp) != 0) {
+                                    
+                                $image = str_replace("http://localhost/Tatvasoft/Helperland_MVC/", "./", $imgdp);
+                                $img = '<img  src="' . $image . '" class="SPimg">';
+                            } else {
+                                
+                                $img = '<img src="./assets/assets/cap.png" alt="" id="cap" />';
+                            }
                         $serviceProvidercol = ' <td>
-                        <img src="./assets/assets/cap.png" alt="" id="cap" />
+                        <div class="serviceDetailModel" data-bs-toggle="modal"
+                        data-bs-target="#ServiceHistory_modal" name="' . $serviceId . '">
+                        ' . $img . ' 
                         ' . $spfirstname . '' . $splastname . '
                         <br />
                         <span id="star">
                         ' . $star . '
                           <span>' . $spRating . '</span>
                         </span>
+
+                        </div>
                       </td>';
                     }
                 }
 
               }
               $paymentcol='<td class="payment">
+              <div class="serviceDetailModel" data-bs-toggle="modal"
+              data-bs-target="#ServiceHistory_modal" name="' . $serviceId . '">
                 <h5><span>€</span>' . $payment . '</h5>
+                </div>
                 </td>';
                 $statuscol='';
                 $ratecol='';
@@ -1120,6 +1240,10 @@ public function custDetails(){
     {
         $email=$_POST['username'];
         $userdetail=$this->model->getUserDetails($email);
+        $street="";
+        $house="";
+        $postalcode="";
+        $city="";
         if(count($userdetail))
         {
             foreach($userdetail as $row)
@@ -1422,7 +1546,8 @@ public function getRateModalData(){
                             $firstnameSp=$row['FirstName'];
                             $lastnameSp=$row['LastName'];
                             $serviceproviderid=$serviceProviderId;
-
+                            $star='';
+                            $spRating='';
                             //get avarage rating here
                             $spRate=$this->model->getRating($serviceProviderId);
                             if(count($spRate[0]))
@@ -1615,15 +1740,40 @@ public function getNewServiceReq(){
                 $startTime=$servicestartdate;
                 $endTime=floatval($servicestarttime+$totaltime);
 
+                    
+                    $entime = $servicestarttime + $totaltime;
+                    $sTime='';
+                    $eTime='';
+                    if(strpos($servicestarttime, ".5")){
+                        $sTime=str_replace(".5",":30",$servicestarttime);
+                    }else{
+                        $sTime=$servicestarttime.':00';
+                    }
+
+                    if(strpos($entime, ".5")){
+                        $eTime=str_replace(".5",":30",$entime);
+                    }else{
+                        $eTime=$entime.':00';
+                    }
+
                 $isconflict=$this->model->isConflict($userId, $startTime, $endTime);
                 $count=$isconflict[0];
-                
+                // $timeconflictcol='';
+                // $actioncol='';
                 if($count>=1)
                 {
                     $servicerequestid = $isconflict[1];
-                    $timeconflictcol='<td>Another service request ' . $servicerequestid . ' <br> has already been assigned, You can’t accept!</td>';
+                    if($serviceid != $servicerequestid)
+                    {
+                        $timeconflictcol='<td>Another service request ' . $servicerequestid . ' <br> has already been assigned, You can’t accept!</td>';
 
-                    $actioncol='<button data-bs-toggle="modal" data-bs-target="#serviceDetail" id="' . $serviceid . '" class="acceptBtn modaldata" name="' . $serviceid . '" disabled="disabled">Accept</button>';
+                        $actioncol='<button data-bs-toggle="modal" data-bs-target="#serviceDetail" id="' . $serviceid . '" class="acceptBtn modaldata" name="' . $serviceid . '" disabled="disabled">Accept</button>';
+                    }else{
+                        $timeconflictcol='';
+                    $actioncol='<button data-bs-toggle="modal" data-bs-target="#serviceDetail" id="' . $serviceid . '" class="acceptBtn modaldata" name="' . $serviceid . '">Accept</button>';
+                    }
+                    
+                    
 
 
                 }else{
@@ -1638,7 +1788,8 @@ public function getNewServiceReq(){
 
               $servicedatecol=' 
               <div class="modaldata" data-bs-toggle="modal" data-bs-target="#serviceDetail" id="' . $userId . '" name="' . $serviceid . '">
-              <span><img src="./assets/assets/calendar2.png" alt=""></span>' . $servicestartdate . '<br> <span><img src="./assets/assets/layer-14.png" alt=""></span>' . $servicestarttime . ':00 - ' . $endTime . ':00</div>';
+              <span><img src="./assets/assets/calendar2.png" alt=""></span>' . $startTime . '<br> <span><img src="./assets/assets/layer-14.png" alt=""></span> ' . $sTime . ' - ' . $eTime . '</div>';
+
               $userdetailscol='<div class="modaldata" id="' . $userId . '"  name="' . $serviceid . '" data-bs-toggle="modal" data-bs-target="#serviceDetail">
               ' . $fname . ' ' . $lname . ' <br> <span><img src="./assets/assets/layer-15.png" alt=""></span> ' . $street . ' ' . $houseno . ',' . $postalcode . ' ' . $city . '</div>';
               $paymentcol='<div class="payment">
@@ -1779,8 +1930,23 @@ public function getUpcomingService(){
                 $startTime=$servicestartdate;
                 $endTime=floatval($servicestarttime+$totaltime);
 
+                $entime = $servicestarttime + $totaltime;
+                    $sTime='';
+                    $eTime='';
+                    if(strpos($servicestarttime, ".5")){
+                        $sTime=str_replace(".5",":30",$servicestarttime);
+                    }else{
+                        $sTime=$servicestarttime.':00';
+                    }
+
+                    if(strpos($entime, ".5")){
+                        $eTime=str_replace(".5",":30",$entime);
+                    }else{
+                        $eTime=$entime.':00';
+                    }
+
                 $servicedatecol='<div class="detailModal" data-bs-toggle="modal" data-bs-target="#upcomingModal" id="' . $userId . '" name="' . $serviceId . '">
-                      <span><img src="./assets/assets/calendar2.png" alt=""></span> ' . $servicestartdate . ' <br> <span><img src="./assets/assets/layer-14.png" alt=""></span>' . $servicestarttime . ':00 - ' . $endTime . ':00 <div>';
+                      <span><img src="./assets/assets/calendar2.png" alt=""></span> ' . $startTime . ' <br> <span><img src="./assets/assets/layer-14.png" alt=""></span> ' . $sTime . ' - ' . $eTime . ' <div>';
 
                 $servicedetailcol='<div class="detailModal" id="' . $userId . '"  name="' . $serviceId . '" data-bs-toggle="modal" data-bs-target="#upcomingModal">' . $fname . ' ' . $lname . '<br> <span><img src="./assets/assets/layer-15.png" alt=""></span> ' . $street . ' ' . $houseno . ',' . $postalcode . ' ' . $city . '<div>';  
 
@@ -1791,8 +1957,8 @@ public function getUpcomingService(){
                     $strDate = strtotime($servicestartdate);
 
                     $currenttime = date("H:i");
-                    $currenttime = strtotime($currenttime);
-                    $time = strtotime($totaltime);
+                    // $currenttime = strtotime($currenttime);
+                    $time = $endTime;
 
                     if($todaydate>=$strDate)
                     {
@@ -1905,6 +2071,7 @@ public function completeService(){
             'modifiedBy'=>$modifiedBy,
             'recordversion'=>$recordversion,
             'status'=>$status,
+            
             'serviceId'=>$serviceId,
         ];
         $completeReq=$this->model->completeServiceRequest($data);
@@ -1941,14 +2108,29 @@ public function ServiceHistorySp(){
 
                     if ($status != "Panding" && $status != "Approoved" && $status != "Reschedule") {
 
-                $startTime=$starttime;
+                
                 $endTime=floatval($starttime+$totaltime);
+
+                $entime = $starttime + $totaltime;
+                    $sTime='';
+                    $eTime='';
+                    if(strpos($starttime, ".5")){
+                        $sTime=str_replace(".5",":30",$starttime);
+                    }else{
+                        $sTime=$starttime.':00';
+                    }
+
+                    if(strpos($entime, ".5")){
+                        $eTime=str_replace(".5",":30",$entime);
+                    }else{
+                        $eTime=$entime.':00';
+                    }
 
                 $serviceIdcol='<td><div class="modalData" data-bs-toggle="modal" data-bs-target="#historyModal" name="' . $serviceId . '">' . $serviceId . '</div></td>';
 
                 $serviceDatecol='<div class="modalData" data-bs-toggle="modal" data-bs-target="#historyModal" id="' . $userId . '" name="' . $serviceId . '">
-                      <span><img src="./assets/assets/calendar2.png" alt=""></span> ' . $date . ' <br> <span><img src="./assets/assets/layer-14.png" alt=""></span>' . $startTime . ':00 - ' . $endTime . ':00 <div>';
-
+                      <span><img src="./assets/assets/calendar2.png" alt=""></span> ' . $date . ' <br> <span><img src="./assets/assets/layer-14.png" alt=""></span> ' . $sTime . ' - ' . $eTime . ' <div>';
+                $serviceDetailcol='';
                 $custData=$this->model-> custDataHistory($serviceId); 
                 if(count($custData))    
                 {
@@ -1964,7 +2146,7 @@ public function ServiceHistorySp(){
                         $serviceDetailcol='<div class="modalData" id="' . $userId . '"  name="' . $serviceId . '" data-bs-toggle="modal" data-bs-target="#historyModal">' . $fname . ' ' . $lname . '<br> <span><img src="./assets/assets/layer-15.png" alt=""></span> ' . $street . ' ' . $houseno . ',' . $postalcode . ' ' . $city . '<div>';
                     }
                 }
-
+                $statuscol='';
                 if($status == "Cancelled"){
                     $statuscol='<td><span style="background-color: #FF6B6B; border: none; padding: 5px 10px; color: white;" id="cancle-status">' . $status . '</span></td>';
                 }
@@ -2124,9 +2306,22 @@ public function getRatingsforsp(){
 
                 $startTime=$starttime;
                 $endTime=floatval($starttime+$totaltime);
+                $entime = $starttime + $totaltime;
+                $sTime='';
+                $eTime='';
+                if(strpos($starttime, ".5")){
+                    $sTime=str_replace(".5",":30",$starttime);
+                }else{
+                    $sTime=$starttime.':00';
+                }
 
+                if(strpos($entime, ".5")){
+                    $eTime=str_replace(".5",":30",$entime);
+                }else{
+                    $eTime=$entime.':00';
+                }
                 $serviceDatecol='<div class="modalData" id="' . $userId . '">
-                <span><img src="./assets/assets/calendar2.png" alt=""></span> ' . $date . ' <br> <span><img src="./assets/assets/layer-14.png" alt=""></span>' . $startTime . ':00 - ' . $endTime . ':00 <div>';
+                <span><img src="./assets/assets/calendar2.png" alt=""></span> ' . $date . ' <br> <span><img src="./assets/assets/layer-14.png" alt=""></span>' . $sTime . ' - ' . $eTime . ' <div>';
                                     }
                                 }
 
@@ -2369,6 +2564,777 @@ public function addSPdetails(){
     }
 }
 
+public function getServiceReqAdmin(){
+    if(isset($_POST))
+    {
+        $serviceId=$_POST['serviceId'];
+        $selectUser=$_POST['selectUser'];
+        $selectSp=$_POST['selectSp'];
+        $status=$_POST['status'];
+        $startDate=$_POST['startDate'];
+        $endDate=$_POST['endDate'];
+        // echo $serviceId;
+
+        // if($status=="New")
+        // {
+        //     $status=="Panding";
+        // }else if($status=="Panding")
+        // {
+        //     $status=="Approoved";
+        // }else{
+        //     $status==$status;
+        // }
+        //getting service requests
+        if($selectSp!="")
+        {
+            $result=$this->model->searchSP($selectSp);
+        }
+        if($serviceId!="" || $selectUser!="" || $status!="")
+        {
+            $result=$this->model->searchWserviceId($serviceId,$selectUser,$selectSp,$status,$startDate,$endDate);
+        }
+        if($startDate!="" && $endDate!="")
+        {
+            $result=$this->model->searchFromdates($serviceId,$selectUser,$selectSp,$status,$startDate,$endDate);
+        }
+        //for getting all the serivce request for table
+        if($serviceId=="" && $selectUser=="" && $selectSp=="" && $status=="" && $startDate=="" && $endDate=="")
+        {
+            $result=$this->model->getAllServiceReqadmin();
+        }
+        $json['data'] = array();
+
+        if(count($result))
+        {
+            foreach($result as $row)
+            {
+                $serviceId=$row['ServiceRequestId'];
+                $serviceDate = $row['ServiceStartDate'];
+                $startTime = $row['ServiceTime'];
+                $totaltime = $row['TotalHours'];
+                $street = $row['AddressLine1'];
+                $houseno = $row['AddressLine2'];
+                $postalcode = $row['PostalCode'];
+                $firstName = $row['FirstName'];
+                $lastName = $row['LastName'];
+                $city = $row['City'];
+                $userId = $row['UserId'];
+                $status = $row['Status'];
+                $serviceproviderid = $row['ServiceProviderId'];
+
+                // $endTime=floatval($startTime+$totaltime);
+                    
+                    $entime = $startTime + $totaltime;
+                    $sTime='';
+                    $eTime='';
+                    if(strpos($startTime, ".5")){
+                        $sTime=str_replace(".5",":30",$startTime);
+                    }else{
+                        $sTime=$startTime.':00';
+                    }
+
+                   
+                    if(strpos($entime, ".5")){
+                        $eTime=str_replace(".5",":30",$entime);
+                    }else{
+                        $eTime=$entime.':00';
+                    }
+                    
+                    
+
+                $serviceIdcol='<div class="modalData" data-bs-toggle="modal" data-bs-target="#serviceData" id="' . $userId . '"  name="' . $serviceId . '">' . $serviceId . '</div>';
+
+                $serviceDatecol='<div class="modalData" data-bs-toggle="modal" data-bs-target="#serviceData" id="' . $userId . '"  name="' . $serviceId . '"><span><img src="./assets/assets/calendar2.png" alt=""></span>' . $serviceDate . '<br> <span><img src="./assets/assets/layer-14.png"
+                alt=""></span> ' . $sTime . ' - ' . $eTime . '</div>';
+
+                $statuscol='';
+                if($status=='Panding')
+                {
+                    $statuscol='<td> <span id="panding-status">Panding</span> </td>';
+                }
+                if($status=='Approoved')
+                {
+                    $statuscol=' <td> <span id="new-status">Approoved</span> </td>';
+                }
+                if($status=='Completed')
+                {
+                    $statuscol='<td> <span id="complete-status">Completed</span> </td>';
+                }
+                if($status=='Cancelled')
+                {
+                    $statuscol='<td> <span id="cancle-status">Cancle</span> </td>';
+                }
+                if($status=='Reschedule')
+                {
+                    $statuscol=' <td> <span id="Reschedule-status">Reschedule</span> </td>';
+                }
+
+            $serviceProvidercol = '';
+            if(!empty($serviceproviderid)){
+                $serviceproviderid = intval($row['ServiceProviderId']);
+                // $serviceProvidercol='<td> ' . $serviceproviderid . ' </td>';
+                  
+                $spDetails = $this->model->getspData($serviceproviderid);
+                $img="";
+                $star="";
+                $spRating="";
+
+                if (count($spDetails)) {
+                    foreach ($spDetails as $sp) {
+                        $spfirstname = $sp['FirstName'];
+                        $splastname = $sp['LastName'];
+                        $imgdp = $sp['UserProfilePicture'];
+                        $spRate=$this->model->getRating($serviceproviderid);
+                            if(count($spRate[0]))
+                            {
+                                $spRating=0;
+
+                                foreach($spRate[0] as $row){
+                                    $spRating=($spRating+$row['Ratings']);
+                                }
+
+                                $spRating=round(($spRating / $spRate[1]), 2);
+                                $finalavgrating=round($spRating);
+                                $star='<i class = "fa fa-star" aria-hidden = "true" id = "st"></i>';
+                                if($finalavgrating==1)
+                                {
+                                    $star='<i class = "fa fa-star" aria-hidden = "true" id = "st"></i>';
+                                }
+                                if($finalavgrating==2)
+                                {
+                                    $star='<i class = "fa fa-star" aria-hidden = "true" id = "st"></i>
+                                    <i class = "fa fa-star" aria-hidden = "true" id = "st"></i>';
+                                }
+                                 if($finalavgrating==3)
+                                {
+                                    $star='<i class = "fa fa-star" aria-hidden = "true" id = "st"></i>
+                                    <i class = "fa fa-star" aria-hidden = "true" id = "st"></i>
+                                    <i class = "fa fa-star" aria-hidden = "true" id = "st"></i>';
+                                }
+                                if($finalavgrating==4)
+                                {
+                                    $star='<i class = "fa fa-star" aria-hidden = "true" id = "st"></i>
+                                    <i class = "fa fa-star" aria-hidden = "true" id = "st"></i>
+                                    <i class = "fa fa-star" aria-hidden = "true" id = "st"></i>
+                                    <i class = "fa fa-star" aria-hidden = "true" id = "st"></i>';
+                                }
+                                if($finalavgrating==5)
+                                {
+                                    $star='<i class = "fa fa-star" aria-hidden = "true" id = "st"></i>
+                                    <i class = "fa fa-star" aria-hidden = "true" id = "st"></i>
+                                    <i class = "fa fa-star" aria-hidden = "true" id = "st"></i>
+                                    <i class = "fa fa-star" aria-hidden = "true" id = "st"></i>
+                                    <i class = "fa fa-star" aria-hidden = "true" id = "st"></i>';
+                                }
+                                
+                            }
+                            if (strlen($imgdp) != 0) {
+                                    
+                                $image = str_replace("http://localhost/Tatvasoft/Helperland_MVC/", "./", $imgdp);
+                                $img = '<img  src="' . $image . '" class="SPimg">';
+                            } else {
+                                
+                                $img = '<img src="./assets/assets/cap.png" alt="" id="cap" />';
+                            }
+                        $serviceProvidercol = ' <td>
+                        ' . $img . '
+                        ' . $spfirstname . ' ' . $splastname . '
+                        <br />
+                        <span id="star">
+                        ' . $star . '
+                          <span>' . $spRating . '</span>
+                        </span>
+                      </td>';
+                    }
+                }
+
+              }
+              $actioncol='';
+            if($status == 'Completed' || $status == 'Cancelled' || $status == 'Refunded')
+            {
+                $actioncol='<a class="nav-link dropdown" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <span><img src="./assets/assets/group-38.png" alt="" /></span>
+  
+              </a>
+  
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Refund</a></li>
+                <li><a class="dropdown-item" href="#">Escalate</a></li>
+                <li><a class="dropdown-item" href="#">History Log</a></li>
+                <li><a class="dropdown-item" href="#">Download Invoice</a></li>
+                </ul>';
+            }
+            if($status == 'Panding' || $status == 'Approoved' || $status == 'Reschedule')
+            {
+                $actioncol='<div>
+                <a class="nav-link dropdown" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <span><img src="./assets/assets/group-38.png" alt="" /></span>
+  
+              </a>
+  
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item editoption" id="' . $serviceId . '" data-bs-toggle="modal" data-bs-target="#editmodal"
+                  style="cursor: pointer;">Edit & Reschedule</a></li>
+              <li><a class="dropdown-item" href="#">Refund</a></li>
+              <li><a class="dropdown-item" href="#">Cancle</a></li>
+              <li><a class="dropdown-item" href="#">Change SP</a></li>
+              <li><a class="dropdown-item" href="#">Escalate</a></li>
+              <li><a class="dropdown-item" href="#">History Log</a></li>
+              <li><a class="dropdown-item" href="#">Download Invoice</a></li>
+
+             </ul></div>';
+            }
+
+               
+            $custDetailcol='<div class="modalData" data-bs-toggle="modal" data-bs-target="#serviceData" id="' . $userId . '"  name="' . $serviceId . '">' . $firstName . ' ' . $lastName . ' <br> <span><img src="./assets/assets/layer-15.png" alt=""></span> ' . $street . ' '. $houseno . ',' . $postalcode . ' ' . $city . '</td>
+            <div>';
 
 
+            $result=array();
+            $result['serviceId'] = $serviceIdcol;
+            $result['serviceDate'] = $serviceDatecol;
+            $result['serviceProvider'] = $serviceProvidercol;
+            $result['customer'] = $custDetailcol;
+            $result['status'] = $statuscol;
+            $result['action'] = $actioncol;
+
+            array_push($json['data'], $result);
+
+            }
+            
+        }
+    }
+    echo json_encode($json);
+
+}
+
+public function geteditmodalData(){
+    if(isset($_POST))
+    {
+        $serviceId=$_POST['serviceId'];
+        $result=$this->model->getServicedata($serviceId);
+        if(count($result))
+        {
+            foreach($result as $row)
+            {
+                    $date = $row['ServiceStartDate'];
+                    $startTime = $row['ServiceTime'];
+                    $totalTime = $row['TotalHours'];
+                    $payment = $row['TotalCost'];
+                    $serviceId = $row['ServiceRequestId'];
+                    $extraservices = $row['ExtraServices'];
+                    $comment = $row['Comments'];
+                    $haspets = $row['HasPets'];
+                    $addressId = $row['AddressId'];
+                    $status = $row['Status'];
+                    $userId = $row['UserId'];
+                    $serviceProviderId = $row['ServiceProviderId'];
+
+                    if(strpos($startTime, ".5")){
+                        $sTime=str_replace(".5",":30",$startTime);
+                    }else{
+                        $sTime=$startTime.':00';
+                    }
+                    
+
+                    $dateTime='<div class="row">
+                    <div class="col-md-6">
+                      <label for="reDate"><b>Date</b></label>
+                      <div class="row">
+                        <div class="col-2">
+                          <img src="./assets/assets/admin-calendar-blue.png">
+                        </div>
+                        <div class="col-10">
+                          <input type="text" id="reDate" class="form-control " placeholder="Enter Date"
+                          value="' . $date . '" />
+                        </div>
+                        <span class="dErr" style="color: red; font-size: 12px;"></span>
+                      </div>
+  
+                    </div>
+  
+                    <div class="form-group col-md-6">
+                      <label for="time"><b>Time</b></label>
+                      <select id="time" name="' . $totalTime . '" class="form-control time">
+                      <option value="' . $startTime . '">' . $sTime . '</option>
+                      <option value="8">8:00 </option>
+                <option value="8.5">8:30 </option>
+                <option value="9">9:00 </option>
+                <option value="9.5">9:30 </option>
+                <option value="10">10:00</option>
+                <option value="10.5">10:30</option>
+                <option value="11">11:00</option>
+                <option value="11.5">11:30</option>
+                <option value="12">12:00</option>
+                <option value="12.5">12:30</option>
+                <option value="13">13:00</option>
+                <option value="13.5">13:30</option>
+                <option value="14">14:00</option>
+                <option value="14.5">14:30</option>
+                <option value="15">15:00</option>
+                <option value="15.5">15:30</option>
+                <option value="16">16:00</option>
+                <option value="16.5">16:30</option>
+                <option value="17">17:00</option>
+                <option value="17.5">17:30</option>
+                <option value="18">18:00</option>
+                      <option value="19">19:00</option>
+                      <option value="19.5">19:30</option>
+                      <option value="20">20:00</option>
+                      <option value="20.5">20:30</option>
+                      <option value="21">21:00</option>
+                      <option value="21.5">21:30</option>
+                      </select>
+                    </div>
+                    <span class="hrErr" style="color: red; font-size: 12px;"></span>
+                  </div>
+                  <label class="serAdd" id="' . $addressId . '"><b>Address</b></label>';
+
+                  $getaddressData=$this->model->getAddresstab($addressId);
+                  if(count($getaddressData))
+                  {
+                      foreach($getaddressData as $row)
+                      {
+                        $street = $row['AddressLine1'];
+                        $houseno = $row['AddressLine2'];
+                        $city = $row['City'];
+                        $state = $row['State'];
+                        $pincode = $row['PostalCode'];
+
+                        $address1=' <div class="serviceaddress">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label for="street">Street name</label>
+                            <input type="text" class="form-control mb-2" id="street" value="' . $street . '" placeholder="Street">
+                            <span class="streetErr" style="color: red; font-size: 13px;"></span>
+                          </div>
+                          
+                          <div class="col-md-6">
+                            <label for="houseno">House number</label>
+                            <input type="number" class="form-control mb-2" id="houseno" value="' . $houseno  . '" placeholder="House number">
+                            <span class="houseErr" style="color: red; font-size: 13px;"></span>
+                          </div>
+                          
+                          
+                        </div>
+                        
+      
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label for="postal">Postal Code</label>
+                            <input type="text" class="form-control mb-2" id="postal" value="' . $pincode . '" placeholder="Street">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label class="location">Location</label>
+                            <select id="city" class="located form-control">
+                            <option value="' . $city . '">' . $city . '</option>
+                            </select>
+                          </div>
+                          <span class="pincodeErr" style="color: red; font-size: 13px;"></span>
+                        </div>
+                      </div>
+                        ';
+
+                        $address2='<label><b>Invoicing Address</b></label>
+                        <div class="invoicing">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label for="streets">Street name</label>
+                              <input type="text" class="form-control mb-2" id="streets" value="' . $street . '" placeholder="Street">
+                            </div>
+                            <div class="col-md-6">
+                              <label for="housenos">House number</label>
+                              <input type="number" class="form-control mb-2" id="housenos" value="' . $houseno . '" placeholder="House number">
+                            </div>
+                          </div>
+        
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label for="postals">Postal Code</label>
+                              <input type="text" class="form-control mb-2" id="postal2" value="' . $pincode . '" placeholder="Street">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label class="location">Location</label>
+                              <select id="city2" class="located form-control">
+                              <option value="' . $city . '">' . $city . '</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>';
+
+                        
+
+                      }
+                  }
+
+                  $endPart='<div class="form-group">
+                        <label for="whyreschedule"><b>Why do you want to reschedule service request?</b></label>
+                        <textarea class="form-control" id="whyreschedule"
+                          placeholder="Why do you want to reschedule service request?" rows="3"
+                          style="height: auto;" required></textarea>
+                      </div>
+                      <span class="whyErr" style="color: red; font-size: 13px;"></span>
+
+                      <div class="form-group ">
+                        <label for="callcenteremp"><b>Call Center EMP Notes</b></label>
+                        <textarea class="form-control" id="callcenteremp" placeholder="Enter Notes" rows="3"
+                          style="height: auto;" required></textarea>
+                      </div>
+                      <span class="empErr" style="color: red; font-size: 13px;"></span>
+                      <div class="row">
+      
+                        <button type="submit" class="btnReschedule" id="' . $serviceId . '" data-bs-dismiss="modal">Update</button>
+                      </div>';
+
+                      $data=$dateTime . '' . $address1 . '' . $address2 . '' . $endPart;
+                      echo $data;
+            }
+        }
+    }
+
+}
+
+public function adminReschedule(){
+    if(isset($_POST))
+    {
+        $reDate=$_POST['reDate'];
+        $reTime=$_POST['reTime'];
+        $reStreet=$_POST['reStreet'];
+        $rePostal=$_POST['rePostal'];
+        $reHouse=$_POST['reHouse'];
+        $reCity=$_POST['reCity'];
+        $serviceId=$_POST['reServiceId'];
+        $reAddId=$_POST['reAddId'];
+
+        $getState=$this->model->getCity($rePostal);
+        
+        $state=$getState[1];
+
+        $result=$this->model->getServicedata($serviceId);
+        
+        if (count($result)) {
+            foreach ($result as $row) {
+                $recordversion = $row['RecordVersion'];
+                $userId = intval($row['UserId']);
+                $spId = intval($row['ServiceProviderId']);
+            }
+        }
+
+        $userEmail=$this->model->getUserId($userId);
+        if(count($userEmail))
+        {
+            foreach($userEmail as $mail)
+            {
+                $userEmail=$mail['Email'];
+            }
+        }
+        $status='Panding';
+        if(!empty($spId))
+        {
+            $status='Reschedule';
+        }
+        $modifiedDate = date('Y-m-d');
+        $modifiedBy = "Admin";
+        $recordversion = $recordversion + 1;
+
+        $updateAddress=[
+            'street' => $reStreet,
+            'houseno' => $reHouse,
+            'city' => $reCity,
+            'state' => $state,
+            'postalcode' => $rePostal,
+            'addressId' => $reAddId,
+        ];
+        $data=[
+            'newDate'=>$reDate,
+            'newTime'=>$reTime,
+            'modifiedBy'=>$modifiedBy,
+            'modifiedDate'=>$modifiedDate,
+            'recordversion'=>$recordversion,
+            'status'=>$status,
+            'serviceId'=>$serviceId,
+        ];
+        $updateaddress=$this->model->adminUpAdd($updateAddress);
+        $count1=$updateaddress[0];
+
+        $upAdd=$this->model->rescheduleService($data);
+        if(!empty($spId))
+        {
+            $spEmail = $this->model->getUserId($spId);
+            if (count($spEmail)) {
+                foreach ($spEmail as $spemail) {
+                    $email  = $spemail['Email'];
+                }
+            }
+        }
+
+        $count=$upAdd[0];
+        if($count==1 || $count1==1)
+        {
+            echo 1;
+        }else{
+            echo 0;
+        }
+
+    }
+
+}
+
+public function getDataUserMng(){
+    if(isset($_POST))
+    {
+        $getAllUsers=$this->model->getAlluser();
+        $json['data'] = array();
+        if(count($getAllUsers)){
+            foreach($getAllUsers as $user)
+            {
+                $userId=$user['UserId'];
+                $firstname  = $user['FirstName'];
+                $lastname  = $user['LastName'];
+                $usertype = $user['UserTypeId'];
+                $phone = $user['Mobile'];
+                $postalcode = $user['ZipCode'];
+                $isActive = $user['IsActive'];
+                $date = $user['CreatedDate'];
+                $Regidate = date("d/m/Y", strtotime($date));
+
+                if($usertype==0)
+                {
+                    $userrole="Customer";
+                }
+                if($usertype==1)
+                {
+                    $userrole="Service Provider";
+                }
+                if($usertype==2)
+                {
+                    $userrole="Admin";
+                }
+                $userTypecol='<div class="userType">' . $userrole . '</div>';
+                $regiDate='<div class="regiDate"><img src="./assets/assets/calendar2.png" alt=""> ' . $Regidate . '</div>';
+
+                if($isActive=="Yes"){
+                    $statuscol='<td><span id="active-status">Active</span></td>';
+                    $actioncol='<td>
+                    <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      <span><img src="./assets/assets/group-38.png" alt="" /></span>
+  
+                    </a>
+  
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item deAct" id="' . $userId . '">Deactivate</a></li>
+                    </ul>
+                  </td>';
+                }
+                if($isActive=="No"){
+                    $statuscol=' <td><span id="inactive-status">Inactive</span></td>';
+                    $actioncol='<td>
+                    <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      <span><img src="./assets/assets/group-38.png" alt="" /></span>
+  
+                    </a>
+  
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item act" id="' . $userId . '">Activate</a></li>
+                    </ul>
+                  </td>';
+                }
+
+                $result=array();
+                $result['username']=$firstname . ' ' . $lastname;
+                $result['role']=$userTypecol;
+                $result['regiDate']=$regiDate;
+                $result['userType']=$userTypecol;
+                $result['phone']=$phone;
+                $result['postalcode']=$postalcode;
+                $result['status']=$statuscol;
+                $result['action']=$actioncol;
+
+                array_push($json['data'], $result);
+            }
+        }
+        echo json_encode($json);
+    }
+
+}
+public function activeDeactive(){
+    if(isset($_POST))
+    {
+        $userId=$_POST['userId'];
+        $username=$_POST['username'];
+        $status=$_POST['status'];
+        $modifiedDate = date('Y-m-d H:i:s');
+        $modifiedBy = $username;
+
+        $data=[
+            'isActive'=>$status,
+            'modifiedDate'=>$modifiedDate,
+            'modifiedBy'=>$modifiedBy,
+            'userId'=>$userId,
+        ];
+        $result=$this->model->activedeactive($data);
+        $count=$result[0];
+        if($count==1)
+        {
+            echo 1;
+        }else{
+            echo 0;
+        }
+    }
+
+}
+public function getAllUser(){
+    if (isset($_POST)) {
+        $type=0;
+        $user = $this->model->userAndSpall($type);
+
+        if (count($user)) {
+            foreach ($user as $row) {
+
+                $custName = $row['UserName'];
+                $custSelect = '<option >' . $custName . '</option>';
+                echo $custSelect;
+            }
+        }
+       
+    }
+
+}
+public function getAllSp(){
+    if (isset($_POST)) {
+        $type=1;
+        $sp = $this->model->userAndSpall($type);
+
+        if (count($sp)) {
+            foreach ($sp as $row) {
+
+                $spName = $row['UserName'];
+                $spSelect = '<option >' . $spName . '</option>';
+                echo $spSelect;
+            }
+        }
+       
+    }
+
+}
+
+public function getUserAndRole(){
+    if(isset($_POST)){
+        $user=$this->model->getUserSelect();
+        if(count($user[0]))
+        {
+            foreach($user[0] as $sel)
+            {
+                $username=$sel['UserName'];
+                $user='<option>' . $username . '</option>';
+
+                echo $user;
+            }
+        }
+    }
+
+}
+
+public function searchUMadmin(){
+    if(isset($_POST))
+    {
+        $selectUser=$_POST['selectUser'];
+        $selectRole=$_POST['selectrole'];
+        $phone=$_POST['phonenum'];
+        $postalcode=$_POST['postal'];
+
+        
+        if($selectUser!='' || $selectRole!='' || $phone!='')
+        {
+            $result=$this->model->allSearch($selectUser,$selectRole,$phone,$postalcode);
+        }
+        if($postalcode!='')
+        {
+            $result=$this->model->pincodeSearch($selectUser,$selectRole,$phone,$postalcode);
+        }
+             
+       
+        $json['data'] = array();
+        if(count($result)){
+            foreach($result as $user)
+            {
+                $userId=$user['UserId'];
+                $firstname  = $user['FirstName'];
+                $lastname  = $user['LastName'];
+                $usertype = $user['UserTypeId'];
+                $phone = $user['Mobile'];
+                $postalcode = $user['ZipCode'];
+                $isActive = $user['IsActive'];
+                $date = $user['CreatedDate'];
+                $Regidate = date("d/m/Y", strtotime($date));
+
+                if($usertype==0)
+                {
+                    $userrole="Customer";
+                }
+                if($usertype==1)
+                {
+                    $userrole="Service Provider";
+                }
+                if($usertype==2)
+                {
+                    $userrole="Admin";
+                }
+                $userTypecol='<div class="userType">' . $userrole . '</div>';
+                $regiDate='<div class="regiDate"><img src="./assets/assets/calendar2.png" alt=""> ' . $Regidate . '</div>';
+
+                if($isActive=="Yes"){
+                    $statuscol='<td><span id="active-status">Active</span></td>';
+                    $actioncol='<td>
+                    <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      <span><img src="./assets/assets/group-38.png" alt="" /></span>
+  
+                    </a>
+  
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item deAct" id="' . $userId . '">Deactivate</a></li>
+                    </ul>
+                  </td>';
+                }
+                if($isActive=="No"){
+                    $statuscol=' <td><span id="inactive-status">Inactive</span></td>';
+                    $actioncol='<td>
+                    <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      <span><img src="./assets/assets/group-38.png" alt="" /></span>
+  
+                    </a>
+  
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item act" id="' . $userId . '">Activate</a></li>
+                    </ul>
+                  </td>';
+                }
+
+                $result=array();
+                $result['username']=$firstname . ' ' . $lastname;
+                $result['role']=$userTypecol;
+                $result['regiDate']=$regiDate;
+                $result['userType']=$userTypecol;
+                $result['phone']=$phone;
+                $result['postalcode']=$postalcode;
+                $result['status']=$statuscol;
+                $result['action']=$actioncol;
+
+                array_push($json['data'], $result);
+            }
+        }
+        echo json_encode($json);
+
+    }
+
+}
+
+
+ 
 }

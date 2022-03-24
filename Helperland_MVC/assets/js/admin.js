@@ -8,4 +8,6 @@ const listItems = document.querySelectorAll('#sidebar ul li a');
         }
         listItems.forEach(item =>{
             item.addEventListener('click', activateClicked);
-        })
+})
+
+

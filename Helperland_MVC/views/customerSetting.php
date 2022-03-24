@@ -278,7 +278,7 @@ if(!isset($_SESSION['username'])){
                           </div>
                         </div>
                         <div class="edit-btn">
-                          <button class="btn_edit">Edit</button>
+                          <button class="btn_edit" data-bs-dismiss="modal">Edit</button>
                         </div>
                       </div>
                     </div>
@@ -298,6 +298,7 @@ if(!isset($_SESSION['username'])){
                               <div class="col-md-6">
                                 <label for="inputstreet" class="form-label">Street name</label>
                                 <input type="text" class="form-control" id="inputstreet2">
+                                <span class="streetErr" style="color: red; font-size: 13px;"></span>
                               </div>
                               <div class="col-md-6">
                                 <label for="inputhouse" class="form-label">House number</label>
@@ -306,15 +307,17 @@ if(!isset($_SESSION['username'])){
                               <div class="col-md-6">
                                 <label for="inputpostal" class="form-label">Postal code</label>
                                 <input type="text" class="form-control" id="inputpostal2">
+                                <span class="postalErr" style="color: red; font-size: 13px;"></span>
                               </div>
                               <div class="col-md-6">
-                                <label for="inputcity" class="form-label">City</label>
-                                <input id="city2" class="form-control">
+                                <label for="city2" class="form-label">City</label>
+                                <select id="city2" class="form-control">
                             </select>
                               </div>
                               <div class="col-md-6">
                                 <label for="inputphone" id="inputphone" class="form-label">Phone number</label>
                                 <input type="tel" class="form-control" id="inputphone2">
+                                <span class="phoneErr" style="color: red; font-size: 13px;"></span>
                               </div>
                               
                             </div>
@@ -322,7 +325,7 @@ if(!isset($_SESSION['username'])){
                           </div>
                         </div>
                         <div class="edit-btn">
-                          <button class="btn_edit" id="addnewAddress">Save</button>
+                          <button class="btn_edit" id="addnewAddress" data-bs-dismiss="modal">Save</button>
                         </div>
                       </div>
                     </div>
@@ -339,7 +342,7 @@ if(!isset($_SESSION['username'])){
                           <h6>Are you sure, you want to delete?</h6>
                         </div>
                         <div class="edit-btn">
-                          <button class="btn_delete">Delete</button>
+                          <button class="btn_delete" data-bs-dismiss="modal">Delete</button>
                         </div>
                       </div>
                     </div>
@@ -353,13 +356,13 @@ if(!isset($_SESSION['username'])){
                 
                 <div class="change_password">
                   <label for="old_pass">Old Password</label>
-                  <input type="text" id="old_pass" class="form-control w-25" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" placeholder="Current Password" >
+                  <input type="password" id="old_pass" class="form-control w-25" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" placeholder="Current Password" >
                   <div class="errMsg1" style="color: red"></div>
                   <label for="new_pass">New Password</label>
-                  <input type="text" id="new_pass" class="form-control w-25" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" placeholder="Password" >
+                  <input type="password" id="new_pass" class="form-control w-25" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" placeholder="Password" >
                   <div class="errMsg2" style="color: red"></div>
                   <label for="confirm_pass">Confirm Password</label>
-                  <input type="text" id="confirm_pass" class="form-control w-25" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" placeholder="Confirm Password" >
+                  <input type="password" id="confirm_pass" class="form-control w-25" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,14}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 to 14 characters" placeholder="Confirm Password" >
                   <div class="errMsg3" style="color: red"></div>
                 </div>
                 <div class="save-pass">

@@ -91,7 +91,7 @@
   background-color: #146371;
   margin: 0px;
   padding: 0%;
-  margin-bottom: 20px;
+  margin-bottom: 80px;
 }
 #export-btn {
   margin-left: auto;
@@ -268,6 +268,10 @@ table {
 #myTabContent{
   padding: 7px;
 }
+.SPimg{
+  height: 40px;
+  width: 40px;
+} 
 .save-btn{
   border: none;
   border-radius: 27px;

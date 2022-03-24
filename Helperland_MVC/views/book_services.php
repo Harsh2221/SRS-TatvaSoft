@@ -76,12 +76,12 @@ session_start();
                                   
             <div class="sub-form row">
               <div class="1 row col-lg-6">
-                <p>When do you need the cleaner?</p>
+                <p>When do you need the cleaner?</p> 
                 <div class="row">
                   <div class="col-sm-7 d-picker">
                     <img src="./assets/assets/calendar-book-service.png" alt=""> <input type="text" id="datepicker" placeholder="Date" name="select_date" data-date-format='yyyy-mm-dd'>
                   </div>
-                  <div class="col-sm-5 time">
+                  <div class="col-sm-5 time"> 
                   <select id="select_time" class="form-select select_time">
                       <option value='8'>8:00 </option>
                       <option value='8.5'>8:30 </option>

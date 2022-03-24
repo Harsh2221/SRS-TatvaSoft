@@ -2,7 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
+} 
 
 .navbar-brand {
   color: #ffffff;
@@ -23,6 +23,11 @@
 .nav-link:focus,
 .nav-link:hover {
   color: #ffffff;
+}
+.logout-btn{
+  border: none;
+  background: transparent;
+  
 }
 
 #sidebar.active {

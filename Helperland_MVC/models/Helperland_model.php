@@ -57,6 +57,7 @@ class Helperland_model{
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $count=$stmt->rowCount();
         $usertypeid = $row['UserTypeId'];
+        $isActive = $row['IsActive'];
         // echo $count;
         // echo $usertypeid;
         // echo $row['Password'];
@@ -64,25 +65,42 @@ class Helperland_model{
         $customer = "http://localhost/tatvasoft/Helperland_MVC/customerActivity";
         $service_provider = "http://localhost/tatvasoft/Helperland_MVC/serviceProviderScreens";
         $base_url = "http://localhost/tatvasoft/Helperland_MVC";
+        $adminurl="http://localhost/tatvasoft/Helperland_MVC/adminServiceRequest";
 
         if($count==1){
-            if ($pass == $row['Password']){
-                if ($usertypeid == 0) {
-                    $_SESSION['username'] = $email;
-                    $_SESSION['usertypeCustomer'] = $usertypeid;
-
-                    header('Location:' . $customer);
-                } 
-                if ($usertypeid == 1) {
-                    $_SESSION['username'] = $email;
-                    $_SESSION['usertypeSp'] = $usertypeid;
-                    header('Location:' . $service_provider);
+            if($isActive=='Yes'){
+                if ($pass == $row['Password']){
+                    if ($usertypeid == 0) {
+                        $_SESSION['username'] = $email;
+                        $_SESSION['usertypeCustomer'] = $usertypeid;
+                        $setStatus="UPDATE user SET Status = 'Active' WHERE Email = '$email'";
+                        $setStatus=$this->conn->prepare($setStatus);
+                        $setStatus->execute();
+    
+                        header('Location:' . $customer);
+                    } 
+                    if ($usertypeid == 1) {
+                        $_SESSION['username'] = $email;
+                        $_SESSION['usertypeSp'] = $usertypeid;
+                        header('Location:' . $service_provider);
+                    }
+                    if ($usertypeid == 2) {
+                        $_SESSION['username'] = $email;
+                        $_SESSION['usertypeAdmin'] = $usertypeid;
+                        header('Location:' . $adminurl);
+                    }
+    
+                }else{
+                    $_SESSION['msg']="Invalid password !";
+                    $_SESSION['icon']="error";
+                    header('Location:' . $base_url);
                 }
             }else{
-                $_SESSION['msg']="Invalid password !";
+                $_SESSION['msg']="Your Account is DeActive !";
                 $_SESSION['icon']="error";
                 header('Location:' . $base_url);
             }
+            
         }else{
             $_SESSION['msg']="User not Exist !";
             $_SESSION['icon']="error";
@@ -339,15 +357,15 @@ class Helperland_model{
         return $result;
     }
     public function getNewServices(){
-        $sql = "SELECT * FROM `servicerequest`  JOIN user ON servicerequest.`UserId`= user.UserId JOIN useraddress ON useraddress.AddressId = servicerequest.`AddressId`  WHERE `servicerequest`.`Status` = 'Panding' ORDER BY `servicerequest`.`ServiceRequestId` DESC";
+        $sql = "SELECT * FROM `servicerequest`  JOIN user ON servicerequest.`UserId`= user.UserId JOIN useraddress ON useraddress.AddressId = servicerequest.`AddressId`  WHERE (`servicerequest`.`Status` = 'Panding' || `servicerequest`.`Status` = 'Reschedule') && `user`.`Status` = 'Active' ORDER BY `servicerequest`.`ServiceRequestId` DESC";
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute();
         $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
 
     }
-    public function isConflict($serviceproviderid, $servicestartdate, $totaltime){
-        $sql = "SELECT *,COUNT(*) FROM `servicerequest` WHERE `ServiceProviderId` = $serviceproviderid AND `ServiceStartDate` = '$servicestartdate' AND `ServiceTime` <=  '$totaltime'";
+    public function isConflict($serviceproviderid, $servicestartdate, $endTime){
+        $sql = "SELECT *,COUNT(*) FROM `servicerequest` WHERE `ServiceProviderId` = $serviceproviderid AND `ServiceStartDate` = '$servicestartdate' AND `ServiceTime` <=  '$endTime'";
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute();
         $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -473,7 +491,6 @@ class Helperland_model{
         $stmt->execute($addAddress);
         $count = $stmt->rowCount();
         return array($count);
-
     }
     public function updateSPadress($updateAddress){
         $sql = "UPDATE `useraddress` SET `AddressLine1`= :street ,`AddressLine2`= :houseno,`City`=:city,`State`= :state ,`PostalCode`= :postalcode ,`Mobile`=:phone WHERE `Email` = :email ";
@@ -490,5 +507,98 @@ class Helperland_model{
         return array($count);
 
     }
+    public function getAllServiceReqadmin(){
+        $sql = "SELECT servicerequest.UserId,servicerequest.ServiceRequestId,servicerequest.ServiceStartDate,servicerequest.Status,servicerequest.ServiceTime,servicerequest.ServiceProviderId,servicerequest.TotalHours,useraddress.AddressLine1,useraddress.AddressLine2,useraddress.City,useraddress.State,useraddress.PostalCode,user.FirstName,user.LastName,user.UserProfilePicture FROM `servicerequest` LEFT JOIN user ON servicerequest.`UserId` = user.UserId JOIN useraddress ON servicerequest.AddressId = useraddress.AddressId ORDER BY servicerequest.`ServiceRequestId` DESC";   
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+
+    }
+    public function searchWserviceId($serviceId,$selectUser,$selectSp,$status,$startDate,$endDate){
+        $sql = "SELECT servicerequest.`UserId`,servicerequest.`ServiceRequestId`,servicerequest.`ServiceStartDate`,servicerequest.Status,servicerequest.ServiceTime,servicerequest.ServiceProviderId,servicerequest.TotalHours,useraddress.AddressLine1,useraddress.AddressLine2,useraddress.City,useraddress.State,useraddress.PostalCode,user.FirstName,user.LastName,user.UserProfilePicture FROM `servicerequest` LEFT JOIN user ON servicerequest.`UserId` = user.UserId JOIN useraddress ON servicerequest.AddressId = useraddress.AddressId WHERE `servicerequest`.`ServiceRequestId` LIKE '%$serviceId%' AND CONCAT(user.FirstName ,' ',user.LastName) LIKE '%$selectUser%' AND `servicerequest`.`status` LIKE '%$status%' ORDER BY servicerequest.`ServiceRequestId` DESC";
+        // AND(`servicerequest`.`ServiceStartDate` BETWEEN '$startDate' AND '$endDate')
+        //  
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result; 
+    }
+    public function searchFromdates($serviceId,$selectUser,$selectSp,$status,$startDate,$endDate){
+        $sql = "SELECT servicerequest.`UserId`,servicerequest.`ServiceRequestId`,servicerequest.`ServiceStartDate`,servicerequest.Status,servicerequest.ServiceTime,servicerequest.ServiceProviderId,servicerequest.TotalHours,useraddress.AddressLine1,useraddress.AddressLine2,useraddress.City,useraddress.State,useraddress.PostalCode,user.FirstName,user.LastName,user.UserProfilePicture FROM `servicerequest` LEFT JOIN user ON servicerequest.`UserId` = user.UserId JOIN useraddress ON servicerequest.AddressId = useraddress.AddressId WHERE `servicerequest`.`ServiceRequestId` LIKE '%$serviceId%' AND CONCAT(user.FirstName ,' ',user.LastName) LIKE '%$selectUser%' AND `servicerequest`.`status` LIKE '%$status%' AND(`servicerequest`.`ServiceStartDate` BETWEEN '$startDate' AND '$endDate') ORDER BY servicerequest.`ServiceRequestId` DESC";
+        // 
+        //  
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result; 
+    }
+    public function searchSP($selectSp){
+        $sql = "SELECT servicerequest.`UserId`,servicerequest.`ServiceRequestId`,servicerequest.`ServiceStartDate`,servicerequest.Status,servicerequest.ServiceTime,servicerequest.ServiceProviderId,servicerequest.TotalHours,useraddress.AddressLine1,useraddress.AddressLine2,useraddress.City,useraddress.City,useraddress.State,useraddress.PostalCode,user.FirstName,user.LastName,user.UserProfilePicture FROM `servicerequest` LEFT JOIN user ON servicerequest.`ServiceProviderId` = user.UserId JOIN useraddress ON servicerequest.AddressId = useraddress.AddressId WHERE CONCAT(user.FirstName , ' ',user.LastName) = '$selectSp' ORDER BY servicerequest.`ServiceRequestId` DESC";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;  
+    }
+    public function userAndSpall($type){
+        $sql = "SELECT DISTINCT CONCAT(`FirstName`,' ',`LastName`) AS UserName FROM `user` WHERE UserTypeId = $type";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    public function adminUpAdd($updateAddress){
+        $sql = "UPDATE `useraddress` SET `AddressLine1`= :street ,`AddressLine2`= :houseno,`City`= :city,`State`=:state,`PostalCode`= :postalcode WHERE `AddressId`= :addressId";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute($updateAddress);
+        $result  = $stmt->rowCount();
+        return array($result); 
+    }
+    public function getAlluser(){
+        $sql="SELECT * FROM user";
+        $stmt=$this->conn->prepare($sql);
+        $stmt->execute();
+        $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    public function activedeactive($data){
+        $sql='UPDATE user SET IsActive=:isActive, ModifiedDate=:modifiedDate, ModifiedBy=:modifiedBy WHERE UserId=:userId';
+        $stmt=$this->conn->prepare($sql);
+        $stmt->execute($data);
+        $count=$stmt->rowCount();
+        return array($count);
+    }
+    public function getUserSelect()
+    {
+        $sql="SELECT DISTINCT CONCAT(`FirstName`,' ',`LastName`) AS UserName FROM `user` ";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array($result);
+
+    }
+    
+    public function allSearch($selectUser,$selectRole,$phone){
+        $sql = "SELECT * FROM `user` WHERE CONCAT(`FirstName`,' ',`LastName`) LIKE '%$selectUser%' AND `UserTypeId` LIKE '%$selectRole%' AND `Mobile` LIKE '%$phone%' ";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    public function pincodeSearch($selectUser,$selectRole,$phone,$postalcode){
+        $sql = "SELECT * FROM `user` WHERE CONCAT(`FirstName`,' ',`LastName`) LIKE '%$selectUser%' AND `UserTypeId` LIKE '%$selectRole%' AND `Mobile` LIKE '%$phone%' AND `ZipCode` LIKE '%$postalcode%' ";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    public function GetAllServiceProvider(){
+        $sql = 'SELECT * FROM `user` WHERE UserTypeId = 1 AND `IsActive`="Yes"';
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
 }
 ?>

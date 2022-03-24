@@ -141,7 +141,7 @@ if(!isset($_SESSION['username'])){
           <div class="col">
           <h5><span class="bookDate">07/03/22022</span>
         
-        <span class="sTime">08</span>:00-<span class="eTime">11</span>:00</span></h5>
+        <span class="sTime">08</span>-<span class="eTime">11</span></span></h5>
 
        <p><b>Duration:</b> <span class="duration">3</span> Hrs</p>
        <hr>
@@ -230,7 +230,7 @@ if(!isset($_SESSION['username'])){
       <!-- <div class="container-fluid"> -->
     <div class="row">
       <div class="col"> <h5><span class="upcomeDate">07/03/22022</span>
-        <span class="UsTime">08</span>:00-<span class="UeTime">11</span>:00
+        <span class="UsTime">08</span>-<span class="UeTime">11</span>
         </h5>
         <p><b>Duration:</b><span class="upcomeDuration"> 3 </span>Hrs</p>
         <hr>
@@ -338,7 +338,7 @@ if(!isset($_SESSION['username'])){
        
               </tbody>
     </table>
-
+ 
             <div class="modal fade" id="historyModal" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -350,7 +350,7 @@ if(!isset($_SESSION['username'])){
       <!-- <div class="container-fluid"> -->
     <div class="row">
       <div class="col"> <h5><span class="upcomeDate">07/03/22022</span>
-        <span class="UsTime">08</span>:00-<span class="UeTime">11</span>:00
+        <span class="UsTime">08</span>-<span class="UeTime">11</span>
         </h5>
         <p><b>Duration:</b><span class="upcomeDuration"> 3 </span>Hrs</p>
         <hr>

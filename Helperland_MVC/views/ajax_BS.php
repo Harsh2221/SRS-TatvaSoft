@@ -127,6 +127,21 @@ function schedule_plan(){
 
 }
 
+$('#addressform').on('change', '#inputpostal', function(){
+    pincode=$(this).val();
+    $.ajax({
+      type:'POST',
+      url:'http://localhost/tatvasoft/Helperland_MVC/?controller=main_&function=cityCheck',
+      data:{
+        'postalcode':pincode,
+      },
+      success: function(data)
+      {
+        $('#inputcity').html(data);
+      }
+    })
+})
+
 
 function new_address(){    
   
@@ -240,8 +255,8 @@ function complete_booking(){
     
     // alert(date);
 
-    time = $("#select_time option:selected").text();
-    hour = $("#select_hours option:selected").text();
+    time = $("#select_time option:selected").val();
+    hour = $("#select_hours option:selected").val();
     extra_service = 0;
     extra_time = "0.5";
     extra_time = parseFloat(extra_time);

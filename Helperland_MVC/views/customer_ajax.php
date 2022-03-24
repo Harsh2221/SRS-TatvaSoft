@@ -32,7 +32,14 @@ $(document).ready(function () {
                 "bInfo": false,
                 "dom": '<"top"i>rt<"bottom"flp><"clear">',
                 
-                "zeroRecords": "No Data Found",
+                "language": {
+                    "paginate": {
+                        "previous": '<i class="fa fa-angle-left"></i>',
+                        "next": '<i class="fa fa-angle-right"></i>',
+                        
+                    },
+                    "zeroRecords": "No Data Found",
+                   },
                 
                 "ajax": {
                     'type': 'POST',
@@ -53,6 +60,36 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+
+    $("#myTable1").on('click', '.serviceDetailModel', function(){
+        serviceId = $(this).attr('name');
+        ;
+        // alert(serviceId);
+    
+        $.ajax({
+        type: 'POST',
+        url: 'http://localhost/tatvasoft/Helperland_MVC/?controller=main_&function=getServiceData',
+        data: { 'serviceId' : serviceId, },
+        dataType: "json",
+        success: function (data){
+            // data fetch from controller function
+            $('.bookDate').html(data[13]);
+            $('.sTime').html(data[14]); 
+            $('.eTime').html(data[15]);
+            $('.duration').html(data[1]);
+            $('.serviceId').html(data[0]);
+            $('.extraS').html(data[16]);
+            $('.paymentTotal').html(data[2]);
+            $('.addressData').html(data[18]);
+            $('.phoneNo').html(data[19]);
+            
+            $('.commentPet').html(data[20]);
+
+            
+
+        }
+    });
+    })
 
 
 $(".dashboardTable").on("click", ".reschedule-btn", function() {
@@ -123,7 +160,7 @@ $("#reschedule_modal").on('click', function(){
         $('.timeError').text("");
     }
 
-});
+}); 
 
 $("#reschedule_modal").on('click','.update', function(){
    //    alert("+")
@@ -131,7 +168,7 @@ $("#reschedule_modal").on('click','.update', function(){
   //  alert(serviceId)
   newDate = $('#datepicker').val();
   //   alert(newDate);
-  newTime = $('#select_time option:selected').text();
+  newTime = $('#select_time option:selected').val();
   //   alert(newTime);
     $.ajax({
         type: 'POST',
@@ -141,6 +178,10 @@ $("#reschedule_modal").on('click','.update', function(){
             'newDate': newDate, 
             'newTime': newTime, 
         },
+        beforeSend: function(){
+          alert("Loading ...");
+        
+       },
         success: function(data){
             if(data==0)
             {
@@ -173,6 +214,10 @@ $("#cancel_modal").on('click','.cancel', function(){
             'serviceId': serviceId,
             'cancelReason': cancelReason,
         },
+        beforeSend: function(){
+          alert("Loading ...");
+        
+       },
         success: function(data)
         {
             if(data==1){
@@ -203,10 +248,14 @@ $(document).ready(function(){
                 "bInfo": false,
                 "dom": '<"top"i>rt<"bottom"flp><"clear">',
                 
-                "zeroRecords": "No Data Found",
-                
-
-                "infoEmpty": "No records available",
+                "language": {
+                    "paginate": {
+                        "previous": '<i class="fa fa-angle-left"></i>',
+                        "next": '<i class="fa fa-angle-right"></i>',
+                        
+                    },
+                    "zeroRecords": "No Data Found",
+                   },
                 
                 "ajax": {
                     'type': 'POST',
@@ -224,11 +273,44 @@ $(document).ready(function(){
                
             }).ajax.reload();
     
+    
 
-});
+}); 
+
+
 
 // rating service provider -------------------->
 $(document).ready(function () {
+
+    $("#myTable2").on('click', '.serviceDetailModel', function(){
+        serviceId = $(this).attr('name');
+        ;
+        // alert(serviceId);
+    
+        $.ajax({
+        type: 'POST',
+        url: 'http://localhost/tatvasoft/Helperland_MVC/?controller=main_&function=getServiceData',
+        data: { 'serviceId' : serviceId, },
+        dataType: "json",
+        success: function (data){
+            // data fetch from controller function
+            $('.bookDate').html(data[13]);
+            $('.sTime').html(data[14]); 
+            $('.eTime').html(data[15]);
+            $('.duration').html(data[1]);
+            $('.serviceId').html(data[0]);
+            $('.extraS').html(data[16]);
+            $('.paymentTotal').html(data[2]);
+            $('.addressData').html(data[18]);
+            $('.phoneNo').html(data[19]);
+            
+            $('.commentPet').html(data[20]);
+
+            
+
+        }
+    });
+    })
         
  // on time arrival rating--->
     $('.on_time').on('click', function(){
@@ -413,6 +495,17 @@ $(document).ready(function () {
   })  
     
 }); 
+
+$(document).ready(function () {
+    var options = {
+    "separator": ",",
+    "filename": "CustomerServiceHistory.csv",
+  }
+$(".exprtBtn").on('click', function () {
+    // alert("+");
+    $('#myTable2').table2csv(options);
+  });
+});
 
 
 </script>

@@ -132,6 +132,35 @@ $('#addressTable').on('click', '.editBtn', function(){
     });
 });
 
+$('#edit_address').on('change', '#inputpostal', function(){
+    pincode=$(this).val();
+    $.ajax({
+      type:'POST',
+      url:'http://localhost/tatvasoft/Helperland_MVC/?controller=main_&function=cityCheck',
+      data:{
+        'postalcode':pincode,
+      },
+      success: function(data)
+      {
+        $('#city').html(data);
+      }
+    })
+})
+$('#addNew_address').on('change', '#inputpostal2', function(){
+    pincode=$(this).val();
+    $.ajax({
+      type:'POST',
+      url:'http://localhost/tatvasoft/Helperland_MVC/?controller=main_&function=cityCheck',
+      data:{
+        'postalcode':pincode,
+      },
+      success: function(data)
+      {
+        $('#city2').html(data);
+      }
+    })
+}) 
+
 $('#edit_address').on('click', '.btn_edit', function(){
     // alert("+")
     addressId=$(this).attr('id');
@@ -169,8 +198,43 @@ $('#edit_address').on('click', '.btn_edit', function(){
 
 });
 
+// new address form validation
+$('#addNew_address').on('change', '#inputstreet2', function(){
+  var inputstreet2=$('#inputstreet2').val();
+  if(inputstreet2.length==0)
+  {
+    $('.streetErr').text("Please enter street name");
+
+  }else{
+    $('.streetErr').text("");
+  }
+});
+$('#addNew_address').on('change', '#inputpostal2', function(){
+  var pin=$('#inputpostal2').val();
+  if(pin.length<5)
+  {
+    $('.postalErr').text("Please enter valid postalcode");
+  }else{
+    $('.postalErr').text("");
+  }
+});
+$('#addNew_address').on('change', '#inputphone2', function(){
+  var inputphone2=$('#inputphone2').val();
+  if(inputphone2.length<10)
+  {
+    $('.phoneErr').text("Please enter valid Phone number");
+  }else{
+    $('.phoneErr').text("");
+  }
+});
+
 $('#addNew_address').on('click', '#addnewAddress',function(){
-    
+
+if($('#inputstreet2').val()=="" || $('#inputhouse2').val()=="" || $('#inputpostal2').val()=="" || $('#inputphone2').val()=="")
+{
+    alert("Please Enter all the Details")
+
+}else{
     streetname=$('#inputstreet2').val();
     housenumber=$('#inputhouse2').val();
     postalcode=$('#inputpostal2').val();
@@ -205,6 +269,10 @@ $('#addNew_address').on('click', '#addnewAddress',function(){
             $('#addressTable').DataTable().ajax.reload();
         }
     });
+
+}
+    
+   
   
 });
 

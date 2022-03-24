@@ -19,7 +19,14 @@ $(document).ready(function(){
                 "bInfo": false,
                 "dom": '<"top"i>rt<"bottom"flp><"clear">',
                 
-                "zeroRecords": "No Data Found",
+                "language": {
+                    "paginate": {
+                        "previous": '<i class="fa fa-angle-left"></i>',
+                        "next": '<i class="fa fa-angle-right"></i>',
+                        
+                    },
+                    "zeroRecords": "No Data Found",
+                   },
                 
                 "ajax": {
                     'type': 'POST',
@@ -99,6 +106,7 @@ $(document).ready(function(){
                     alert("service already accepted by other service provider");
                 }
                 $('#newServiceTable').DataTable().ajax.reload();
+                $('#upcomingServiceTable').DataTable().ajax.reload();
             }
         })
 
@@ -114,7 +122,14 @@ $(document).ready(function(){
                 "bInfo": false,
                 "dom": '<"top"i>rt<"bottom"flp><"clear">',
                 
-                "zeroRecords": "No Data Found",
+                "language": {
+                    "paginate": {
+                        "previous": '<i class="fa fa-angle-left"></i>',
+                        "next": '<i class="fa fa-angle-right"></i>',
+                        
+                    },
+                    "zeroRecords": "No Data Found",
+                   },
                 
                 "ajax": {
                     'type': 'POST',
@@ -209,7 +224,9 @@ $(document).ready(function(){
                 {
                     alert("Service Request Not cancelled");
                 }
+                
                 $("#upcomingServiceTable").DataTable().ajax.reload();
+                $("#serviceHistoryTableSP").DataTable().ajax.reload();
             }
         })
     })
@@ -234,6 +251,7 @@ $(document).ready(function(){
                     alert("Service Has Not Completed Successfully");
                 }
                 $("#upcomingServiceTable").DataTable().ajax.reload();
+                $("#serviceHistoryTableSP").DataTable().ajax.reload();
             }
         })
 
@@ -264,6 +282,14 @@ $(document).ready(function(){
                 "dom": '<"top"i>rt<"bottom"flp><"clear">',
                 
                 "zeroRecords": "No Data Found",
+                "language": {
+                    "paginate": {
+                        "previous": '<i class="fa fa-angle-left"></i>',
+                        "next": '<i class="fa fa-angle-right"></i>',
+                        
+                    },
+                    "zeroRecords": "No Data Found",
+                   },
                 
                 "ajax": {
                     'type': 'POST',

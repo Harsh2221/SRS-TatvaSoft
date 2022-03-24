@@ -59,7 +59,7 @@ if(!isset($_SESSION['username'])){
             
           </div>
         </div>
-
+        <!-- <span style="visibility: hidden;" id="loader"><img src="./assets/assets/load.gif" /></span> -->
         <div class="col-lg-8 col-md-3 col-sm-6 tab-content">
           <div id="dashboard" class="tab-pane fade show active dashbord_tab">
 
@@ -198,13 +198,13 @@ if(!isset($_SESSION['username'])){
                   </div>
                   <div class="footer-modal">
                     <div class="updateButton">
-                    <button type="button" class="update" >Update</button>
+                    <button type="button" class="update" data-bs-dismiss="modal">Update</button>
                     </div>
                     
                   </div>
                 </div>
               </div>
-            </div>
+            </div> 
 
             <div class="modal fade" id="cancel_modal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
@@ -224,7 +224,7 @@ if(!isset($_SESSION['username'])){
 
                   </div>
                   <div class="footer-modal">
-                    <div class="cancelButton"><button type="button" class="cancel">Cancel Now</button></div>
+                    <div class="cancelButton" data-bs-dismiss="modal"><button type="button" class="cancel">Cancel Now</button></div>
                     
                   </div>
                 </div>
@@ -232,28 +232,51 @@ if(!isset($_SESSION['username'])){
             </div>
 
             <div class="modal fade" id="ServiceData_modal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="header_modal">Cancel Service Request</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <h6>Why you want to cancel service request?</h6>
-                    <div class="row">
-                      <div class="cancel_reason">
-                        <textarea name="cancel_reason" id="" cols="37" rows="3"></textarea>
-                      </div>
+            
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Service Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body serviceData">
+        <div class="row">
+          <div class="col">
+          <h4><span class="bookDate">07/03/22022</span>
+        
+        <span class="sTime">08</span>-<span class="eTime">11</span></span></h4>
 
-                    </div>
+       <p><b>Duration:</b> <span class="duration">3</span> Hrs</p>
+       <hr>
 
-                  </div>
-                  <div class="footer-modal">
-                    <div class="cancelButton"><button type="button" class="cancel">Cancel Now</button></div>
-                    
-                  </div>
-                </div>
-              </div>
+       <p><b>Service Id:</b><span class="serviceId"> 1212 </span><br>
+       <b>Extras:</b><span class="extraS"> </span><br>
+       <b>Total Payment:</b> <span style="color: #1D7A8C; font-size: 20px;"><b>$ <span class="paymentTotal">56,300</span></b></span> 
+       <hr>
+       
+       <b>Service Address:</b><span class="addressData"> XYZ 1212, 12345 ahmedabad </span><br>
+       <b>Billing Address:</b><span class="addressDatab"> Same as Service Address </span><br>
+       <b>Phone no:</b> <span class="phoneNo"></span> <br>
+      
+       <hr>
+       <b>Comments:</b> <br><span class="commentPet">❌ I don't have pets at home </span>
+
+
+       <hr>
+       
+       
+        </div>
+       
+     </div>
+      
+      </div>
+
+     </div>
+             
+  </div>
+    
+  <!-- </div> -->
+
             </div>
 
           </div>
@@ -264,7 +287,7 @@ if(!isset($_SESSION['username'])){
           <div id="history" class="tab-pane fade history_tab">
             <div class="d-flex">
               <h6>Service history</h6>
-              <button id="export-btn">Export</button>
+              <button id="export-btn" class="exprtBtn">Export</button>
             </div>
 
             <table class="table historyTable" id="myTable2">
@@ -445,157 +468,67 @@ if(!isset($_SESSION['username'])){
 
                   <div class="footer-modal" style="text-align: left;">
 
-                    <button type="submit" class="rate_submit">Submit</button>
+                    <button type="submit" class="rate_submit" data-bs-dismiss="modal">Submit</button>
                   </div>
 
 
                 </div>
 
               </div>
+            </div>
+            <div class="modal fade" id="ServiceHistory_modal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+             
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Service Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body serviceData">
+        <div class="row">
+          <div class="col">
+          <h4><span class="bookDate">07/03/22022</span>
+        
+        <span class="sTime">08</span>-<span class="eTime">11</span></span></h4>
+
+       <p><b>Duration:</b> <span class="duration">3</span> Hrs</p>
+       <hr>
+
+       <p><b>Service Id:</b><span class="serviceId"> 1212 </span><br>
+       <b>Extras:</b><span class="extraS"> </span><br>
+       <b>Total Payment:</b> <span style="color: #1D7A8C; font-size: 20px;"><b>$ <span class="paymentTotal">56,300</span></b></span> 
+       <hr>
+       
+       <b>Service Address:</b><span class="addressData"> XYZ 1212, 12345 ahmedabad </span><br>
+       <b>Billing Address:</b><span class="addressDatab"> Same as Service Address </span><br>
+       <b>Phone no:</b> <span class="phoneNo"></span> <br>
+      
+       <hr>
+       <b>Comments:</b> <br><span class="commentPet">❌ I don't have pets at home </span>
+
+
+       <hr>
+       
+       
+        </div>
+       
+     </div>
+      
+      </div>
+
+     </div>
+             
+  </div>
+    
+  <!-- </div> -->
+
             </div>
           </div>
 
           <div id="favorite" class="tab-pane fade favorite_pros">
           favorite
           </div>
-          <div id="settings" class="tab-pane fade my_settings">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="home" aria-selected="true">My Details</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#address" type="button" role="tab" aria-controls="profile" aria-selected="false">My Addresses</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#change_pass" type="button" role="tab" aria-controls="contact" aria-selected="false">Change Password</button>
-              </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-
-              <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="home-tab">
-              <div class="my_details">
-                <div class="row">
-                  <div class="col-4">
-                    <label for="first_name">First name</label>
-                    <input type="text" id="first_name" class="form-control" placeholder="First name" >
-                  </div>
-                  <div class="col-4">
-                    <label for="last_name">Last name</label>
-                    <input type="text" id="last_name" class="form-control" placeholder="Last name" >
-                  </div>
-                  <div class="col-4">
-                    <label for="email_detail">Email address</label>
-                    <input type="email" id="email_detail" class="form-control" placeholder="Email Address">
-                  </div>
-                  <div class="col-4">
-                    <label for="phone_detail">Email address</label>
-                    <input type="tel" id="phone_detail" class="form-control" placeholder="Phone number">
-                  </div>
-                  <div class="col-4">
-                    <label for="dob_detail">Date of Birth</label>
-                    <input type="number" id="dob_detail" class="form-control" placeholder="DOB">
-                  </div>
-                  <hr style="margin-top: 20px;">
-                  <div class="col-3">
-                    <label for="lang_detail">My Preferred Language</label>
-                    <select id="lang_detail" class="form-select">
-                      <option selected>English</option>
-                      <option>Hindi</option>
-                      <option>Gujarati</option>
-                    </select>
-                  </div> 
-                  <div><button class="save-btn" id="save">Save</button></div>
-                  
-                </div>
-
-              </div>
-              </div>
-
-              <div class="tab-pane fade" id="address" role="address" aria-labelledby="profile-tab">
-                <div class="address_table">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        
-                        <th scope="col">Addresses</th>
-                        <th scope="col">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        
-                        <td>demo address</td>
-                        <td>
-                          <button style="margin-right: 10px; border: none" data-bs-toggle="modal" data-bs-target="#edit_address"><img src="./assets/assets/edit.png" alt="" style="height: 20px; width: 20px;"></button>
-                          <button style="border: none"><img src="./assets/assets/delete.png" alt="" style="height: 22px; width: 25px;"></button>
-                        </td>
-                      </tr>
-                     
-                    </tbody>
-                  </table>
-                  <div><button class="add_address-btn" id="add_address">Add New Address</button></div>
-
-                  <div class="modal fade" id="edit_address" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h4 class="modal-title" id="edit_title" style="color: #646464;">Edit Address</h4>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="card card-body" id="address_form">
-
-                            <div class="row">
-                              <div class="col-md-6">
-                                <label for="inputstreet" class="form-label">Street name</label>
-                                <input type="text" class="form-control" id="inputstreet">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputhouse" class="form-label">House number</label>
-                                <input type="text" class="form-control" id="inputhouse">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputpostal" class="form-label">Postal code</label>
-                                <input type="text" class="form-control" id="inputpostal">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputcity" class="form-label">City</label>
-                                <input type="text" class="form-control" id="inputcity">
-                              </div>
-                              <div class="col-md-6">
-                                <label for="inputphone" class="form-label">Phone number</label>
-                                <input type="text" class="form-control" id="inputphone">
-                              </div>
-                              
-                            </div>
-              
-                          </div>
-                        </div>
-                        <div class="edit-btn">
-                          <button class="btn_edit">Edit</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                 </div>
-
-              </div>
-
-              <div class="tab-pane fade" id="change_pass" role="change_pass" aria-labelledby="contact-tab">
-                <div class="change_password">
-                  <label for="old_pass">Old Password</label>
-                  <input type="text" id="old_pass" class="form-control w-25" placeholder="Current Password" >
-                  <label for="new_pass">New Password</label>
-                  <input type="text" id="new_pass" class="form-control w-25" placeholder="Password" >
-                  <label for="confirm_pass">Confirm Password</label>
-                  <input type="text" id="confirm_pass" class="form-control w-25" placeholder="Confirm Password" >
-                </div>
-
-              </div>
-            </div>
-
-          </div>
+          
          
           
 
@@ -660,6 +593,7 @@ if(!isset($_SESSION['username'])){
   <script src="./assets/js/jquery.js"></script>
   <script src="./assets/js/jquery.dataTables.min.js"></script>
   <script src="./assets/js/service_history.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/table2csv@1.1.6/src/table2csv.min.js"></script>
   <!-- <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script> -->
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

@@ -1,3 +1,12 @@
+<?php
+session_start();
+$email = $_SESSION['username'];
+$base = "https://localhost/tatvasoft/Helperland_MVC/";
+if(!isset($_SESSION['username'])){
+  header('Location:' . $base);
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -5,47 +14,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin|Service Requests</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/admin_service_request.css" />
-  <link href="css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./assets/css/admin_service_request.css" />
+  <link href="./assets/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
 </head>
 
 <body>
 
 
-  <section class="navbar-area">
-    <nav class="navbar navbar-expand-lg navbar-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-          <h2>helperland</h2>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span><img src="assets/user.png" alt="" /></span>
-                James Smith
-              </a>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#"><img src="assets/logout.png" alt="#"></a>
-            </li>
-          </ul>
-          </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-  </section>
+  <?php
+  include('adminNavbar.php');  
+  ?>
 
   <section class="main-content">
     <div class="wrapper">
@@ -56,11 +38,11 @@
         <ul class="list-unstyled components">
 
           <li>
-            <a class="link-active" href="admin_service_request.html">Service Requests</a>
+            <a class="link-active" href="adminServiceRequest.php">Service Requests</a>
           </li>
 
           <li>
-            <a href="admin_user.html">User Management</a>
+            <a href="adminUser.php">User Management</a>
           </li>
 
         </ul>
@@ -68,18 +50,18 @@
 
 
       <div id="content">
-
+ 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid upper-btn">
             <a id="sidebarCollapse" class="btn">
 
-              <span> <img src="assets/vector-smart-object-copy.png" alt=""></span>
+              <span> <img src="./assets/assets/vector-smart-object-copy.png" alt=""></span>
 
             </a>
             <h6>Service Requests</h6>
           </div>
           <div class="add-user">
-            <button id="adduser-btn"><img src="assets/add.png" alt="#"> Add New User</button>
+            <button id="adduser-btn"><img src="./assets/assets/add.png" alt="#"> Add New User</button>
 
           </div>
         </nav>
@@ -87,55 +69,54 @@
         <div class="user-form">
           <div class="row gx-3 gy-2 align-items-center">
             <div class="col-sm-2">
-              <input type="text" class="form-control" placeholder="Service ID">
+              <input type="text" class="form-control" id="serviceId" placeholder="Service ID">
             </div>
-            <div class="col-sm-2">
+            <!-- <div class="col-sm-2">
               <input type="text" class="form-control" placeholder="Postal code">
             </div>
             <div class="col-sm-2">
               <input type="email" class="form-control" placeholder="Email">
-            </div>
+            </div> -->
             <div class="col-sm-2">
-              <select class="form-select">
-                <option value="1">Customer</option>
-                <!-- <option value="2">Service provider</option>
-                <option value="2">Call center</option> -->
+              <select class="form-select" id="selectCust">
+                <option selected="true" disabled="disabled">Customer</option>
+                
               </select>
             </div>
             <div class="col-sm-2">
-              <select class="form-select">
+              <select class="form-select" id="selectSp">
 
-                <option value="1">Service provider</option>
+                <option selected="true" disabled="disabled">Serviceprovider</option>
                 <!-- <option value="2">Call center</option> -->
               </select>
-            </div>
+            </div> 
 
             <div class="col-sm-2">
-              <select class="form-select">
-                <option val="Status" selected="true" disabled="disabled">Status</option>
-                <option value='1'>New</option>
-                <option value='2'>Pending</option>
-                <option value='3'>Completed</option>
-                <option value='4'>Cancelled</option>
+              <select class="form-select" id="selectStatus">
+                <option value='0' selected="true" disabled="disabled">Status</option>
+                <option >Approoved</option>
+                <option >Panding</option>
+                <option >Completed</option>
+                <option >Cancelled</option>
               </select>
             </div>
             <div class="col-sm-2 d-picker">
-              <img src="assets/admin-calendar-blue.png" alt=""> <input type="text" id="datepicker"
+              <img src="./assets/assets/admin-calendar-blue.png" alt=""> <input type="text" id="datepicker"
                 placeholder="From date">
 
             </div>
             <div class="col-sm-2 d-picker">
 
-              <img src="assets/admin-calendar-blue.png" alt=""> <input type="text" id="datepicker2"
+              <img src="./assets/assets/admin-calendar-blue.png" alt=""> <input type="text" id="datepicker2"
                 placeholder="To date">
             </div>
 
             <div class="col-sm-1 s-btn">
-              <button type="submit" class="btn">Search</button>
+              <button type="submit" class="btn" id="searchRec">Search</button>
             </div>
 
             <div class="col-sm-1 c-btn">
-              <button type="reset" class="btn">Clear</button>
+              <button type="reset" class="btn" id="clearBtn">Clear</button>
             </div>
 
 
@@ -146,12 +127,12 @@
         </div>
 
         <div class="user-table">
-          <table class="table" id="myTable">
+          <table class="table" id="serviceReqTable">
             <thead>
               <tr>
                 <th scope="col">
                   Service ID
-                  <span><img src="assets/sort.png" alt="#" /></span>
+                  <span><img src="./assets/assets/sort.png" alt="#" /></span>
                 </th>
                 <th scope="col">
                   Service date
@@ -161,7 +142,7 @@
                   Customer details
                 </th>
                 <th scope="col">
-                  Service provider <span><img src="assets/sort.png" alt="#" /></span>
+                  Service provider <span><img src="./assets/assets/sort.png" alt="#" /></span>
                 </th>
                 <th scope="col">Status </th>
 
@@ -171,14 +152,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr> 
                 <td scope="row">323436</td>
                 <td>
                   <div data-bs-toggle="modal" data-bs-target="#serviceData">
-                    <span><img src="assets/calendar2.png" alt=""></span> 09/04/2018 <br> <span><img
-                        src="assets/layer-14.png" alt=""></span> 12:00 - 18:00
+                    <span><img src="./assets/assets/calendar2.png" alt=""></span> 09/04/2018 <br> <span><img
+                        src="./assets/assets/layer-14.png" alt=""></span> 12:00 - 18:00
                 </td>
-                <td>David Bough <br> <span><img src="assets/layer-15.png" alt=""></span> Musterstrabe 5,12345 Bonn
+                <td>David Bough <br> <span><img src="./assets/assets/layer-15.png" alt=""></span> Musterstrabe 5,12345 Bonn
         </div>
         </td>
         <td></td>
@@ -187,7 +168,7 @@
         <td>
           <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
-            <span><img src="assets/group-38.png" alt="" /></span>
+            <span><img src="./assets/assets/group-38.png" alt="" /></span>
 
           </a>
 
@@ -201,9 +182,9 @@
 
         <tr>
           <td scope="row">323436</td>
-          <td><span><img src="assets/calendar2.png" alt=""></span> 09/04/2018 <br> <span><img src="assets/layer-14.png"
+          <td><span><img src="./assets/assets/calendar2.png" alt=""></span> 09/04/2018 <br> <span><img src="assets/layer-14.png"
                 alt=""></span> 12:00 - 18:00 </td>
-          <td>David Bough <br> <span><img src="assets/layer-15.png" alt=""></span> Musterstrabe 5,12345 Bonn</td>
+          <td>David Bough <br> <span><img src="./assets/assets/layer-15.png" alt=""></span> Musterstrabe 5,12345 Bonn</td>
           <td>
 
           </td>
@@ -212,7 +193,7 @@
           <td>
             <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              <span><img src="assets/group-38.png" alt="" /></span>
+              <span><img src="./assets/assets/group-38.png" alt="" /></span>
 
             </a>
 
@@ -232,19 +213,19 @@
 
         <tr>
           <td scope="row">323436</td>
-          <td><span><img src="assets/calendar2.png" alt=""></span> 09/04/2018 <br> <span><img src="assets/layer-14.png"
+          <td><span><img src="./assets/assets/calendar2.png" alt=""></span> 09/04/2018 <br> <span><img src="./assets/assets/layer-14.png"
                 alt=""></span> 12:00 - 18:00 </td>
-          <td>David Bough <br> <span><img src="assets/layer-15.png" alt=""></span> Musterstrabe 5,12345 Bonn</td>
+          <td>David Bough <br> <span><img src="./assets/assets/layer-15.png" alt=""></span> Musterstrabe 5,12345 Bonn</td>
           <td>
-            <img src="assets/cap.png" alt="" id="cap" />
+            <img src="./assets/assets/cap.png" alt="" id="cap" />
 
             Lyum Watson <br />
             <span id="star">
-              <img src="assets/star1.png" alt="" />
-              <img src="assets/star1.png" alt="" />
-              <img src="assets/star1.png" alt="" />
-              <img src="assets/star1.png" alt="" />
-              <img src="assets/star2.png" alt="" />
+              <img src="./assets/assets/star1.png" alt="" />
+              <img src="./assets/assets/star1.png" alt="" />
+              <img src="./assets/assets/star1.png" alt="" />
+              <img src="./assets/assets/star1.png" alt="" />
+              <img src="./assets/assets/star2.png" alt="" />
               <span>4</span>
             </span>
           </td>
@@ -253,7 +234,7 @@
           <td>
             <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              <span><img src="assets/group-38.png" alt="" /></span>
+              <span><img src="./assets/assets/group-38.png" alt="" /></span>
 
             </a>
 
@@ -267,19 +248,19 @@
 
         <tr>
           <td scope="row">323436</td>
-          <td><span><img src="assets/calendar2.png" alt=""></span> 09/04/2018 <br> <span><img src="assets/layer-14.png"
+          <td><span><img src="./assets/assets/calendar2.png" alt=""></span> 09/04/2018 <br> <span><img src="./assets/assets/layer-14.png"
                 alt=""></span> 12:00 - 18:00 </td>
-          <td>David Bough <br> <span><img src="assets/layer-15.png" alt=""></span> Musterstrabe 5,12345 Bonn</td>
+          <td>David Bough <br> <span><img src="./assets/assets/layer-15.png" alt=""></span> Musterstrabe 5,12345 Bonn</td>
           <td>
-            <img src="assets/cap.png" alt="" id="cap" />
+            <img src="./assets/assets/cap.png" alt="" id="cap" />
 
             Lyum Watson <br />
             <span id="star">
-              <img src="assets/star1.png" alt="" />
-              <img src="assets/star1.png" alt="" />
-              <img src="assets/star1.png" alt="" />
-              <img src="assets/star1.png" alt="" />
-              <img src="assets/star2.png" alt="" />
+              <img src="./assets/assets/star1.png" alt="" />
+              <img src="./assets/assets/star1.png" alt="" />
+              <img src="./assets/assets/star1.png" alt="" />
+              <img src="./assets/assets/star1.png" alt="" />
+              <img src="./assets/assets/star2.png" alt="" />
               <span>4</span>
             </span>
           </td>
@@ -288,7 +269,7 @@
           <td>
             <a class="nav-link dropdown" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              <span><img src="assets/group-38.png" alt="" /></span>
+              <span><img src="./assets/assets/group-38.png" alt="" /></span>
 
             </a>
 
@@ -315,10 +296,10 @@
               </div>
               <div class="modal-body serviceData">
                 <div class="row">
-                  <div class="col-8">
-                    <h5><span class="bookDate">07/03/22022</span>
+                  <div class="col-6">
+                    <h5><span class="bookDate">07/03/2022</span>
 
-                      <span class="sTime">08</span>:00-<span class="eTime">11</span>:00</span></h5>
+                      <span class="sTime">08</span>-<span class="eTime">11</span></span></h5>
 
                     <p><b>Duration:</b> <span class="duration">3</span> Hrs</p>
                     <hr>
@@ -335,7 +316,7 @@
                       <b>Comments:</b> <br><span class="commentPet">❌ I don't have pets at home </span>
 
                   </div>
-                  <div class="col">
+                  <div class="col-6">
                     <div class="float-right mapModal">
 
                     </div>
@@ -357,7 +338,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Edit Service Request</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
               </div>
               <div class="modal-body editservice">
 
@@ -366,7 +347,7 @@
                     <label for="reDate"><b>Date</b></label>
                     <div class="row">
                       <div class="col-2">
-                        <img src="assets/admin-calendar-blue.png">
+                        <img src="./assets/assets/admin-calendar-blue.png">
                       </div>
                       <div class="col-10">
                         <input type="text" id="reDate" class="form-control " placeholder="Enter Date" />
@@ -448,10 +429,11 @@
                 </div>
                 <div class="row">
 
-                  <button type="submit" class="btnReschedule">Update</button>
+                  <button type="submit" class="btnReschedule" data-bs-dismiss="modal">Update</button>
                 </div>
 
 
+              <!-- end of body div -->
               </div>
 
             </div>
@@ -483,31 +465,18 @@
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
 
-  <script src="js/admin.js"></script>
+  <script src="./assets/js/admin.js"></script>
 
-  <script src="js/jquery.js"></script>
-  <script src="js/jquery.dataTables.min.js"></script>
+  <script src="./assets/js/jquery.js"></script>
+  <script src="./assets/js/jquery.dataTables.min.js"></script>
 
 
   <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+  <?php
+  include('adminServiceAJAX.php');
+  ?>
   <script>
-    $(document).ready(function () {
-
-      $("#myTable").dataTable({
-        "bFilter": false,
-        "bInfo": false,
-        "dom": '<"top"i>rt<"bottom"flp><"clear">'
-      });
-      $("#datepicker").datepicker();
-      $("#datepicker2").datepicker();
-      
-      $("#reDate").datepicker();
-      $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-      });
-
-
-    });
+    
   </script>
 
 

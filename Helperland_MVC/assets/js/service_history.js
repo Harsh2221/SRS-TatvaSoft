@@ -9,5 +9,3 @@ const unClickAll = function() {
         listItems.forEach(item =>{
             item.addEventListener('click', activateClicked);
 })
-
-
