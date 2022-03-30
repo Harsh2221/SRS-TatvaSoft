@@ -1,6 +1,7 @@
 <script>
 
 $(document).ready(function () {
+    
     // $("#datepicker").datepicker();
     username="<?php echo $_SESSION['username']; ?>";
     getUserDetail();
@@ -65,11 +66,21 @@ function saveDetails(){
            success: function(data){
                if(data==1)
                {
-                   alert("Details update successfully");
+                //    alert("Details update successfully");
+                   swal({
+                         title: "Successfull",
+                         text: "Details update successfully",
+                         icon: "success",
+                        });
                }
                if(data==0)
                {
-                   alert("details not upadated")
+                //    alert("details not upadated")
+                   swal({
+                         title: "Fail to Update",
+                         text: "details not upadated, try again",
+                         icon: "error",
+                        });
                }
 
         // getting existing details here
@@ -186,11 +197,21 @@ $('#edit_address').on('click', '.btn_edit', function(){
         {
             if(data==1)
             {
-                alert("Address upadated successfully")
+                // alert("Address upadated successfully")
+                  swal({
+                         title: "Successfull",
+                         text: "Address upadated successfully",
+                         icon: "success",
+                        });
             }
             if(data==0)
             {
                 alert("Address is Not upadated Successfully")
+                  swal({
+                         title: "Fail to Update",
+                         text: "Details update successfully",
+                         icon: "error",
+                        });
             }
             $('#addressTable').DataTable().ajax.reload();
         }
@@ -260,11 +281,21 @@ if($('#inputstreet2').val()=="" || $('#inputhouse2').val()=="" || $('#inputposta
         {
             if(data==1)
             {
-                alert("Address Added successfully")
+                // alert("Address Added successfully")
+                  swal({
+                         title: "Successfull",
+                         text: "Address Added successfully",
+                         icon: "success",
+                        });
             }
             if(data==0)
             {
-                alert("Address is Not Added Successfully")
+                // alert("Address is Not Added Successfully")
+                   swal({
+                         title: "Fail",
+                         text: "Address Not Added",
+                         icon: "error",
+                        });
             }
             $('#addressTable').DataTable().ajax.reload();
         }
@@ -312,11 +343,21 @@ $('#deleteModal').on('click', '.btn_delete', function(){
         {
             if(data==1)
             {
-                alert("Address deleted successfully");
+                // alert("Address deleted successfully");
+                   swal({
+                         title: "Successfull",
+                         text: "Address deleted successfully",
+                         icon: "success",
+                        });
             }
             if(data==0)
             {
-                alert("Address is Not deleted successfully");
+                // alert("Address is Not deleted successfully");
+                swal({
+                         title: "Fail",
+                         text: "Address Not deleted",
+                         icon: "error",
+                        });
             }
             $('#addressTable').DataTable().ajax.reload();
         }
@@ -383,19 +424,32 @@ $('.change_pass').on("click", function() {
            success: function(data)
            {
                if(data==0){
-                   alert("Old password is incorrect");
-
+                //    alert("Old password is incorrect");
+                   swal({
+                         title: "Incorrect",
+                         text: "Old password is incorrect",
+                         icon: "error",
+                        });
                }
                if(data==1){
                 oldPassword=$('#old_pass').val("");
                 newPassword=$('#new_pass').val("");
                 confirmPassword=$('#confirm_pass').val("");
-                alert('New password set successfully')
+                // alert('New password set successfully')
+                swal({
+                         title: "Successfull",
+                         text: "New password set successfully",
+                         icon: "success",
+                        });
 
                }
                if(data==2){
-                   alert('Password not set successfully');
-
+                //    alert('Password not set successfully');
+                   swal({
+                         title: "Fail",
+                         text: "New password Not seted",
+                         icon: "error",
+                        });
                }
            }
 

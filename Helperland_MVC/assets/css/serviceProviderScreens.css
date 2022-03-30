@@ -81,6 +81,26 @@ border-radius: 17px;
 color: #FFFFFF;
 padding: 5px 10px;
  }
+ #export-btn {
+  margin-left: auto;
+  margin-bottom: 5px;
+  background-color: #146371;
+  border: none;
+  border-radius: 17px;
+  color: #ffffff;
+  padding: 5px 10px;
+  font-size: 13px;
+}
+#sort-btn {
+  margin-left: auto;
+  margin-bottom: 5px;
+  /* background-color: #146371; */
+  border: none;
+  border-radius: 17px;
+  color: black;
+  padding: 5px 10px;
+  font-size: 13px;
+}
  .acceptBtn{
   box-shadow: none;
   border: none;
@@ -157,6 +177,23 @@ span #pay-status{
   border: none;
   padding: 5px 10px;
   color: #FFFFFF;
+}
+.fc-prev-button{
+  background-color: white;
+}
+/* .fc-icon{
+  color: blue;
+} */
+.msgComp{
+  background-color: rgb(207, 207, 207); 
+  font-size: 12px;
+  padding: 10px;
+}
+.msgUpcom{
+  background-color: #3284ff; 
+  font-size: 12px; 
+  padding: 10px;
+  color: whitesmoke;
 }
 
 @media (max-width: 650px){

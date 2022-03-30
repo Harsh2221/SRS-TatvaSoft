@@ -91,7 +91,7 @@ if(!isset($_SESSION['username'])){
             <div class="col-sm-2">
               <input type="number" class="form-control" id="postal" placeholder="Zipcode">
             </div>
-
+            
             <div class="col-sm-2 s-btn">
               <button type="submit" class="btn" id="searchbtn">Search</button>
             </div>
@@ -106,6 +106,10 @@ if(!isset($_SESSION['username'])){
           </div>
 
         </div>
+        <div class="export">
+            <button id="export-btn" class="expBtn">Export</button>
+
+          </div>
 
         <div class="user-table">
           <table class="table" id="myTable">
@@ -226,11 +230,14 @@ if(!isset($_SESSION['username'])){
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
+    
 
   <script src="./assets/js/admin.js"></script>
 
   <script src="./assets/js/jquery.js"></script>
   <script src="./assets/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/table2csv@1.1.6/src/table2csv.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <?php
   include('adminUserAJAX.php');
   ?>

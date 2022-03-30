@@ -109,7 +109,9 @@ if(!isset($_SESSION['username'])){
 
               <img src="./assets/assets/admin-calendar-blue.png" alt=""> <input type="text" id="datepicker2"
                 placeholder="To date">
+                
             </div>
+            <span id="errmsg" style="color: red; font-size: 13px;"></span>
 
             <div class="col-sm-1 s-btn">
               <button type="submit" class="btn" id="searchRec">Search</button>
@@ -472,6 +474,7 @@ if(!isset($_SESSION['username'])){
 
 
   <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <?php
   include('adminServiceAJAX.php');
   ?>

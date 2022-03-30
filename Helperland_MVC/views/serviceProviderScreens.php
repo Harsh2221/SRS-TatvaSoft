@@ -15,7 +15,11 @@ if(!isset($_SESSION['username'])){
     <title>services provider | screen</title>
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="./assets/css/serviceProviderScreens.css" />
-    <link href="./assets/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css">
+    <!-- <link href=" https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" /> -->
+    <!-- <link href="./assets/css/jquery.dataTables.min.css" rel="stylesheet" /> -->
+
   
   
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
@@ -65,7 +69,7 @@ if(!isset($_SESSION['username'])){
           </div>
        
         </div>
-
+ 
        
 
         <div class="col-lg-9 col-md-3 col-sm-6 tab-content">
@@ -297,18 +301,32 @@ if(!isset($_SESSION['username'])){
       </div>
 
           <div class="tab-pane fade serviceSchedule" id="serviceSchedule">
-            service schedule
+            <div class="msgCom" style="text-align: right;">
+              <span class="msgComp">Completed<span>
+                <span class="msgUpcom">Upcoming<span>
+            </div>
+            <div class="servicechedule" id="calendar">
+
+            </div>
 
           </div>
 
   <div class="tab-pane fade serviceHistory" id="serviceHistory">
-        <div class="table-caption">
-            Payment Status
-         <select id="Sstatus"><option value="1">All</option>
-            <option value="2">Completed</option>
-            <option value="3">Cancelled</option>
-         </select>
-        </div>
+            <div class="d-flex">
+              <h6 style="margin-right: 10px;">Payment Status</h6>
+                <select id="Sstatus">
+                 <option value="1">All</option>
+                 <option value="2">Completed</option>
+                 <option value="3">Cancelled</option>
+                </select>
+              <button id="export-btn" class="text-right exprtBtn">Export</button>
+            </div>
+
+        <!-- <div class="table-caption">
+            
+         
+        </div> -->
+
     <table class="table" id="serviceHistoryTableSP">
            
               <thead>
@@ -390,7 +408,9 @@ if(!isset($_SESSION['username'])){
 
     <div class="tab-pane fade myRatinng" id="myRatinng">
           <div class="headpart">
-          <div class="float-left">Rating <select id="selectbtn">
+          <div class="d-flex">
+              <h6 style="margin-right: 10px;">Ratings</h6>
+              <select id="selectbtn">
                 <option value="1" selected>All</option>
                 <option value="2">Very Good</option>
                 <option value="3">Good</option>
@@ -398,8 +418,27 @@ if(!isset($_SESSION['username'])){
                 <option value="5">Very Poor</option>
 
             </select>
+            
+                   <button id="sort-btn" class="dropdown-toggle sortBtn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                   Sorting</button> <i class="fa fa-sort" style="font-size:32px"></i>
+                  
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding:10px">
+                    <div class="rs" style="font-size:13px"> <input type="radio" name="sorts" value="1" style="margin-right: 4px;">Customer name: Ascending</div>
+                    <div class="rs" style="font-size:13px"><input type="radio" name="sorts" value="2" style="margin-right: 4px;">Customer name: Descending</div>
+                    <div class="rs" style="font-size:13px"><input type="radio" name="sorts" value="3" checked style="margin-right: 4px;">Service date: Latest</div>
+                    <div class="rs" style="font-size:13px"> <input type="radio" name="sorts" value="4" style="margin-right: 4px;">Service date: Oldest</div>
+                    <div class="rs" style="font-size:13px"><input type="radio" name="sorts" value="5" style="margin-right: 4px;">Rating: High to Low</div>
+                    <div class="rs" style="font-size:13px"> <input type="radio" name="sorts" value="6" style="margin-right: 4px;">Rating: Low to High</div>
+              </ul>
+                        
+              
           </div>
           </div>
+
+          <!-- <div class="float-left">
+         
+         
+          </div> -->
 
           <table class="table" id="spRatings">
            
@@ -417,7 +456,7 @@ if(!isset($_SESSION['username'])){
            </thead>
 
            <tbody>
-             <tr>
+             <!-- <tr>
                <td><div data-bs-toggle="modal" data-bs-target="#historyModal">323436<br><b>Harsh Prajapati</b></div>
                <hr>
                <b>Comments:</b>
@@ -461,7 +500,7 @@ if(!isset($_SESSION['username'])){
                       </span></td>
               
              </tr>
-             
+              -->
              
     
            </tbody>
@@ -553,6 +592,10 @@ if(!isset($_SESSION['username'])){
       crossorigin="anonymous"
     ></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/table2csv@1.1.6/src/table2csv.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <?php 
     include('SpScreensAJAX.php');
     ?>

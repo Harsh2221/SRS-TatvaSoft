@@ -407,11 +407,16 @@ public function service_request(){
             
             if(count($service_provider)){
                 foreach($service_provider as $row){
-                    $service_id=$result;
-                    $SP_email=$row['Email'];
-                    // echo $service_id;
-                    // include('bookingmail_to_SP.php');
-                          
+                    $spId=$row['UserId'];
+                    $block=$this->model->checkBlocked($spId, $userId);
+                    $blockornot=$block[1];
+                    if($blockornot != 1){
+                        $service_id=$result;
+                        $SP_email=$row['Email'];
+                        // echo $service_id;
+                        // include('bookingmail_to_SP.php'); 
+                    }
+                               
                 }
             }
 
@@ -798,7 +803,7 @@ public function getServiceData(){
             $customerName=$custfname . '  ' . $custlname;
             $startTime=$date;
             $endTime=floatval($stratTime+$totalTime);
-            $endTime=$endTime+1;
+            $endTime=$endTime;
 
                     $stratTime = $stratTime;
                     $entime = $stratTime + $totalTime;
@@ -820,7 +825,7 @@ public function getServiceData(){
 
                 
 
-                $isconflict=$this->model->isConflict($spId, $startTime, $endTime);
+                $isconflict=$this->model->isConflict($spId, $startTime, $stratTime);
                 $count=$isconflict[0];
 
                 if ($count >= 1) {
@@ -949,13 +954,13 @@ public function rescheduleService(){
         {
             //sending email to client for reschedule successful
             $customerEmail=$modifiedBy;
-            include("views/clientReschedulemail.php");
+            // include("views/clientReschedulemail.php");
 
             if(!empty($serviceProviderId))
             {
                 $serviceproEmail=$email;
                 $serviceId=$serviceId;
-                include("views/SP_Reschedulemail.php");
+                // include("views/SP_Reschedulemail.php");
             }
             //sending email to all the service providers for rescheduling of the service
             
@@ -965,7 +970,7 @@ public function rescheduleService(){
                 if (count($serviceproviders)) {
                     foreach ($serviceproviders as $row) {
                         $spemail = $row['Email'];
-                        include("views/SPallRescheduleMail.php");
+                        // include("views/SPallRescheduleMail.php");
                     }
                 }
             }
@@ -994,6 +999,7 @@ public function cancelService(){
                 $userId=$row['UserId'];
                 $serviceProviderId=$row['ServiceProviderId'];
                 $recordversion=$row['RecordVersion'];
+                $spId = $row['ServiceProviderId'];
             }
         }
         $modifiedDate=date('Y-m-d');
@@ -1014,6 +1020,7 @@ public function cancelService(){
             'modifiedBy'=>$modifiedBy,
             'recordversion'=>$recordversion,
             'status'=>$status,
+            'spid'=>$spId,
             'serviceId'=>$serviceId,
 
         ];
@@ -1034,18 +1041,18 @@ public function cancelService(){
             //email sending to customer for cancellation of service request
             $custmail=$modifiedBy;
             $serviceId=$serviceId;
-            include("views/cust_cancelEmail.php");
+            // include("views/cust_cancelEmail.php");
             //email sending to service providers for cancelation of the service request
             if(!empty($serviceProviderId)){
                $spemail=$email;
-               include("views/Sp_cancelEmail.php");
+            //    include("views/Sp_cancelEmail.php");
             }
             if(empty($serviceProviderId)){
                 $serviceproviders = $this->model->GetAllServiceProvider();
                 if (count($serviceproviders)) {
                     foreach ($serviceproviders as $row) {
                         $spemail = $row['Email'];
-                        include("views/Sp_cancelEmail.php");
+                        // include("views/Sp_cancelEmail.php");
                     }
                 }
 
@@ -1714,9 +1721,16 @@ public function getNewServiceReq(){
         $userId=$userId[3];
 
         $json['data']=array();
-        
-        $result=$this->model->getNewServices();
 
+        if($hpet==0)
+        {
+            $result=$this->model->getNewServices();
+        }
+        if($hpet==1)
+        {
+            $result=$this->model->getNewServicesWithPet();
+        }
+                
         if(count($result))
         {
             foreach($result as $row)
@@ -1738,9 +1752,8 @@ public function getNewServiceReq(){
                 $serviceproviderid = $row['ServiceProviderId'];
 
                 $startTime=$servicestartdate;
-                $endTime=floatval($servicestarttime+$totaltime);
-
-                    
+                $endTime=$servicestarttime+$totaltime;
+                                    
                     $entime = $servicestarttime + $totaltime;
                     $sTime='';
                     $eTime='';
@@ -1756,7 +1769,7 @@ public function getNewServiceReq(){
                         $eTime=$entime.':00';
                     }
 
-                $isconflict=$this->model->isConflict($userId, $startTime, $endTime);
+                $isconflict=$this->model->isConflict($userId, $startTime, $servicestarttime);
                 $count=$isconflict[0];
                 // $timeconflictcol='';
                 // $actioncol='';
@@ -1772,10 +1785,7 @@ public function getNewServiceReq(){
                         $timeconflictcol='';
                     $actioncol='<button data-bs-toggle="modal" data-bs-target="#serviceDetail" id="' . $serviceid . '" class="acceptBtn modaldata" name="' . $serviceid . '">Accept</button>';
                     }
-                    
-                    
-
-
+                                        
                 }else{
                     $timeconflictcol='';
                     $actioncol='<button data-bs-toggle="modal" data-bs-target="#serviceDetail" id="' . $serviceid . '" class="acceptBtn modaldata" name="' . $serviceid . '">Accept</button>';
@@ -1796,30 +1806,6 @@ public function getNewServiceReq(){
               € ' . $payment . '
           </div>';
 
-          $result = array();
-          if ($hpet == 1) {
-              if ($pets == 1) {
-                  $result = array();
-                  
-                  $result['serviceId'] = $serviceidcol;
-                  $result['serviceDate'] = $servicedatecol;
-                  $result['customerDetails'] = $userdetailscol;
-                  $result['payment'] = $paymentcol;
-                  $result['timeConflict'] = $timeconflictcol;
-                  $result['actions'] = $actioncol;
-              } else{
-                  $result = array();
-                  
-                  $result['serviceId'] = "";
-                  $result['serviceDate'] = "";
-                  $result['customerDetails'] = "";
-                  $result['payment'] = "";
-                  $result['timeConflict'] = "";
-                  $result['actions'] = "";
-              }
-          }
-          if ($hpet == 0) {
-
             $result = array();
             
             $result['serviceId'] = $serviceidcol;
@@ -1828,8 +1814,7 @@ public function getNewServiceReq(){
             $result['payment'] = $paymentcol;
             $result['timeConflict'] = $timeconflictcol;
             $result['actions'] = $actioncol;
-        }
-          
+                  
        
         array_push($json['data'], $result);
 
@@ -1888,6 +1873,20 @@ public function acceptServiceReq(){
 
             if($count==1)
             {
+                // After Accept Email Script 
+                // To Customer
+                $CustMail=$custMail;
+                // include('views/AcceptmailToCustomer.php');
+                
+                //To Service Providers
+                if(count($allSp))
+                {
+                    foreach($allSp as $sp)
+                    {
+                        $spmail=$sp['Email'];
+                        // include('views/SPacceptedmail.php');
+                    }
+                }
                 echo 1;
             }else{
                 echo 0;
@@ -2008,6 +2007,7 @@ public function SPRequestCancel(){
                 $recordversion = $row['RecordVersion'];
                 $userId = intval($row['UserId']);
                 $spId = intval($row['ServiceProviderId']);
+                $servicestartDate = $row['ServiceStartDate'];
             }
         }
         $recordversion = $recordversion + 1;
@@ -2020,13 +2020,22 @@ public function SPRequestCancel(){
             }
         }
         $modifiedDate=date('Y-m-d');
-        $status="Cancelled";
+        $todayDate=date('Y-m-d');
+        if($servicestartDate >= $todayDate){
+            $status="Cancelled";
+            $spid=$spId;
+        }else{
+            $status="Panding";
+            $spid=0;
+        }
+        
         $data=[
             'cancelReason'=>$cancelreason,
             'modifiedDate'=>$modifiedDate,
             'modifiedBy'=>$modifiedBy,
             'recordversion'=>$recordversion,
             'status'=>$status,
+            'spid'=>$spid,
             'serviceId'=>$serviceId,
         ];
         $cancelReq=$this->model->cancelServiceRequest($data);
@@ -2091,10 +2100,25 @@ public function ServiceHistorySp(){
 
         $userId=$this->model->forgotPassword($username);
         $userId=$userId[3];
+        if($payStatus==1)
+        {
+            $serviceData = $this->model->getSpServiceHistory($userId);
+        }
+        if($payStatus==2)
+        {
+            $serviceStatus = "Completed";
+            $serviceData = $this->model->GetCompltSPHistory($userId,$serviceStatus);
+        }
+        if($payStatus==3)
+        {
+            $serviceStatus = "Cancelled";
+            $serviceData = $this->model->GetCompltSPHistory($userId,$serviceStatus);
+        }
+                
 
         $json['data'] = array();
 
-        $serviceData=$this->model->getSpServiceHistory($userId);
+        // $serviceData=$this->model->getSpServiceHistory($userId);
         if(count($serviceData))
         {
             foreach($serviceData as $row)
@@ -2154,8 +2178,7 @@ public function ServiceHistorySp(){
                     $statuscol='<td><span style="background-color: rgb(101, 243, 101); border: none; padding: 5px 10px; color: white;" id="pay-status">' . $status . '</span></td>';
                 }
 
-                if($payStatus==1)
-                {
+                
                     $result = array();
                            
                     $result['serviceId'] = $serviceIdcol;
@@ -2163,49 +2186,9 @@ public function ServiceHistorySp(){
                     $result['customerDetails'] = $serviceDetailcol;
                     $result['status'] = $statuscol;
 
-                }
-                if($payStatus==2)
-                {
-                    if($status == "Completed")
-                    {
-                        $result = array();
-                           
-                    $result['serviceId'] = $serviceIdcol;
-                    $result['serviceDate'] = $serviceDatecol;          
-                    $result['customerDetails'] = $serviceDetailcol;
-                    $result['status'] = $statuscol;
-                    }else{
-                        $result = array();
-                           
-                    $result['serviceId'] = "";
-                    $result['serviceDate'] =  "";          
-                    $result['customerDetails'] = "";
-                    $result['status'] = "";
-                    }
-
-                }
-                if($payStatus==3)
-                {
-                    if($status == "Cancelled")
-                    {
-                        $result = array();
-                           
-                    $result['serviceId'] = $serviceIdcol;
-                    $result['serviceDate'] = $serviceDatecol;          
-                    $result['customerDetails'] = $serviceDetailcol;
-                    $result['status'] = $statuscol;
-                    }
-                    else{
-                        $result = array();
-                           
-                    $result['serviceId'] = "";
-                    $result['serviceDate'] =  "";          
-                    $result['customerDetails'] = "";
-                    $result['status'] = "";
-                    }
-                    
-
-                }
+                
+               
+               
                 array_push($json['data'], $result);
             }
                 
@@ -2220,13 +2203,61 @@ public function getRatingsforsp(){
     {
         $username=$_POST['username'];
         $selectRating=$_POST['selectRating'];
+        $orders=$_POST['orders'];
 
-        $userId=$this->model->forgotPassword($username);
-        $userId=$userId[3];
+        $userid=$this->model->forgotPassword($username);
+        $userId=$userid[3];
 
+        if($selectRating==1)
+        {
+            $selectRate="AND rating.RatingTo != '' ";
+        }
+        if($selectRating==2)
+        {
+            $selectRate="AND rating.Ratings >= 4 ";
+        }
+        if($selectRating==3)
+        {
+            $selectRate="AND rating.Ratings >= 3 AND rating.Ratings < 4";
+        }
+        if($selectRating==4)
+        {
+            $selectRate="AND rating.Ratings >= 2 AND  rating.Ratings < 3 ";
+        }
+        if($selectRating==5)
+        {
+            $selectRate="AND rating.Ratings < 2 ";
+        }
+        if($orders==1)
+        {
+            
+            $order="user.FirstName ASC";
+        }
+        if($orders==2)
+        {
+            $order="user.FirstName DESC";
+        }
+        if($orders==3)
+        {
+            $order="servicerequest.ServiceStartDate DESC";
+          
+        }
+        if($orders==4)
+        {
+            $order="servicerequest.ServiceStartDate ASC";
+        }
+        if($orders==5)
+        {
+            $order="rating.Ratings DESC";
+        }
+        if($orders==6)
+        {
+            $order="rating.Ratings ASC";
+        }
+      
+        
+        $rating=$this->model->getRatingFilter($userId,$selectRate,$order);
         $json['data'] = array();
-
-        $rating=$this->model->getRatingsp($userId);
 
         if(count($rating[0]))
         {
@@ -2237,15 +2268,14 @@ public function getRatingsforsp(){
                 $spRating=$row['Ratings'];
                 
                 $spcomment  = $row['Comments'];
-                $result=$this->model->getUserId($ratingfrom);
-                if(count($result))
-                {
-                    foreach($result as $row)
-                    {
-                        $custName = $row['FirstName'] . ' ' . $row['LastName'];
-                    }
-                }
-
+               
+                $custName = $row['FirstName'] . ' ' . $row['LastName'];
+                    $date = $row['ServiceStartDate'];
+                    $starttime = $row['ServiceTime'];
+                    $totaltime = $row['TotalHours'];
+                                       
+            
+                        
                                 $finalavgrating=round($spRating);
                                 $star='<i class = "fa fa-star" style="color: #FFEA00;" id = "st"></i>';
                                 if($finalavgrating==1)
@@ -2294,18 +2324,12 @@ public function getRatingsforsp(){
                                     $msg="Very Poor";
                                 }
 
-                                $serviceData=$this->model->getSpServiceHistory($userId);
-                                if(count($serviceData))
-                                {
-                                    foreach($serviceData as $row)
-                                    {
-                                        $date = $row['ServiceStartDate'];
-                    $starttime = $row['ServiceTime'];
-                    $totaltime = $row['TotalHours'];
-                                       
+                                
+                
 
                 $startTime=$starttime;
                 $endTime=floatval($starttime+$totaltime);
+
                 $entime = $starttime + $totaltime;
                 $sTime='';
                 $eTime='';
@@ -2320,17 +2344,21 @@ public function getRatingsforsp(){
                 }else{
                     $eTime=$entime.':00';
                 }
+                $cnt = $rating[1];
+
                 $serviceDatecol='<div class="modalData" id="' . $userId . '">
                 <span><img src="./assets/assets/calendar2.png" alt=""></span> ' . $date . ' <br> <span><img src="./assets/assets/layer-14.png" alt=""></span>' . $sTime . ' - ' . $eTime . ' <div>';
-                                    }
-                                }
+                               
 
+            
                 $firstcol='<td><div>' . $serviceId . '<br><b>' . $custName . '</b></div>
                 <hr>
                 <b>Comments: </b>' . $spcomment . '
                 </td>';
-                $ratingcol=' <td>
                 
+
+                $ratingcol=' <td>
+                <b>Ratings</b> <br>
                 <span id="star">
                 ' . $star . '
                   <span>' . $msg . '</span>
@@ -2343,25 +2371,7 @@ public function getRatingsforsp(){
                 $output['date']=$serviceDatecol;
                 $output['rate']=$ratingcol;
               
-            //   if($selectRating==2)
-            //   {
-            //       if($msg=="Very Good")
-            //       {
-            //         $output=array();
-            //         $output['Ratings'] = "";
-            //         $output['date']="";
-            //         $output['rate']="";
-            //       }else{
-            //         $output=array();
-            //         $output['Ratings'] = "";
-            //         $output['date']="";
-            //         $output['rate']="";
-            //       }
-            //   }
-              
-
-              
-              
+                         
               array_push($json['data'], $output);
 
             }
@@ -3335,6 +3345,92 @@ public function searchUMadmin(){
 
 }
 
+public function SpDateSched($parameter){
+    
+        $email = $parameter;
+        $userId=$this->model->forgotPassword($email);
+        $userId=$userId[3];
 
+        
+        $upcomingService=$this->model->getupcomeservice($userId);
+        $json['data'] = array();
+        if(count($upcomingService)){
+            foreach($upcomingService as $row)
+            {
+                $serviceId = $row['ServiceRequestId'];
+                $servicestartdate = $row['ServiceStartDate'];
+                $servicestarttime = $row['ServiceTime'];
+                $totaltime = $row['TotalHours'];
+
+                $endTime=floatval($servicestarttime+$totaltime);
+
+                $entime = $servicestarttime + $totaltime;
+                    $sTime='';
+                    $eTime='';
+                    if(strpos($servicestarttime, ".5")){
+                        $sTime=str_replace(".5",":30",$servicestarttime);
+                    }else{
+                        $sTime=$servicestarttime.':00';
+                    }
+
+                    if(strpos($entime, ".5")){
+                        $eTime=str_replace(".5",":30",$entime);
+                    }else{
+                        $eTime=$entime.':00';
+                    }
+                    
+
+                    $result[] = array(
+                        'title' => $sTime . '-' . $eTime,
+                        'start' => $servicestartdate,
+                        'id' => $serviceId,
+                    );
+            }
+            
+        }
+        echo json_encode($result);
+        
+}
+
+public function SpDateSchedComplete($parameter){
+    $email = $parameter;
+    $userId=$this->model->forgotPassword($email);
+    $userId=$userId[3];
+    $result =  $this->model->getScheduleComplete($userId);
+        $json['data'] = array();
+        if (count($result)) {
+            foreach ($result as $row) {
+                $serviceId = $row['ServiceRequestId'];
+                $servicestartdate = $row['ServiceStartDate'];
+                $servicestarttime = $row['ServiceTime'];
+                $totaltime = $row['TotalHours'];
+
+                $endTime=floatval($servicestarttime+$totaltime);
+
+                $entime = $servicestarttime + $totaltime;
+                    $sTime='';
+                    $eTime='';
+                    if(strpos($servicestarttime, ".5")){
+                        $sTime=str_replace(".5",":30",$servicestarttime);
+                    }else{
+                        $sTime=$servicestarttime.':00';
+                    }
+
+                    if(strpos($entime, ".5")){
+                        $eTime=str_replace(".5",":30",$entime);
+                    }else{
+                        $eTime=$entime.':00';
+                    }
+                    
+
+                    $result[] = array(
+                        'title' => $sTime . '-' . $eTime,
+                        'start' => $servicestartdate,
+                        'id' => $serviceId,
+                    );
+            }
+        }
+        echo  json_encode($result);
+}
  
 }

@@ -2,8 +2,7 @@
 
 
 $(document).ready(function () {
-     
-
+       
       $("#datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
 
     //   $("#myTable1").dataTable({
@@ -178,18 +177,28 @@ $("#reschedule_modal").on('click','.update', function(){
             'newDate': newDate, 
             'newTime': newTime, 
         },
-        beforeSend: function(){
-          alert("Loading ...");
+    //     beforeSend: function(){
+    //       alert("Loading ...");
         
-       },
+    //    },
         success: function(data){
             if(data==0)
             {
-                alert("Reschedule cancled");
+                // alert("Reschedule cancled");
+                swal({
+                      title: "Cancel !",
+                      text: "Reschedule cancled, try again",
+                      icon: "error",
+                    });
             }
             if(data==1)
             {
-               alert("Booking Rescheduled successfully");
+            //    alert("Booking Rescheduled successfully");
+               swal({
+                      title: "Successfull !",
+                      text: "Booking Rescheduled successfully",
+                      icon: "success",
+                    });
             }
 
             $('#myTable1').DataTable().ajax.reload();
@@ -214,17 +223,27 @@ $("#cancel_modal").on('click','.cancel', function(){
             'serviceId': serviceId,
             'cancelReason': cancelReason,
         },
-        beforeSend: function(){
-          alert("Loading ...");
+    //     beforeSend: function(){
+    //       alert("Loading ...");
         
-       },
+    //    },
         success: function(data)
         {
             if(data==1){
-                alert("Service Request cancel successfully");
+                // alert("Service Request cancel successfully");
+                swal({
+                      title: "Successfull !",
+                      text: "Service Request cancel successfully",
+                      icon: "success",
+                    });
             }
             if(data==0){
-                alert("Service Request cancel Failed");
+                // alert("Service Request cancel Failed");
+                swal({
+                      title: "Cancel !",
+                      text: "Service Request cancel Failed, Try again",
+                      icon: "error",
+                    });
             }
             
             $('#myTable1').DataTable().ajax.reload();
@@ -478,11 +497,21 @@ $(document).ready(function () {
         {
             if(data==1)
             {
-                alert("Rated successfully")
+                // alert("Rated successfully")
+                swal({
+                      title: "Successfull",
+                      text: "Service Provider Rated successfully",
+                      icon: "success",
+                    });
             }
             if(data==2)
             {
-                alert("Already Rated")
+                // alert("Already Rated")
+                swal({
+                      title: "Already Rated",
+                      text: "Service Provider Already Rated",
+                      icon: "success",
+                    });
             }
             if(data==0)
             {

@@ -210,6 +210,16 @@ class Helperland_model{
         return $result;
     }
     
+    // public function getBlockInfo(){
+    //     $sql="SELECT * FROM `favoriteandblocked` WHERE IsBlocked != 1";
+    //     $stmt=$this->conn->prepare($sql);
+    //     $stmt->execute();
+    //     $row=$stmt->fetchAll(PDO::FETCH_ASSOC);
+    //     $block=$row['IsBlocked'];
+    //     $uId=$row['UserId'];
+    //     return array($block, $uId);
+    // }
+    
     public function getCustomerDetail($userId){
         $sql = "SELECT * FROM `servicerequest` WHERE `UserId` = $userId ORDER BY `ServiceRequestId` DESC";
         $stmt =  $this->conn->prepare($sql);
@@ -250,7 +260,7 @@ class Helperland_model{
         return array($count);
     }
     public function cancelServiceRequest($data){
-        $sql = "UPDATE `servicerequest` SET `HasIssue` = :cancelReason ,`ModifiedDate`= :modifiedDate ,`ModifiedBy`= :modifiedBy , `RecordVersion`= :recordversion , `Status` = :status WHERE `ServiceRequestId` = :serviceId";
+        $sql = "UPDATE `servicerequest` SET `HasIssue` = :cancelReason ,`ModifiedDate`= :modifiedDate ,`ModifiedBy`= :modifiedBy , `RecordVersion`= :recordversion , `Status` = :status, `ServiceProviderId`=:spid WHERE `ServiceRequestId` = :serviceId";
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute($data);
         $count = $stmt->rowCount();
@@ -364,12 +374,21 @@ class Helperland_model{
         return $result;
 
     }
+    public function getNewServicesWithPet(){
+        $sql = "SELECT * FROM `servicerequest`  JOIN user ON servicerequest.`UserId`= user.UserId JOIN useraddress ON useraddress.AddressId = servicerequest.`AddressId`  WHERE (`servicerequest`.`Status` = 'Pending' || `servicerequest`.`Status` = 'Reschedule') && `HasPets`= 1 &&  `user`.`Status` = 'Active' ORDER BY `servicerequest`.`ServiceRequestId` DESC";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+
+    }
     public function isConflict($serviceproviderid, $servicestartdate, $endTime){
-        $sql = "SELECT *,COUNT(*) FROM `servicerequest` WHERE `ServiceProviderId` = $serviceproviderid AND `ServiceStartDate` = '$servicestartdate' AND `ServiceTime` <=  '$endTime'";
+        $sql = "SELECT *,COUNT(*) FROM `servicerequest` WHERE `ServiceProviderId` = '$serviceproviderid' AND `ServiceStartDate` = '$servicestartdate' AND (`ServiceTime` + `TotalHours`) >=  '$endTime'";
         $stmt =  $this->conn->prepare($sql);
         $stmt->execute();
         $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
         // $count = $stmt->rowCount();
+
         if (count($result)) {
             foreach ($result as $row) {
                 $serviceid = $row['ServiceRequestId'];
@@ -439,6 +458,16 @@ class Helperland_model{
         return array($result1,$result2);
 
     }
+    public function getRatingFilter($targetid,$filter,$order){
+        $sql = "SELECT servicerequest.ServiceRequestId ,rating.RatingFrom , rating.RatingTo, rating.Comments,rating.VisibleOnHomeScreen,user.FirstName,user.LastName,servicerequest.ServiceRequestId,servicerequest.ServiceStartDate,servicerequest.ServiceTime,servicerequest.TotalHours,rating.Ratings FROM `rating` JOIN user ON rating.RatingFrom = user.UserId JOIN servicerequest ON rating.ServiceRequestId = servicerequest.ServiceRequestId  WHERE rating.`RatingTo` = $targetid $filter ORDER BY $order";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->rowCount();
+
+        return array($result,$results);
+    }
+   
     public function customerData($userId){
         $sql = 'SELECT DISTINCT  servicerequest.`UserId`,user.FirstName,user.LastName FROM `servicerequest` JOIN user ON user.UserId = servicerequest.UserId WHERE servicerequest.`ServiceProviderId` = '.$userId.' && servicerequest.`Status` = "Completed"';
         $stmt =  $this->conn->prepare($sql);
@@ -598,6 +627,21 @@ class Helperland_model{
         $stmt->execute();
         $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
+    }
+    public function GetCompltSPHistory($userId,$status){
+        $sql = "SELECT * FROM `servicerequest` WHERE `ServiceProviderId` = $userId && `Status`='$status' ORDER BY `ServiceRequestId` DESC";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    public function getScheduleComplete($userId){
+        $sql = "SELECT * FROM `servicerequest`   WHERE `servicerequest`.`ServiceProviderId` = $userId  &&  `servicerequest`.`Status`='Completed'";
+        $stmt =  $this->conn->prepare($sql);
+        $stmt->execute();
+        $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+
     }
 
 }

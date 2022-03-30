@@ -1,6 +1,6 @@
 <script>
 $(document).ready(function () {
-
+  
   $("#datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
   $("#datepicker2").datepicker({ dateFormat: 'yy-mm-dd' });
 
@@ -239,7 +239,7 @@ $('#editmodal').on('change', '#callcenteremp', function(){
 
   
   $('#editmodal').on('click', '.btnReschedule', function(){
-
+ 
      
       date = $("#reDate").val();
       time = $("#time option:selected").val();
@@ -269,11 +269,21 @@ $('#editmodal').on('change', '#callcenteremp', function(){
         {
           if(data==1)
           {
-            alert("Reschedule has been Updated Successfully")
+            // alert("Reschedule has been Updated Successfully")
+                    swal({
+                         title: "Successfull",
+                         text: "Reschedule has been Updated Successfully",
+                         icon: "success",
+                        });
           }
           if(data==0)
           {
-            alert("Reschedule has Not been Updated")
+            // alert("Reschedule has Not been Updated")
+                    swal({
+                         title: "fail",
+                         text: "Reschedule has Not Updated Successfully",
+                         icon: "error",
+                        });
           }
           $("#serviceReqTable").DataTable().ajax.reload();
         }
@@ -306,6 +316,35 @@ $('#editmodal').on('change', '#callcenteremp', function(){
         }
     })
   }
+
+  $('#datepicker').on('change', function(){
+    startDate=$('#datepicker').val();
+     endDate=$('#datepicker2').val();
+    if(endDate=='')
+    {
+      $('#errmsg').text("Please Enter End date to filter records");
+       myTimeout = setTimeout(err, 5000);
+
+         function err() {
+         document.getElementById("errmsg").innerHTML = "";
+        }
+    }
+    
+  });
+  $('#datepicker2').on('change', function(){
+    startDate=$('#datepicker').val();
+     endDate=$('#datepicker2').val();
+    if(startDate=='')
+    {
+      $('#errmsg').text("Please Enter From date to filter records");
+       myTimeout = setTimeout(err, 5000);
+
+         function err() {
+         document.getElementById("errmsg").innerHTML = "";
+        }
+    }
+    
+  });
 
   $('#searchRec').on('click', function(){
    

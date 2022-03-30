@@ -1,6 +1,8 @@
 <script>
 // alert("got it");
+        
 $(document).ready(function(){
+       
     username="<?php echo $_SESSION['username'] ?>";
     ispet=0;
     $('#pet').on('click', function(){
@@ -95,11 +97,21 @@ $(document).ready(function(){
                 if(data==1)
                 {
                     $('#newServiceTable').DataTable().ajax.reload();
-                    alert('Service Request Accepted');
+                    // alert('Service Request Accepted');
+                    swal({
+                      title: "Successfull !",
+                      text: "Service Request Accepted",
+                      icon: "success",
+                     });
                 }
                 if(data==0)
                 {
-                    alert("Service Not Accepted");
+                    // alert("Service Not Accepted");
+                    swal({
+                      title: "Failure !",
+                      text: "Service Request Not Accepted",
+                      icon: "error",
+                     });
                 }
                 if(data==2)
                 {
@@ -218,11 +230,21 @@ $(document).ready(function(){
             {
                 if(data==1)
                 {
-                    alert("Service Request cancelled successfully");
+                    // alert("Service Request cancelled successfully");
+                    swal({
+                      title: "Successfull !",
+                      text: "Service Request cancelled successfully",
+                      icon: "success",
+                     });
                 }
                 if(data==0)
                 {
-                    alert("Service Request Not cancelled");
+                    // alert("Service Request Not cancelled");
+                    swal({
+                      title: "failure !",
+                      text: "Service Request Not cancelled",
+                      icon: "error",
+                     });
                 }
                 
                 $("#upcomingServiceTable").DataTable().ajax.reload();
@@ -244,11 +266,21 @@ $(document).ready(function(){
             success: function(data)
             {
                 if(data==1){
-                    alert("Service Has Completed Successfully");
+                    // alert("Service Has Completed Successfully");
+                    swal({
+                      title: "Successfull !",
+                      text: "Service Has Completed Successfully",
+                      icon: "success",
+                     });
                 }
                 if(data==0)
                 {
-                    alert("Service Has Not Completed Successfully");
+                    // alert("Service Has Not Completed Successfully");
+                    swal({
+                      title: "failure !",
+                      text: "Service Has Not Completed Successfully",
+                      icon: "error",
+                     });
                 }
                 $("#upcomingServiceTable").DataTable().ajax.reload();
                 $("#serviceHistoryTableSP").DataTable().ajax.reload();
@@ -281,7 +313,7 @@ $(document).ready(function(){
                 "bInfo": false,
                 "dom": '<"top"i>rt<"bottom"flp><"clear">',
                 
-                "zeroRecords": "No Data Found",
+                "processing": true,
                 "language": {
                     "paginate": {
                         "previous": '<i class="fa fa-angle-left"></i>',
@@ -308,6 +340,7 @@ $(document).ready(function(){
                     
                 ],
     }).ajax.reload();
+   
 
     $('#serviceHistoryTableSP').on('click', '.modalData', function(){
         serviceId=$(this).attr('name');
@@ -351,34 +384,64 @@ $(document).ready(function(){
     username = "<?php echo $_SESSION['username'] ?>";
 
     selectRating = $('#selectbtn option:selected').val();
+    orders = $('input[name="sorts"]:checked').val();
+   
     $('#selectbtn ').on('change', function() {
-        $('#spRatings').DataTable().ajax.reload();
+        selectRating = $('#selectbtn option:selected').val();
+        $('#spRatings').dataTable().fnClearTable();
+        $('#spRatings').dataTable().fnDestroy();
+        ratingtable();
+    });
+    
+    $('input[name="sorts"]').on("click", function() {
+        
+      $('#spRatings').dataTable().fnClearTable();
+      $('#spRatings').dataTable().fnDestroy();
+      orders = $('input[name="sorts"]:checked').val();
+    //   alert(orders)
+      ratingtable();
     });
 
+    ratingtable();
+    
+function ratingtable(){
     table=$("#spRatings").DataTable({
 
-            "bFilter": false,
-            "bInfo": false,
-            "dom": '<"top"i>rt<"bottom"flp><"clear">',
+     "bFilter": false,
+     "bInfo": false,
+     "dom": '<"top"i>rt<"bottom"flp><"clear">',
+     "ordering": false,
+    
 
-            "zeroRecords": "No Data Found",
+     "language": {
+                    "paginate": {
+                        "previous": '<i class="fa fa-angle-left"></i>',
+                        "next": '<i class="fa fa-angle-right"></i>',
+                        
+                    },
+                    "zeroRecords": "No Data Found",
+                   },
 
-            "ajax": {
-                'type': 'POST',
-                'url': 'http://localhost/tatvasoft/Helperland_MVC/?controller=main_&function=getRatingsforsp',
-                'data': {
-            'username' : username,
-            'selectRating' : selectRating,
-            
-        }, 
-            },
-            'columns': [
-                { "data": 'Ratings' },
-                { "data": 'date' },
-                { "data": 'rate' },
-        
-            ],
-}).ajax.reload(); 
+     "ajax": {
+    'type': 'POST',
+    'url': 'http://localhost/tatvasoft/Helperland_MVC/?controller=main_&function=getRatingsforsp',
+    'data': {
+     'username' : username,
+     'selectRating' : selectRating,
+     'orders' : orders,
+
+     }, 
+     },
+     'columns': [
+    { "data": 'Ratings' },
+    { "data": 'date' },
+    { "data": 'rate' },
+
+     ],
+    }).ajax.reload(); 
+
+  }
+    
 
 });
 
@@ -440,6 +503,48 @@ table=$("#blockTable").DataTable({
 
     });
     
+}); 
+
+$(document).ready(function () {
+    var options = {
+    "separator": ",",
+    "filename": "ServiceProviderServiceHistory.csv",
+  }
+$(".exprtBtn").on('click', function () {
+    // alert("+");
+    $('#serviceHistoryTableSP').table2csv(options);
+  });
+});
+
+username = "<?php echo $_SESSION['username'] ?>";
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        customButtons: {
+                completed: {
+                    text: 'Completed',
+                },
+                upcoming: {
+                    text: 'Upcoming',
+                },
+            },
+            headerToolbar: {
+                left: 'prev,next',
+                center: 'title',
+                right: '',
+            },
+            eventSources: [{
+                    url: "http://localhost/tatvasoft/Helperland_MVC/?controller=main_&function=SpDateSched&parameter=" + username,
+                        },
+                    {
+                    url: "http://localhost/tatvasoft/Helperland_MVC/?controller=main_&function=SpDateSchedComplete&parameter=" + username,
+                    color: '#efefef',   
+                    textColor: 'black'
+                    },
+                    ],
+
+    });
+    calendar.render();
 });
 
 

@@ -5,7 +5,7 @@ $(document).ready(function () {
     //     "bInfo": false,
     //     "dom": '<"top"i>rt<"bottom"flp><"clear">'
     //   });
-
+    
       $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
       });
@@ -22,17 +22,15 @@ $(document).ready(function(){
         "bFilter": false,
         "bInfo": false,
         "dom": '<"top"i>rt<"bottom"flp><"clear">',
-        "searchPanes": {
-            viewTotal: true
-        },
+        
         "language": {
-          "paginate": {
-            "previous": '<i class="fa fa-caret-left"></i>',
-            "next": '<i class="fa fa-caret-right"></i>',
-
-          },
-          
-        },
+                    "paginate": {
+                        "previous": '<i class="fa fa-angle-left"></i>',
+                        "next": '<i class="fa fa-angle-right"></i>',
+                        
+                    },
+                    "zeroRecords": "No Data Found",
+                   },
         
         "ajax":{
             'type':'POST',
@@ -59,8 +57,17 @@ $(document).ready(function(){
         
   }).ajax.reload();
 
-  
+    
 })
+
+var options = {
+    "separator": ",",
+    "filename": "UserHistoryAdmin.csv",
+  }
+  $(".expBtn").on('click', function () {
+    // alert("+");
+    $('#myTable').table2csv(options);
+  });
   
   
   $('#myTable').on('click', '.deAct', function(){
@@ -93,11 +100,21 @@ $(document).ready(function(){
         {
             if(data==1)
             {
-                alert("User Status Updated Successfully");
+                // alert("User Status Updated Successfully");
+                    swal({
+                         title: "Successfull",
+                         text: "User Status Updated Successfully",
+                         icon: "success",
+                        });
             }
             if(data==0)
             {
-                alert("User Status Not Updated");
+                // alert("User Status Not Updated");
+                    swal({
+                         title: "fail",
+                         text: "User Status Not Updated",
+                         icon: "error",
+                        });
             }
             $("#myTable").DataTable().ajax.reload();
         }
@@ -118,7 +135,7 @@ $(document).ready(function(){
     })
 
   }
-
+ 
 $('#searchbtn').on('click', function(){
     if ($('#selUser option:selected').text() != "Username"|| $("#userRole option:selected").text() != "User role" || $("#phonenum").val() != "" || $("#postal").val() != "") {
 
@@ -142,9 +159,7 @@ $('#searchbtn').on('click', function(){
         "bFilter": false,
         "bInfo": false,
         "dom": '<"top"i>rt<"bottom"flp><"clear">',
-        "searchPanes": {
-            viewTotal: true
-        },
+        
         "language": {
           "paginate": {
             "previous": '<i class="fa fa-caret-left"></i>',
@@ -240,5 +255,9 @@ $('#resetbtn').on('click', function(){
   }).ajax.reload();
 })
      
+// $(document).ready(function () {
+    
+// });
+
 
 </script>

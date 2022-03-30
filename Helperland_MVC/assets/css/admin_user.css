@@ -30,6 +30,21 @@
   
 }
 
+  #export-btn {
+    
+    margin-top: 10px;
+    background-color: #1fb6ff;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    padding: 5px 10px;
+    font-size: 13px;
+  }
+
+.export{
+  text-align: right;
+}
+
 #sidebar.active {
   margin-left: -250px;
 }

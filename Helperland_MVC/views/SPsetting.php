@@ -43,16 +43,17 @@ if(!isset($_SESSION['username'])){
           <div class="list-group list-group-flush">
 
             <a class="list-group-item p-2" id="dash_link">Dashboard</a>
-            <a class="list-group-item p-2" id="history_link">Service History</a>
-            <a class="list-group-item p-2 " href="#!">Service Schedule</a>
+            <a class="list-group-item p-2" id="history_link">New Service Requests</a>
+            <a class="list-group-item p-2 " href="#!">Upcoming Services</a>
             <a class="list-group-item p-2" id="fav_link">
-              Favourite Pros
+            Service Schedule
             </a>
             <a class="list-group-item p-2" href="#!">
-              Invoices
+            Service History
             </a>
            
-            <a class="list-group-item p-2" href="#!">Notifications</a>
+            <a class="list-group-item p-2" href="#!">My Ratings</a>
+            <a class="list-group-item p-2" href="#!">Block Customer</a>
             
           </div>
         </div>
@@ -293,7 +294,7 @@ if(!isset($_SESSION['username'])){
                         <input type="text" id="street_detail" class="form-control" placeholder="Street Name">
                         <span style="color: red; font-size: 13px;" class="errmsg4"></span>
                       </div>
-                      
+                       
                       
                       <div class="col-4">
                         <label for="house">House number</label>
@@ -420,6 +421,7 @@ if(!isset($_SESSION['username'])){
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   
   <script>
     $(document).ready(function () {

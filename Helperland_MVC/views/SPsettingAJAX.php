@@ -1,4 +1,6 @@
 <script>
+    $(document).ready(function(){
+             
 $('.savePass').on("click", function() {
     username="<?php echo $_SESSION['username'] ?>";
     // alert("submit")
@@ -32,7 +34,7 @@ $('.savePass').on("click", function() {
    }else{
     $('.errMsg3').empty();
    }
-   
+                    
 
    if ( ($('#old_pass').val() == "") || ($('#new_pass').val()=="") || ($('#confirm_pass').val()==""))
    {
@@ -59,19 +61,33 @@ $('.savePass').on("click", function() {
            success: function(data)
            {
                if(data==0){
-                   alert("Old password is incorrect");
+                //    alert("Old password is incorrect");
+                   swal({
+                         title: "Incorrect",
+                         text: "Old password is incorrect",
+                         icon: "error",
+                        });
 
                }
                if(data==1){
                 oldPassword=$('#old_pass').val("");
                 newPassword=$('#new_pass').val("");
                 confirmPassword=$('#confirm_pass').val("");
-                alert('New password set successfully')
+                // alert('New password set successfully')
+                swal({
+                         title: "Successfull",
+                         text: "New password set successfully",
+                         icon: "success",
+                        });
 
                }
                if(data==2){
-                   alert('Password not set successfully');
-
+                //    alert('Password not set successfully');
+                   swal({
+                         title: "Fail",
+                         text: "New password Not seted",
+                         icon: "error",
+                        });
                }
             //    if(data==3){
             //        alert('count is 0');
@@ -82,6 +98,7 @@ $('.savePass').on("click", function() {
        });
    }
 
+});
 });
 
 $(document).ready(function(){
@@ -190,11 +207,21 @@ $(document).ready(function(){
                 success: function(data){
                     if(data==1)
                     {
-                        alert("details updated successfully");
+                        // alert("details updated successfully");
+                        swal({
+                         title: "Successfull",
+                         text: "Details update successfully",
+                         icon: "success",
+                        });
                     }
                     if(data==0)
                     {
-                        alert("details not updated succesfully");
+                        // alert("details not updated succesfully");
+                        swal({
+                         title: "Fail to Update",
+                         text: "details not upadated, try again",
+                         icon: "error",
+                        });
                     }
                 }
 
